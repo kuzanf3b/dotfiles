@@ -1,0 +1,236 @@
+/* See LICENSE file for copyright and license details. */
+
+/* -------------------- Appearance -------------------- */
+static const unsigned int borderpx  = 2;   /* border pixel of windows */
+static const unsigned int snap      = 32;  /* snap pixel */
+static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+static const unsigned int systrayonleft = 0;    /* 0: systray in the right corner, >0: systray on left of status text */
+static const unsigned int systrayspacing = 2;   /* systray spacing */
+static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
+static const int showsystray        = 1;        /* 0 means no systray */
+static const unsigned int gappih    = 8;  /* horiz inner gap between windows */
+static const unsigned int gappiv    = 8;  /* vert inner gap between windows */
+static const unsigned int gappoh    = 10;  /* horiz outer gap between windows and screen edge */
+static const unsigned int gappov    = 12;  /* vert outer gap between windows and screen edge */
+static       int smartgaps          = 0;   /* 1 = no outer gap when only one window */
+
+static const int showbar     = 1;          /* 0 = no bar */
+static const int topbar      = 1;          /* 0 = bottom bar */
+static const int vertpad     = 8;          /* margin top/bottom for bar */
+static const int sidepad     = 10;          /* margin left/right for bar */
+static const char *fonts[]   = { "DroidSansM Nerd Font:size=12" };
+static const char dmenufont[] = "DroidSansM Nerd Font:size=12";
+
+/* -------------------- Colors (Nord) -------------------- */
+static const char col_bg[]    = "#2E3440";
+static const char col_fg[]    = "#D8DEE9";
+static const char col_blk[]   = "#3B4252";
+static const char col_red[]   = "#BF616A";
+static const char col_grn[]   = "#A3BE8C";
+static const char col_ylw[]   = "#EBCB8B";
+static const char col_blu[]   = "#81A1C1";
+static const char col_mag[]   = "#B48EAD";
+static const char col_cyn[]   = "#88C0D0";
+static const char col_brblk[] = "#4C566A";
+
+static const char *colors[][3] = {
+    /*               fg      bg      border   */
+    [SchemeNorm] = { col_fg, col_bg, col_brblk },
+    [SchemeSel]  = { col_blu, col_bg, col_cyn  },
+};
+
+/* -------------------- Transparency -------------------- */
+#define OPAQUE      0xffU
+#define baralpha    0xeeU
+#define borderalpha OPAQUE
+
+static const unsigned int alphas[][3] = {
+    [SchemeNorm] = { OPAQUE, baralpha, borderalpha },
+    [SchemeSel]  = { OPAQUE, baralpha, borderalpha },
+};
+
+/* -------------------- Bar -------------------- */
+static const int horizpadbar = 8;  /* padding top/bottom for bar */
+static const int vertpadbar = 8;  /* padding left/right for bar */
+
+/* -------------------- Tags -------------------- */
+static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+
+/* -------------------- Rules -------------------- */
+static const Rule rules[] = {
+    /* class           instance  title  tags mask  isfloating  monitor */
+    { "Gimp",          NULL,     NULL,  0,         1,          -1 },
+    { "Brave-browser", NULL,     NULL,  1 << 2,    0,          -1 },
+    { "firefox",       NULL,     NULL,  1 << 1,    0,          -1 },
+    { "zen",           NULL,     NULL,  1 << 1,    0,          -1 },
+    { "discord",       NULL,     NULL,  1 << 4,    0,          -1 },
+    { "code",          NULL,     NULL,  1 << 5,    0,          -1 },
+};
+
+/* -------------------- Layout(s) -------------------- */
+static const float mfact        = 0.55; /* master area size [0.05..0.95] */
+static const int nmaster        = 1;    /* number of clients in master area */
+static const int resizehints    = 1;    /* 1 = respect size hints */
+static const int lockfullscreen = 1;    /* 1 = force focus on fullscreen */
+static const int refreshrate    = 144;  /* refresh rate */
+
+#define FORCE_VSPLIT 1
+#include "vanitygaps.c"
+
+static const Layout layouts[] = {
+    /* symbol     arrange function */
+    { "[]=",      tile },                   // 0: tiling
+    { "[M]",      monocle },                // 1: monocle
+    { "[@]",      spiral },                 // 2: fibonacci spiral
+    { "[\\]",     dwindle },                // 3: fibonacci dwindle
+    { "H[]",      deck },                   // 4: deck
+    { "TTT",      bstack },                 // 5: bottom stack
+    { "===",      bstackhoriz },            // 6: bottom stack horizontal
+    { "HHH",      grid },                   // 7: grid
+    { "###",      nrowgrid },               // 8: n-row grid
+    { "---",      horizgrid },              // 9: horizontal grid
+    { ":::",      gaplessgrid },            // 10: gapless grid
+    { "|M|",      centeredmaster },         // 11: centered master
+    { ">M>",      centeredfloatingmaster }, // 12: centered floating master
+    { "><>",      NULL },                   // floating
+    { NULL,       NULL },
+};
+
+/* -------------------- Key definitions -------------------- */
+#define MODKEY Mod4Mask
+#define TAGKEYS(KEY, TAG) \
+    { MODKEY,                       KEY, view,       { .ui = 1 << TAG } }, \
+    { MODKEY|ControlMask,           KEY, toggleview, { .ui = 1 << TAG } }, \
+    { MODKEY|ShiftMask,             KEY, tag,        { .ui = 1 << TAG } }, \
+    { MODKEY|ControlMask|ShiftMask, KEY, toggletag,  { .ui = 1 << TAG } },
+
+#define SHCMD(cmd) { .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL } }
+
+/* -------------------- Commands -------------------- */
+static char dmenumon[2] = "0";
+static const char *dmenucmd[] = {
+    "env", "PATH=$HOME/bin:/usr/local/bin:/usr/bin", "dmenu_run",
+    "-m", dmenumon, "-fn", dmenufont,
+    "-l", "10",
+    NULL
+};
+
+static const char *termcmd[] = {
+    "alacritty", "--config-file",
+    "/home/kuzan/.config/alacritty/alacritty-dwm.toml",
+    NULL
+};
+
+static const char *screenshot_select_cmd[] = {
+    "/bin/sh", "-c",
+    "maim -s | tee ~/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png | xclip -selection clipboard -t image/png",
+    NULL
+};
+
+static const char *screenshot_full_cmd[] = {
+    "/bin/sh", "-c",
+    "maim | tee ~/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png | xclip -selection clipboard -t image/png",
+    NULL
+};
+
+/* -------------------- Keys -------------------- */
+static const Key keys[] = {
+    /* spawn apps */
+    { MODKEY,             XK_d,      spawn,          { .v = dmenucmd } },
+    { MODKEY,             XK_Return, spawn,          { .v = termcmd } },
+    { 0,                  XK_Print,  spawn,          { .v = screenshot_select_cmd } },
+    { MODKEY,             XK_Print,  spawn,          { .v = screenshot_full_cmd } },
+
+    /* bar + focus */
+    { MODKEY,             XK_b,      togglebar,      { 0 } },
+    { MODKEY,             XK_j,      focusstack,     { .i = +1 } },
+    { MODKEY,             XK_k,      focusstack,     { .i = -1 } },
+    { MODKEY,             XK_i,      incnmaster,     { .i = +1 } },
+    { MODKEY,             XK_p,      incnmaster,     { .i = -1 } },
+    { MODKEY,             XK_h,      setmfact,       { .f = -0.05 } },
+    { MODKEY,             XK_l,      setmfact,       { .f = +0.05 } },
+
+    /* cfacts (vanitygaps) */
+    { MODKEY|ShiftMask,   XK_h,      setcfact,       { .f = +0.25 } },
+    { MODKEY|ShiftMask,   XK_l,      setcfact,       { .f = -0.25 } },
+    { MODKEY|ShiftMask,   XK_o,      setcfact,       { .f = 0.00 } },
+
+    /* gaps */
+    { MODKEY|Mod1Mask,              XK_u, incrgaps,  { .i = +1 } },
+    { MODKEY|Mod1Mask|ShiftMask,    XK_u, incrgaps,  { .i = -1 } },
+    { MODKEY|Mod1Mask,              XK_i, incrigaps, { .i = +1 } },
+    { MODKEY|Mod1Mask|ShiftMask,    XK_i, incrigaps, { .i = -1 } },
+    { MODKEY|Mod1Mask,              XK_o, incrogaps, { .i = +1 } },
+    { MODKEY|Mod1Mask|ShiftMask,    XK_o, incrogaps, { .i = -1 } },
+    { MODKEY|Mod1Mask,              XK_6, incrihgaps,{ .i = +1 } },
+    { MODKEY|Mod1Mask|ShiftMask,    XK_6, incrihgaps,{ .i = -1 } },
+    { MODKEY|Mod1Mask,              XK_7, incrivgaps,{ .i = +1 } },
+    { MODKEY|Mod1Mask|ShiftMask,    XK_7, incrivgaps,{ .i = -1 } },
+    { MODKEY|Mod1Mask,              XK_8, incrohgaps,{ .i = +1 } },
+    { MODKEY|Mod1Mask|ShiftMask,    XK_8, incrohgaps,{ .i = -1 } },
+    { MODKEY|Mod1Mask,              XK_9, incrovgaps,{ .i = +1 } },
+    { MODKEY|Mod1Mask|ShiftMask,    XK_9, incrovgaps,{ .i = -1 } },
+    { MODKEY|Mod1Mask,              XK_0, togglegaps,{ 0 } },
+    { MODKEY|Mod1Mask|ShiftMask,    XK_0, defaultgaps,{ 0 } },
+
+    /* zoom, kill */
+    { MODKEY,             XK_z,      zoom,           { 0 } },
+    { MODKEY,             XK_q,      killclient,     { 0 } },
+
+    /* layouts */
+    { MODKEY,             XK_t,      setlayout,      { .v = &layouts[0] } },  // tile
+    { MODKEY,             XK_f,      setlayout,      { .v = &layouts[1] } },  // monocle
+    { MODKEY,             XK_m,      setlayout,      { .v = &layouts[2] } },  // spiral
+    { MODKEY|ShiftMask,   XK_m,      setlayout,      { .v = &layouts[3] } },  // dwindle
+    { MODKEY|ShiftMask,   XK_d,      setlayout,      { .v = &layouts[4] } },  // deck
+    { MODKEY,             XK_u,      setlayout,      { .v = &layouts[5] } },  // bstack
+    { MODKEY|ShiftMask,   XK_u,      setlayout,      { .v = &layouts[6] } },  // bstackhoriz
+    { MODKEY,             XK_g,      setlayout,      { .v = &layouts[7] } },  // grid
+    { MODKEY|ShiftMask,   XK_g,      setlayout,      { .v = &layouts[8] } },  // nrowgrid
+    { MODKEY,             XK_h,      setlayout,      { .v = &layouts[9] } },  // horizgrid
+    { MODKEY|ShiftMask,   XK_h,      setlayout,      { .v = &layouts[10] } }, // gaplessgrid
+    { MODKEY,             XK_c,      setlayout,      { .v = &layouts[11] } }, // centeredmaster
+    { MODKEY|ShiftMask,   XK_c,      setlayout,      { .v = &layouts[12] } }, // centeredfloatingmaster
+    { MODKEY,             XK_space,  setlayout,      { 0 } },                  // toggle last layout
+    { MODKEY|ShiftMask,   XK_space,  togglefloating, { 0 } },
+
+    /* view */
+    { MODKEY,             XK_Tab,    view,           { 0 } },
+    { MODKEY,             XK_0,      view,           { .ui = ~0 } },
+    { MODKEY|ShiftMask,   XK_0,      tag,            { .ui = ~0 } },
+
+    /* tag keys */
+    TAGKEYS(              XK_1,      0 )
+    TAGKEYS(              XK_2,      1 )
+    TAGKEYS(              XK_3,      2 )
+    TAGKEYS(              XK_4,      3 )
+    TAGKEYS(              XK_5,      4 )
+    TAGKEYS(              XK_6,      5 )
+    TAGKEYS(              XK_7,      6 )
+    TAGKEYS(              XK_8,      7 )
+    TAGKEYS(              XK_9,      8 )
+
+    /* monitor */
+    { MODKEY,             XK_comma,  focusmon,       { .i = -1 } },
+    { MODKEY,             XK_period, focusmon,       { .i = +1 } },
+    { MODKEY|ShiftMask,   XK_comma,  tagmon,         { .i = -1 } },
+    { MODKEY|ShiftMask,   XK_period, tagmon,         { .i = +1 } },
+
+    /* misc */
+    { MODKEY|ShiftMask,   XK_x,      spawn,          SHCMD("slock") },
+    { MODKEY|ShiftMask,   XK_q,      quit,           { 0 } },
+};
+
+/* -------------------- Mouse buttons -------------------- */
+static const Button buttons[] = {
+    { ClkLtSymbol,   0,              Button1, setlayout,      { 0 } },
+    { ClkLtSymbol,   0,              Button3, setlayout,      { .v = &layouts[2] } },
+    { ClkStatusText, 0,              Button2, spawn,          { .v = termcmd } },
+    { ClkClientWin,  MODKEY,         Button1, movemouse,      { 0 } },
+    { ClkClientWin,  MODKEY,         Button2, togglefloating, { 0 } },
+    { ClkClientWin,  MODKEY,         Button3, resizemouse,    { 0 } },
+    { ClkTagBar,     0,              Button1, view,           { 0 } },
+    { ClkTagBar,     0,              Button3, toggleview,     { 0 } },
+    { ClkTagBar,     MODKEY,         Button1, tag,            { 0 } },
+    { ClkTagBar,     MODKEY,         Button3, toggletag,      { 0 } },
+};
