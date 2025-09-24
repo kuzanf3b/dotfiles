@@ -1438,7 +1438,7 @@ resizebarwin(Monitor *m) {
     unsigned int w = m->ww - 2 * sidepad;
     if (showsystray && m == systraytomon(m) && !systrayonleft)
         w -= getsystraywidth();
-    XMoveResizeWindow(dpy, m->barwin, m->wx + sidepad, m->by + vertpad, w, bh);
+    XMoveResizeWindow(dpy, m->barwin, m->wx + sidepad, m->by + barpad_top, w, bh);
 }
 
 void
@@ -1763,7 +1763,7 @@ setup(void)
 	if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
 		die("no fonts could be loaded.");
 	sp = sidepad;
-	vp = (topbar == 1) ? vertpad : - vertpad;
+	vp = (topbar == 1) ? barpad_top : - barpad_bot;
   lrpad = drw->fonts->h + horizpadbar;
   bh = drw->fonts->h + vertpadbar;
 	updategeom();
@@ -2052,11 +2052,11 @@ updatebarpos(Monitor *m)
     m->wy = m->my;
     m->wh = m->mh;
     if (m->showbar) {
-        m->wh -= bh + 2 * vertpad;
-        m->by = m->topbar ? m->wy : m->wy + m->wh + 2 * vertpad;
-        m->wy = m->topbar ? m->wy + bh + 2 * vertpad : m->wy;
+        m->wh -= bh + barpad_top + barpad_bot;
+        m->by = m->topbar ? m->wy : m->wy + m->wh + barpad_top + barpad_bot;
+        m->wy = m->topbar ? m->wy + bh + barpad_top : m->wy + barpad_bot;
     } else {
-        m->by = -bh - 2 * vertpad;
+        m->by = -bh - barpad_top - barpad_bot;
     }
 }
 
@@ -2292,7 +2292,7 @@ updatesystray(void)
         /* init systray */
         if (!(systray = (Systray *)calloc(1, sizeof(Systray))))
             die("fatal: could not malloc() %u bytes\n", sizeof(Systray));
-        systray->win = XCreateSimpleWindow(dpy, root, x, m->by + vertpad, w, bh, 0, 0, scheme[SchemeSel][ColBg].pixel);
+        systray->win = XCreateSimpleWindow(dpy, root, x, m->by + barpad_top, w, bh, 0, 0, scheme[SchemeSel][ColBg].pixel);
         wa.event_mask        = ButtonPressMask | ExposureMask;
         wa.override_redirect = True;
         wa.background_pixel  = scheme[SchemeNorm][ColBg].pixel;
@@ -2327,8 +2327,8 @@ updatesystray(void)
     }
     w = w ? w + systrayspacing : 1;
     x -= w;
-    XMoveResizeWindow(dpy, systray->win, x, m->by + vertpad, w, bh);
-    wc.x = x; wc.y = m->by + vertpad; wc.width = w; wc.height = bh;
+    XMoveResizeWindow(dpy, systray->win, x, m->by + barpad_top, w, bh);
+    wc.x = x; wc.y = m->by + barpad_top; wc.width = w; wc.height = bh;
     wc.stack_mode = Above; wc.sibling = m->barwin;
     XConfigureWindow(dpy, systray->win, CWX|CWY|CWWidth|CWHeight|CWSibling|CWStackMode, &wc);
     XMapWindow(dpy, systray->win);
