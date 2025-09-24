@@ -1,0 +1,140 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 30,
+  "spacing": 6,
+  "margin": "10 10 0 10",
+  "modules-left": [
+    "custom/fedora",
+    "clock#time",
+    "clock#date"
+  ],
+  "modules-center": [
+    "hyprland/workspaces"
+  ],
+  "modules-right": [
+    "mpris",
+    "custom/discord",
+    "custom/spotify",
+    "battery",
+    "network",
+    "cpu",
+    "pulseaudio",
+    "custom/powermenu"
+  ],
+  "custom/fedora": {
+    "format": "",
+    "tooltip": false
+  },
+  "clock#time": {
+    "format": " {:%H:%M}",
+    "tooltip": false
+  },
+  "clock#date": {
+    "format": " {:%A, %B %d, %Y}",
+    "tooltip": false
+  },
+  "hyprland/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": false,
+    "disable-markup": false,
+    "format": "{name}",
+    "format-icons": {
+      "1": "",
+      "2": "",
+      "3": "",
+      "4": "",
+      "5": "",
+      "6": "",
+      "7": "󰓇",
+      "8": "󰒱",
+      "9": ""
+    }
+  },
+  "custom/powermenu": {
+    "format": "",
+    "interval": 3600,
+    "on-click": "/home/kuzan/.config/waybar/modules/powermenu.sh",
+    "tooltip": false
+  },
+  "custom/discord": {
+    "format": "",
+    "exec": "pgrep -x discord >/dev/null && echo '' || echo ''",
+    "interval": 10
+  },
+  "custom/spotify": {
+    "exec": "playerctl -p firefox.instance_* metadata --format '{{ title }} - {{ artist }}'",
+    "format": " {}",
+    "interval": 5
+  },
+  "battery": {
+    "format": "{icon} {capacity}%",
+    "format-icons": [
+      "",
+      "",
+      "",
+      "",
+      ""
+    ],
+    "format-charging": " {icon} {capacity}%",
+    "format-full": " {icon} Full",
+    "interval": 15,
+    "states": {
+      "warning": 25,
+      "critical": 10
+    },
+    "tooltip": false
+  },
+  "network": {
+    "format-wifi": "{icon}",
+    "format-icons": [
+      "󰤟",
+      "󰤢",
+      "󰤥",
+      "󰤨"
+    ],
+    "format-ethernet": "  {ifname}",
+    "format-disconnected": " Disconnected",
+    "max-length": 10,
+    "tooltip": false
+  },
+  "cpu": {
+    "interval": 5,
+    "format": " {usage}%",
+    "max-length": 10,
+    "tooltip": false
+  },
+  "memory": {
+    "interval": 5,
+    "format": " {used}GiB",
+    "tooltip": false
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "",
+    "format-icons": {
+      "default": [
+        "",
+        "",
+        ""
+      ]
+    },
+    "scroll-step": 2,
+    "on-click": "pavucontrol",
+    "tooltip": false
+  },
+  "mpris": {
+    "format": "{player_icon} {title}",
+    "format-paused": "{player_icon} {title} ",
+    "player-icons": {
+      "default": "",
+      "spotify": "",
+      "discord": "",
+      "steam": "󰓓"
+    },
+    "ignored-players": [
+      "firefox",
+      "zen"
+    ]
+  }
+}

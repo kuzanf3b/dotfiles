@@ -1,0 +1,47 @@
+window {
+  margin: 0px;
+  border: 2px solid #4c566a;
+  border-radius: 10px;
+  background-color: #2e3440;
+  font-family: "DroidSansM Nerd Font";
+  font-size: 13px;
+}
+
+#input {
+  margin: 8px;
+  padding: 6px;
+  border: 1px solid #434c5e;
+  border-radius: 6px;
+  color: #d8dee9;
+  background-color: #3b4252;
+}
+
+#input image {
+  color: #d8dee9;
+}
+
+#inner-box,
+#outer-box,
+#scroll {
+  margin: 5px;
+  border: none;
+  background-color: #2e3440;
+}
+
+#text {
+  margin: 5px;
+  border: none;
+  color: #d8dee9;
+}
+
+#entry:selected {
+  background-color: #5e81ac;
+  border-radius: 6px;
+  color: #eceff4;
+}
+
+#text:selected {
+  background-color: #5e81ac;
+  border-radius: 6px;
+  color: #eceff4;
+}

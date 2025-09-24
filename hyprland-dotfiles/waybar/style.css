@@ -1,0 +1,148 @@
+/* stylelint-disable */
+
+/* =====================
+   Waybar container
+===================== */
+#waybar {
+  font-family: "DroidSansM Nerd Font", monospace;
+  font-size: 13px;
+  background: #2e3440;
+  border-radius: 8px;
+  padding: 3px 5px;
+  box-shadow: 0 5px 20px;
+}
+
+/* =====================
+   Workspaces
+===================== */
+#workspaces {
+  margin: 5px;
+  font-size: 14px;
+}
+
+#workspaces button {
+  background: transparent;
+  padding: 0 8px;
+  color: #4c566a;
+  border: none;
+  border-bottom: 3px solid transparent;
+  border-radius: 0;
+  min-width: 25px;
+  transition: 0.4s;
+}
+
+#workspaces button:hover {
+  background: transparent;
+  border-bottom: 3px solid rgba(129, 161, 193, 0.6);
+  box-shadow: 0 2px 4px -4px rgba(136, 192, 208, 0.6);
+}
+
+#workspaces button.active {
+  color: #88c0d0;
+  border-bottom: 3px solid #88c0d0;
+  background: transparent;
+}
+
+#workspaces button.focused {
+  color: #a3be8c;
+  border-bottom: 3px solid #a3be8c;
+  background: transparent;
+}
+
+#workspaces button.urgent {
+  color: #bf616a;
+  border-bottom: 3px solid #bf616a;
+  background: transparent;
+}
+
+/* =====================
+   Fedora logo
+===================== */
+#custom-fedora {
+  font-size: 18px;
+  padding: 0 10px;
+  color: #81a1c1;
+}
+
+/* =====================
+   Clock: time & date
+===================== */
+#clock.time,
+#clock.date {
+  padding: 4px 6px;
+  color: #d8dee9;
+}
+
+/* =====================
+   Pulseaudio / audio
+===================== */
+#pulseaudio {
+  padding: 4px 6px;
+  border-radius: 6px;
+  color: #d8dee9;
+}
+
+/* =====================
+   Tray / system modules
+===================== */
+#tray,
+#mode,
+#battery,
+#temperature,
+#cpu,
+#memory,
+#network,
+#pulseaudio,
+#idle_inhibitor,
+#sway-language,
+#backlight,
+#custom-cpu_speed,
+#custom-powermenu,
+#custom-spotify,
+#custom-discord,
+#custom-weather,
+#custom-mail,
+#custom-media {
+  padding: 4px 5px;
+  color: #d8dee9;
+}
+
+/* =====================
+   Module-specific accents
+===================== */
+#cpu,
+#memory,
+#network,
+#battery {
+  color: #88c0d0;
+}
+
+#custom-powermenu {
+  color: #b48ead;
+  margin-right: 10px;
+}
+
+/* =====================
+   Battery state colors
+===================== */
+#battery.warning {
+  color: #ebcb8b;
+}
+
+#battery.critical {
+  color: #bf616a;
+}
+
+#battery.charging {
+  color: #a3be8c;
+}
+
+#mpris {
+  padding: 0 10px;
+  color: #a3be8c; /* hijau Nord */
+}
+
+#mpris.paused {
+  color: #ebcb8b; /* kuning kalau pause */
+}
+
