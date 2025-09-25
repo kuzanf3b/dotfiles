@@ -84,6 +84,7 @@ static const int refreshrate    = 144;  /* refresh rate */
 
 #define FORCE_VSPLIT 1
 #include "vanitygaps.c"
+#include "tatami.c"
 
 static const Layout layouts[] = {
     /* symbol     arrange function */
@@ -100,7 +101,8 @@ static const Layout layouts[] = {
     { ":::",      gaplessgrid },            // 10: gapless grid
     { "|M|",      centeredmaster },         // 11: centered master
     { ">M>",      centeredfloatingmaster }, // 12: centered floating master
-    { "><>",      NULL },                   // floating
+    { "|+|",      tatami },                 // 13: tatami 
+    { "><>",      NULL },                   // 14: tile
     { NULL,       NULL },
 };
 
@@ -202,7 +204,8 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,   XK_h,      setlayout,      { .v = &layouts[10] } }, // gaplessgrid
     { MODKEY,             XK_c,      setlayout,      { .v = &layouts[11] } }, // centeredmaster
     { MODKEY|ShiftMask,   XK_c,      setlayout,      { .v = &layouts[12] } }, // centeredfloatingmaster
-    { MODKEY|ShiftMask,   XK_t,      setlayout,      { .v = &layouts[13] } }, // centeredfloatingmaster
+    { MODKEY,             XK_y,      setlayout,      { .v = &layouts[13] } }, // tatami
+    { MODKEY|ShiftMask,   XK_t,      setlayout,      { .v = &layouts[14] } }, // tile
     { MODKEY,             XK_space,  setlayout,      { 0 } },                  // toggle last layout
     { MODKEY|ShiftMask,   XK_space,  togglefloating, { 0 } },
 
