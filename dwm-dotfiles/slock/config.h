@@ -3,20 +3,20 @@ static const char *user = "nobody";
 static const char *group = "nogroup";
 
 static const char *colorname[NUMCOLS] = {
-    [BACKGROUND] = "black", /* after initialization */
-    [INIT] = "#2d2d2d",     /* after initialization */
-    [INPUT] = "#81A1C1",    /* Nord blue for input */
-    [FAILED] = "#BF616A",   /* Nord red for wrong password */
+    [BACKGROUND] = "#2E3440", /* after initialization */
+    [INIT] = "#4C566A",       /* after initialization */
+    [INPUT] = "#81A1C1",      /* Nord blue for input */
+    [FAILED] = "#BF616A",     /* Nord red for wrong password */
 };
 
 /* treat a cleared input like a wrong password (color) */
 static const int failonclear = 1;
 
 /* time in seconds before the monitor shuts down */
-static const int monitortime = 5;
+static const int monitortime = 10;
 
 /* insert grid pattern with scale 1:1, the size can be changed with logosize */
-static const int logosize = 75;
+static const int logosize = 100;
 static const int logow =
     12; /* grid width and height for right center alignment*/
 static const int logoh = 6;
