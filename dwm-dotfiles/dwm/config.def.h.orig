@@ -199,6 +199,7 @@ static const Key keys[] = {
     { MODKEY|ShiftMask,   XK_h,      setlayout,      { .v = &layouts[10] } }, // gaplessgrid
     { MODKEY,             XK_c,      setlayout,      { .v = &layouts[11] } }, // centeredmaster
     { MODKEY|ShiftMask,   XK_c,      setlayout,      { .v = &layouts[12] } }, // centeredfloatingmaster
+    { MODKEY|ShiftMask,   XK_t,      setlayout,      { .v = &layouts[13] } }, // centeredfloatingmaster
     { MODKEY,             XK_space,  setlayout,      { 0 } },                  // toggle last layout
     { MODKEY|ShiftMask,   XK_space,  togglefloating, { 0 } },
 
@@ -226,6 +227,7 @@ static const Key keys[] = {
 
     /* misc */
     { MODKEY|ShiftMask,   XK_x,      spawn,          SHCMD("slock") },
+    { MODKEY,             XK_r,      quit,           { 1 } },
     { MODKEY|ShiftMask,   XK_q,      quit,           { 0 } },
 };
 
