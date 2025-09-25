@@ -78,6 +78,7 @@ static const Rule rules[] = {
 static const float mfact        = 0.55; /* master area size [0.05..0.95] */
 static const int nmaster        = 1;    /* number of clients in master area */
 static const int resizehints    = 1;    /* 1 = respect size hints */
+static const int attachbelow = 1;    /* 1 means attach after the currently active window */
 static const int lockfullscreen = 1;    /* 1 = force focus on fullscreen */
 static const int refreshrate    = 144;  /* refresh rate */
 
