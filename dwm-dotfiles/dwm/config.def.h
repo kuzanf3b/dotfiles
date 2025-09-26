@@ -3,8 +3,15 @@
 /* appearance */
 static unsigned int borderpx  = 1;        /* border pixel of windows */
 static unsigned int snap      = 32;       /* snap pixel */
+static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
+static const unsigned int systrayonleft = 0;    /* 0: systray in the right corner, >0: systray on left of status text */
+static const unsigned int systrayspacing = 2;   /* systray spacing */
+static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
+static const int showsystray        = 1;        /* 0 means no systray */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
+static const int horizpadbar        = 8;        /* horizontal padding for statusbar */
+static const int vertpadbar         = 6;        /* vertical padding for statusbar */
 static char font[]            = "monospace:size=10";
 static char dmenufont[]       = "monospace:size=10";
 static const char *fonts[]          = { font };
@@ -109,7 +116,7 @@ ResourcePref resources[] = {
        { "mfact",              FLOAT,   &mfact },
 };
 
-
+#include "movestack.c"
 static Keychord *keychords[] = {
     /* Program launcher & system */
     &((Keychord){1, {{MODKEY, XK_d}},                          spawn,          {.v = dmenucmd } }),
@@ -117,6 +124,8 @@ static Keychord *keychords[] = {
     &((Keychord){1, {{MODKEY, XK_b}},                          togglebar,      {0} }),
     &((Keychord){1, {{MODKEY, XK_j}},                          focusstack,     {.i = +1 } }),
     &((Keychord){1, {{MODKEY, XK_k}},                          focusstack,     {.i = -1 } }),
+    &((Keychord){1, {{MODKEY|ShiftMask, XK_j}},                movestack,      {.i = +1 } }),
+    &((Keychord){1, {{MODKEY|ShiftMask, XK_k}},                movestack,      {.i = -1 } }),
     &((Keychord){1, {{MODKEY, XK_c}},                          incnmaster,     {.i = +1 } }),
     &((Keychord){1, {{MODKEY, XK_p}},                          incnmaster,     {.i = -1 } }),
     &((Keychord){1, {{MODKEY, XK_h}},                          setmfact,       {.f = -0.05} }),
