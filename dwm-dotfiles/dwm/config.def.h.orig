@@ -37,10 +37,20 @@ static int smartgaps = 0; /* 1 means no outer gap when there is only one window 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
+static const unsigned int ulinepad	= 5;	/* horizontal padding between the underline and tag */
+static const unsigned int ulinestroke	= 2;	/* thickness / height of the underline */
+static const unsigned int ulinevoffset	= 0;	/* how far above the bottom of the bar the line should appear */
+static const int ulineall 		= 0;	/* 1 to show underline on all tags, 0 for just the active ones */
+
 static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
-	{ "org.mozilla.firefox",  NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "Gimp",            NULL,       NULL,       0,            1,           -1 },
+  { "Brave-browser",   NULL,       NULL,       1 << 2,       0,           -1 },
+	{ "firefox",         NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "zen",             NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "discord",         NULL,       NULL,       1 << 3,       0,           -1 },
+	{ "Code",            NULL,       NULL,       1 << 4,       0,           -1 },
+	{ "Thunar",          NULL,       NULL,       1 << 5,       0,           -1 },
 };
 
 /* layout(s) */
@@ -94,6 +104,13 @@ static const char *termcmd[] = { "alacritty", NULL };
 static const char *upvol[]   = { "pactl", "set-sink-volume",   "@DEFAULT_SINK@", "+5%", NULL };
 static const char *downvol[] = { "pactl", "set-sink-volume",   "@DEFAULT_SINK@", "-5%", NULL };
 static const char *mutevol[] = { "pactl", "set-sink-mute",     "@DEFAULT_SINK@", "toggle", NULL };
+static const char *unmutevol[] = { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "0", NULL };
+
+/* Screenshot commands (POSIX sh compatible) */
+static const char *scrotfullclip[] = { "/bin/sh", "-c", "maim | xclip -selection clipboard -t image/png", NULL };
+static const char *scrotselclip[]  = { "/bin/sh", "-c", "maim -s | xclip -selection clipboard -t image/png", NULL };
+static const char *scrotfullfile[] = { "/bin/sh", "-c", "maim \"$HOME/Pictures/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png\"", NULL };
+static const char *scrotselfile[]  = { "/bin/sh", "-c", "maim -s \"$HOME/Pictures/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png\"", NULL };
 
 /*
  * Xresources preferences to load at startup
@@ -151,6 +168,7 @@ static Keychord *keychords[] = {
     &((Keychord){1, {{0, XF86XK_AudioRaiseVolume}},            spawn,          {.v = upvol } }),
     &((Keychord){1, {{0, XF86XK_AudioLowerVolume}},            spawn,          {.v = downvol } }),
     &((Keychord){1, {{0, XF86XK_AudioMute}},                   spawn,          {.v = mutevol } }),
+    &((Keychord){1, {{MODKEY|ShiftMask, XK_m}},                spawn,          {.v = unmutevol} }),
 
     /* Vanitygaps: Mod+i + key */
     &((Keychord){2, {{MODKEY, XK_i}, {0, XK_u}},               incrgaps,       {.i = +1 } }),
@@ -186,6 +204,12 @@ static Keychord *keychords[] = {
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_f}},               setlayout,      {.v = &layouts[12]} }), /* >M> centeredfloatingmaster */
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_i}},               setlayout,      {.v = &layouts[13]} }), /*<>> no floating */
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_space}},           setlayout,      {0} }),                 /* toggle last/floating */
+
+    /* Screenshot keybindings */
+    &((Keychord){1, {{MODKEY, XK_Print}},                      spawn,          {.v = scrotfullclip} }),  /* Super + Print → full ke clipboard */
+    &((Keychord){1, {{0, XK_Print}},                           spawn,          {.v = scrotselclip} }),   /* Print → select ke clipboard */
+    &((Keychord){2, {{MODKEY, XK_f}, {0, XK_Print}},           spawn,          {.v = scrotfullfile} }),  /* Super + f + Print → full ke file */
+    &((Keychord){2, {{MODKEY, XK_f}, {0, XK_s}},               spawn,          {.v = scrotselfile} }),   /* Super + f + s → select ke file */
 
     /* Tag keys */
     TAGKEYS( XK_1, 0) TAGKEYS( XK_2, 1) TAGKEYS( XK_3, 2)
