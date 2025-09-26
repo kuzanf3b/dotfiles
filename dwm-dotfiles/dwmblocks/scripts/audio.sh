@@ -17,7 +17,8 @@ fi
 
 if command -v pactl >/dev/null; then
   sink=$(pactl info | awk -F": " '/Default Sink/ {print $2}')
-  vol=$(pactl get-sink-volume "$sink" | awk '{print $5; exit}')
+  # Ambil rata-rata volume (%) dari baris pertama
+  vol=$(pactl get-sink-volume "$sink" | grep -oP '\d+%' | head -n1)
   mute=$(pactl get-sink-mute "$sink" | awk '{print $2; exit}')
   [[ $mute == yes ]] && echo "🔈 mute" || echo "🔊 $vol"
 elif command -v amixer >/dev/null; then
