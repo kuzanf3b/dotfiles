@@ -183,6 +183,7 @@ static int applysizehints(Client *c, int *x, int *y, int *w, int *h,
 static void arrange(Monitor *m);
 static void arrangemon(Monitor *m);
 static void attach(Client *c);
+static void attachBelow(Client *c);
 static void attachstack(Client *c);
 static void buttonpress(XEvent *e);
 static void checkotherwm(void);
@@ -440,6 +441,21 @@ void arrangemon(Monitor *m) {
 void attach(Client *c) {
   c->next = c->mon->clients;
   c->mon->clients = c;
+}
+void
+attachBelow(Client *c)
+{
+	//If there is nothing on the monitor or the selected client is floating, attach as normal
+	if(c->mon->sel == NULL || c->mon->sel == c || c->mon->sel->isfloating) {
+		attach(c);
+		return;
+	}
+
+	//Set the new client's next property to the same as the currently selected clients next
+	c->next = c->mon->sel->next;
+	//Set the currently selected clients next property to the new client
+	c->mon->sel->next = c;
+
 }
 
 void attachstack(Client *c) {
@@ -1104,7 +1120,10 @@ void manage(Window w, XWindowAttributes *wa) {
     c->isfloating = c->oldstate = trans != None || c->isfixed;
   if (c->isfloating)
     XRaiseWindow(dpy, c->win);
-  attach(c);
+  if( attachbelow )
+      attachBelow(c);
+  else
+      attach(c);
   attachstack(c);
   XChangeProperty(dpy, root, netatom[NetClientList], XA_WINDOW, 32,
                   PropModeAppend, (unsigned char *)&(c->win), 1);
@@ -1889,7 +1908,10 @@ int updategeom(void) {
         m->clients = c->next;
         detachstack(c);
         c->mon = mons;
-        attach(c);
+        if( attachbelow )
+            attachBelow(c);
+        else
+            attach(c);
         attachstack(c);
       }
       if (m == selmon)
