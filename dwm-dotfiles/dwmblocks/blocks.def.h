@@ -9,10 +9,9 @@ static const Block blocks[] = {
     {"", "/home/kuzan/.local/bin/battery.sh", 15, 2},
     {"", "/home/kuzan/.local/bin/audio.sh", 1, 4},
     {"", "/home/kuzan/.local/bin/date.sh", 60, 1},
-    {"", "echo ''", 0, 0},
 };
 
 // sets delimiter between status commands.
 // NULL character ('\0') means no delimiter.
 static char delim[] = " | ";
-static unsigned int delimLen = 5;
+static unsigned int delimLen = 3;
