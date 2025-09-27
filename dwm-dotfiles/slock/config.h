@@ -3,10 +3,20 @@ static const char *user = "kuzan";
 static const char *group = "kuzan";
 
 static const char *colorname[NUMCOLS] = {
-    [INIT] = "#1A1B26",   /* after initialization */
-    [INPUT] = "#9D7CD8",  /* during input */
-    [FAILED] = "#FF9E64", /* wrong password */
-    [CAPS] = "#F7768E",   /* CapsLock on */
+    [INIT] = "black",    /* after initialization */
+    [INPUT] = "#005577", /* during input */
+    [FAILED] = "red",    /* wrong password */
+    [CAPS] = "orange",   /* CapsLock on */
+};
+
+/*
+ * Xresources preferences to load at startup
+ */
+ResourcePref resources[] = {
+    {"color0", STRING, &colorname[INIT]},
+    {"color4", STRING, &colorname[INPUT]},
+    {"color1", STRING, &colorname[FAILED]},
+    {"color3", STRING, &colorname[CAPS]},
 };
 
 /* treat a cleared input like a wrong password (color) */
