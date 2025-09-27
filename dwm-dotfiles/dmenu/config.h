@@ -2,14 +2,14 @@
 
 /* ── Layout ────────────────────────────────────────────── */
 static int topbar = 1;       /* -b : 0 = bottom, 1 = top               */
-static int horizpadbar = 10; /* horizontal padding                     */
-static int vertpadbar = 10;  /* vertical padding                       */
+static int horizpadbar = 8; /* horizontal padding                     */
+static int vertpadbar = 12;  /* vertical padding                       */
 static int centered = 1;     /* -c : center the menu                   */
 static int min_width = 500;  /* minimum width when centered            */
 static const float menu_height_ratio = 4.0f;
 
 /* ── Opacity ───────────────────────────────────────────── */
-static const unsigned int alpha = 0x66; /* 0xff = fully opaque */
+static const unsigned int alpha = 0x99; /* 0xff = fully opaque */
 
 /* ── Fonts ─────────────────────────────────────────────── */
 static char font[] = "monospace:size=10";
@@ -19,7 +19,7 @@ static const char *fonts[] = {font, "monospace:size=12"};
 static char *prompt = NULL; /* -p : prompt text left of input field  */
 
 /* ── Fuzzymatch ────────────────────────────────────────── */
-static int fuzzy = 0; /* -F : enable fuzzy-matching by default */
+static int fuzzy = 1; /* -F : enable fuzzy-matching by default */
 
 /* ── Default Colors ────────────────────────────────────── */
 static char normfgcolor[] = "#bbbbbb";
