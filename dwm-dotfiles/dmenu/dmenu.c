@@ -11,6 +11,7 @@
 #include <X11/Xatom.h>
 #include <X11/Xlib.h>
 #include <X11/Xproto.h>
+#include <X11/Xresource.h>
 #include <X11/Xutil.h>
 #ifdef XINERAMA
 #include <X11/extensions/Xinerama.h>
@@ -30,7 +31,17 @@
 #define OPAQUE 0xffu
 
 /* enums */
-enum { SchemeNorm, SchemeSel, SchemeOut, SchemeLast }; /* color schemes */
+enum {
+  SchemeNorm,
+  SchemeSel,
+  SchemeNormHighlight,
+  SchemeSelHighlight,
+  SchemeOut,
+  SchemeLast
+}; /* color schemes */
+
+/* color columns: fg, bg, border */
+enum { ColBorder };
 
 struct item {
   char *text;
@@ -62,6 +73,18 @@ static int useargb = 0;
 static Visual *visual;
 static int depth;
 static Colormap cmap;
+
+/* Xresources preferences */
+enum resource_type { STRING = 0, INTEGER = 1, FLOAT = 2 };
+typedef struct {
+  char *name;
+  enum resource_type type;
+  void *dst;
+} ResourcePref;
+
+static void load_xresources(void);
+static void resource_load(XrmDatabase db, char *name, enum resource_type rtype,
+                          void *dst);
 
 #include "config.h"
 
@@ -140,7 +163,38 @@ static char *cistrstr(const char *h, const char *n) {
   return NULL;
 }
 
+static void drawhighlights(struct item *item, int x, int y, int maxw) {
+  int i, indent;
+  char c, *highlight;
+
+  if (!(strlen(item->text) && strlen(text)))
+    return;
+
+  drw_setscheme(drw,
+                scheme[item == sel ? SchemeSelHighlight : SchemeNormHighlight]);
+  for (i = 0, highlight = item->text; *highlight && text[i];) {
+    if (!fstrncmp(highlight, &text[i], 1)) {
+      /* get indentation */
+      c = *highlight;
+      *highlight = '\0';
+      indent = TEXTW(item->text);
+      *highlight = c;
+
+      /* highlight character */
+      c = highlight[1];
+      highlight[1] = '\0';
+      drw_text(drw, x + indent - (lrpad / 2.), y,
+               MIN(maxw - indent, TEXTW(highlight) - lrpad), bh, 0, highlight,
+               0);
+      highlight[1] = c;
+      ++i;
+    }
+    ++highlight;
+  }
+}
+
 static int drawitem(struct item *item, int x, int y, int w) {
+  int r;
   if (item == sel)
     drw_setscheme(drw, scheme[SchemeSel]);
   else if (item->out)
@@ -148,7 +202,9 @@ static int drawitem(struct item *item, int x, int y, int w) {
   else
     drw_setscheme(drw, scheme[SchemeNorm]);
 
-  return drw_text(drw, x, y, w, bh, lrpad / 2, item->text, 0);
+  r = drw_text(drw, x, y, w, bh, lrpad / 2, item->text, 0);
+  drawhighlights(item, x, y, w);
+  return r;
 }
 
 static void drawmenu(void) {
@@ -599,6 +655,50 @@ static void readstdin(void) {
   lines = MIN(lines, i);
 }
 
+void resource_load(XrmDatabase db, char *name, enum resource_type rtype,
+                   void *dst) {
+  char *sdst = NULL;
+  int *idst = NULL;
+  float *fdst = NULL;
+  sdst = dst;
+  idst = dst;
+  fdst = dst;
+  char fullname[256];
+  char *type;
+  XrmValue ret;
+  snprintf(fullname, sizeof(fullname), "%s.%s", "dmenu", name);
+  fullname[sizeof(fullname) - 1] = '\0';
+  XrmGetResource(db, fullname, "*", &type, &ret);
+  if (!(ret.addr == NULL || strncmp("String", type, 64))) {
+    switch (rtype) {
+    case STRING:
+      strcpy(sdst, ret.addr);
+      break;
+    case INTEGER:
+      *idst = strtoul(ret.addr, NULL, 10);
+      break;
+    case FLOAT:
+      *fdst = strtof(ret.addr, NULL);
+      break;
+    }
+  }
+}
+
+void load_xresources(void) {
+  Display *display;
+  char *resm;
+  XrmDatabase db;
+  ResourcePref *p;
+  display = XOpenDisplay(NULL);
+  resm = XResourceManagerString(display);
+  if (!resm)
+    return;
+  db = XrmGetStringDatabase(resm);
+  for (p = resources; p < resources + LENGTH(resources); p++)
+    resource_load(db, p->name, p->type, p->dst);
+  XCloseDisplay(display);
+}
+
 static void run(void) {
   XEvent ev;
 
@@ -730,7 +830,7 @@ static void setup(void) {
                           CWColormap | CWEventMask,
                       &swa);
   if (border_width)
-    XSetWindowBorder(dpy, win, scheme[SchemeSel][ColBg].pixel);
+    XSetWindowBorder(dpy, win, scheme[SchemeSel][ColBorder].pixel);
   XSetClassHint(dpy, win, &ch);
 
   /* input methods */
@@ -757,13 +857,17 @@ static void setup(void) {
 
 static void usage(void) {
   die("usage: dmenu [-bfiv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
-      "             [-nb color] [-nf color] [-sb color] [-sf color] [-w "
+      "             [-nb color] [-nf color] [-sb color] [-sf color]\n"
+      "             [-nhb color] [-nhf color] [-shb color] [-shf color] [-w "
       "windowid]");
 }
 
 int main(int argc, char *argv[]) {
   XWindowAttributes wa;
   int i, fast = 0;
+
+  XrmInitialize();
+  load_xresources();
 
   for (i = 1; i < argc; i++)
     /* these options take no arguments */
@@ -798,6 +902,14 @@ int main(int argc, char *argv[]) {
       colors[SchemeSel][ColBg] = argv[++i];
     else if (!strcmp(argv[i], "-sf")) /* selected foreground color */
       colors[SchemeSel][ColFg] = argv[++i];
+    else if (!strcmp(argv[i], "-nhb")) /* normal hi background color */
+      colors[SchemeNormHighlight][ColBg] = argv[++i];
+    else if (!strcmp(argv[i], "-nhf")) /* normal hi foreground color */
+      colors[SchemeNormHighlight][ColFg] = argv[++i];
+    else if (!strcmp(argv[i], "-shb")) /* selected hi background color */
+      colors[SchemeSelHighlight][ColBg] = argv[++i];
+    else if (!strcmp(argv[i], "-shf")) /* selected hi foreground color */
+      colors[SchemeSelHighlight][ColFg] = argv[++i];
     else if (!strcmp(argv[i], "-w")) /* embedding window id */
       embed = argv[++i];
     else if (!strcmp(argv[i], "-bw"))
