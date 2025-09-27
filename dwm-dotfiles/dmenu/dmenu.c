@@ -444,6 +444,13 @@ static void match(void) {
     matchend = substrend;
   }
   curr = sel = matches;
+
+  if (instant && matches && matches==matchend && !lsubstr) {
+      puts(matches->text);
+      cleanup();
+      exit(0);
+  }
+
   calcoffsets();
 }
 
@@ -1112,7 +1119,7 @@ static void setup(void) {
 }
 
 static void usage(void) {
-  die("usage: dmenu [-bFfiv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
+  die("usage: dmenu [-bFfinv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
       "             [-nb color] [-nf color] [-sb color] [-sf color]\n"
       "             [-nhb color] [-nhf color] [-shb color] [-shf color] [-w windowid]\n"
       "             [-H histfile]\n");
@@ -1141,7 +1148,9 @@ int main(int argc, char *argv[]) {
     else if (!strcmp(argv[i], "-i")) { /* case-insensitive item matching */
       fstrncmp = strncasecmp;
       fstrstr = cistrstr;
-    } else if (i + 1 == argc)
+    } else if (!strcmp(argv[i], "-n")) /* instant select only match */
+        instant = 1;
+    else if (i + 1 == argc)
       usage();
     /* these options take one argument */
     else if (!strcmp(argv[i], "-H"))

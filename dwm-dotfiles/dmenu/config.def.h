@@ -1,6 +1,7 @@
 /* Default settings; can be overridden by command line. */
 
 /* ── Layout ────────────────────────────────────────────── */
+static int instant = 1;        /* -n  option; if 1, select single entry automatically */
 static int topbar = 1;       /* -b : 0 = bottom, 1 = top               */
 static int horizpadbar = 8; /* horizontal padding                     */
 static int vertpadbar = 12;  /* vertical padding                       */

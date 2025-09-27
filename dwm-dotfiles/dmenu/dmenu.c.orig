@@ -60,7 +60,7 @@ static int bh, mw, mh;
 static int inputw = 0, promptw;
 static int lrpad; /* sum of left and right padding */
 static size_t cursor;
-static struct item *items = NULL;
+static struct item *items = NULL, *backup_items;
 static struct item *matches, *matchend;
 static struct item *prev, *curr, *next, *sel;
 static int mon = -1, screen;
@@ -89,6 +89,10 @@ typedef struct {
 static void load_xresources(void);
 static void resource_load(XrmDatabase db, char *name, enum resource_type rtype,
                           void *dst);
+
+static char *histfile;
+static char **history;
+static size_t histsz, histpos;
 
 #include "config.h"
 
@@ -477,9 +481,125 @@ static void movewordedge(int dir) {
   }
 }
 
+static void
+loadhistory(void)
+{
+   FILE *fp = NULL;
+   static size_t cap = 0;
+   size_t llen;
+   char *line;
+
+   if (!histfile) {
+       return;
+   }
+
+   fp = fopen(histfile, "r");
+   if (!fp) {
+       return;
+   }
+
+   for (;;) {
+       line = NULL;
+       llen = 0;
+       if (-1 == getline(&line, &llen, fp)) {
+           if (ferror(fp)) {
+               die("failed to read history");
+           }
+           free(line);
+           break;
+       }
+
+       if (cap == histsz) {
+           cap += 64 * sizeof(char*);
+           history = realloc(history, cap);
+           if (!history) {
+               die("failed to realloc memory");
+           }
+       }
+       strtok(line, "\n");
+       history[histsz] = line;
+       histsz++;
+   }
+   histpos = histsz;
+
+   if (fclose(fp)) {
+       die("failed to close file %s", histfile);
+   }
+}
+
+static void
+navhistory(int dir)
+{
+   static char def[BUFSIZ];
+   char *p = NULL;
+   size_t len = 0;
+
+   if (!history || histpos + 1 == 0)
+       return;
+
+   if (histsz == histpos) {
+       strncpy(def, text, sizeof(def));
+   }
+
+   switch(dir) {
+   case 1:
+       if (histpos < histsz - 1) {
+           p = history[++histpos];
+       } else if (histpos == histsz - 1) {
+           p = def;
+           histpos++;
+       }
+       break;
+   case -1:
+       if (histpos > 0) {
+           p = history[--histpos];
+       }
+       break;
+   }
+   if (p == NULL) {
+       return;
+   }
+
+   len = MIN(strlen(p), BUFSIZ - 1);
+   strncpy(text, p, len);
+   text[len] = '\0';
+   cursor = len;
+   match();
+}
+
+static void
+savehistory(char *input) {
+   unsigned int i;
+   FILE *fp;
+
+   if (!histfile || maxhist == 0 || strlen(input) == 0)
+       return;
+
+   for (i = 0; i < histsz; i++) {
+       if (strcmp(input, history[i]) == 0)
+           return;
+   }
+
+   fp = fopen(histfile, "w");
+   if (!fp) {
+       die("failed to open %s", histfile);
+   }
+
+   for (i = (histsz < maxhist) ? 0 : (histsz - maxhist); i < histsz; i++) {
+       if (fprintf(fp, "%s\n", history[i]) <= 0)
+           die("failed to write to %s", histfile);
+   }
+
+   if (fprintf(fp, "%s\n", input) <= 0)
+       die("failed to write to %s", histfile);
+
+   if (fclose(fp))
+       die("failed to close file %s", histfile);
+}
+
 static void keypress(XKeyEvent *ev) {
   char buf[64];
-  int len;
+  int len, i;
   KeySym ksym = NoSymbol;
   Status status;
 
@@ -555,6 +675,26 @@ static void keypress(XKeyEvent *ev) {
       XConvertSelection(dpy, (ev->state & ShiftMask) ? clip : XA_PRIMARY, utf8,
                         utf8, win, CurrentTime);
       return;
+    case XK_r:
+        if (histfile) {
+            if (!backup_items) {
+                backup_items = items;
+                items = calloc(histsz + 1, sizeof(struct item));
+                if (!items) {
+                    die("cannot allocate memory");
+                }
+  
+                for (i = 0; i < histsz; i++) {
+                    items[i].text = history[i];
+                }
+            } else {
+                free(items);
+                items = backup_items;
+                backup_items = NULL;
+            }
+        }
+        match();
+        goto draw;
     case XK_Left:
     case XK_KP_Left:
       movewordedge(-1);
@@ -598,6 +738,14 @@ static void keypress(XKeyEvent *ev) {
     case XK_l:
       ksym = XK_Down;
       break;
+    case XK_p:
+        navhistory(-1);
+        buf[0]=0;
+        break;
+    case XK_n:
+        navhistory(1);
+        buf[0]=0;
+        break;
     default:
       return;
     }
@@ -683,6 +831,8 @@ static void keypress(XKeyEvent *ev) {
   case XK_KP_Enter:
     puts((sel && !(ev->state & ShiftMask)) ? sel->text : text);
     if (!(ev->state & ControlMask)) {
+      savehistory((sel && !(ev->state & ShiftMask))
+              ? sel->text : text);
       cleanup();
       exit(0);
     }
@@ -964,8 +1114,8 @@ static void setup(void) {
 static void usage(void) {
   die("usage: dmenu [-bFfiv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
       "             [-nb color] [-nf color] [-sb color] [-sf color]\n"
-      "             [-nhb color] [-nhf color] [-shb color] [-shf color] [-w "
-      "windowid]");
+      "             [-nhb color] [-nhf color] [-shb color] [-shf color] [-w windowid]\n"
+      "             [-H histfile]\n");
 }
 
 int main(int argc, char *argv[]) {
@@ -994,6 +1144,8 @@ int main(int argc, char *argv[]) {
     } else if (i + 1 == argc)
       usage();
     /* these options take one argument */
+    else if (!strcmp(argv[i], "-H"))
+      histfile = argv[++i];
     else if (!strcmp(argv[i], "-l")) /* number of lines in vertical list */
       lines = atoi(argv[++i]);
     else if (!strcmp(argv[i], "-m"))
@@ -1045,6 +1197,8 @@ int main(int argc, char *argv[]) {
   if (pledge("stdio rpath", NULL) == -1)
     die("pledge");
 #endif
+
+  loadhistory();
 
   if (fast && !isatty(0)) {
     grabkeyboard();
