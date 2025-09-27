@@ -157,6 +157,7 @@ static Keychord *keychords[] = {
     &((Keychord){1, {{MODKEY, XK_r}},                          quit,           {1} }),
     &((Keychord){1, {{MODKEY, XK_space}},                      setlayout,      {0} }),
     &((Keychord){1, {{MODKEY|ShiftMask, XK_space}},            togglefloating, {0} }),
+    &((Keychord){1, {{MODKEY|ShiftMask, XK_f}},                togglefullscr,  {0} }),
     &((Keychord){1, {{MODKEY, XK_0}},                          view,           {.ui = ~0 } }),
     &((Keychord){1, {{MODKEY|ShiftMask, XK_0}},                tag,            {.ui = ~0 } }),
     &((Keychord){1, {{MODKEY, XK_comma}},                      focusmon,       {.i = -1 } }),
@@ -211,8 +212,8 @@ static Keychord *keychords[] = {
     /* Screenshot keybindings */
     &((Keychord){1, {{MODKEY, XK_Print}},                      spawn,          {.v = scrotfullclip} }),  /* Super + Print → full ke clipboard */
     &((Keychord){1, {{0, XK_Print}},                           spawn,          {.v = scrotselclip} }),   /* Print → select ke clipboard */
-    &((Keychord){2, {{MODKEY, XK_f}, {0, XK_Print}},           spawn,          {.v = scrotfullfile} }),  /* Super + f + Print → full ke file */
-    &((Keychord){2, {{MODKEY, XK_f}, {0, XK_s}},               spawn,          {.v = scrotselfile} }),   /* Super + f + s → select ke file */
+    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_Print}},           spawn,          {.v = scrotfullfile} }),  /* Super + f + Print → full ke file */
+    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_s}},               spawn,          {.v = scrotselfile} }),   /* Super + f + s → select ke file */
 
     /* Tag keys */
     TAGKEYS( XK_1, 0) TAGKEYS( XK_2, 1) TAGKEYS( XK_3, 2)
