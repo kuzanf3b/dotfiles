@@ -1,21 +1,23 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 2;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "DroidSansM Nerd Font:size=12" };
-static const char dmenufont[]       = "monospace:size=10";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
-static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+static unsigned int borderpx  = 1;        /* border pixel of windows */
+static unsigned int snap      = 32;       /* snap pixel */
+static int showbar            = 1;        /* 0 means no bar */
+static int topbar             = 1;        /* 0 means bottom bar */
+static char font[]            = "monospace:size=10";
+static char dmenufont[]       = "monospace:size=10";
+static const char *fonts[]          = { font };
+static char normbgcolor[]           = "#222222";
+static char normbordercolor[]       = "#444444";
+static char normfgcolor[]           = "#bbbbbb";
+static char selfgcolor[]            = "#eeeeee";
+static char selbordercolor[]        = "#005577";
+static char selbgcolor[]            = "#005577";
+static char *colors[][3] = {
+       /*               fg           bg           border   */
+       [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
+       [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
 };
 
 /* gaps (for vanitygaps patch) */
@@ -98,6 +100,28 @@ static const char *scrotselclip[]  = { "/bin/sh", "-c", "maim -s | xclip -select
 static const char *scrotfullfile[] = { "/bin/sh", "-c", "maim \"$HOME/Pictures/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png\"", NULL };
 static const char *scrotselfile[]  = { "/bin/sh", "-c", "maim -s \"$HOME/Pictures/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png\"", NULL };
 
+/*
+ * Xresources preferences to load at startup
+ */
+ResourcePref resources[] = {
+       { "font",               STRING,  &font },
+       { "dmenufont",          STRING,  &dmenufont },
+       { "normbgcolor",        STRING,  &normbgcolor },
+       { "normbordercolor",    STRING,  &normbordercolor },
+       { "normfgcolor",        STRING,  &normfgcolor },
+       { "selbgcolor",         STRING,  &selbgcolor },
+       { "selbordercolor",     STRING,  &selbordercolor },
+       { "selfgcolor",         STRING,  &selfgcolor },
+       { "borderpx",           INTEGER, &borderpx },
+       { "snap",               INTEGER, &snap },
+       { "showbar",            INTEGER, &showbar },
+       { "topbar",             INTEGER, &topbar },
+       { "nmaster",            INTEGER, &nmaster },
+       { "resizehints",        INTEGER, &resizehints },
+       { "mfact",              FLOAT,   &mfact },
+};
+
+#include "movestack.c"
 static Keychord *keychords[] = {
     /* Program launcher & system */
     &((Keychord){1, {{MODKEY, XK_d}},                          spawn,          {.v = dmenucmd } }),
@@ -105,8 +129,8 @@ static Keychord *keychords[] = {
     &((Keychord){1, {{MODKEY, XK_b}},                          togglebar,      {0} }),
     &((Keychord){1, {{MODKEY, XK_j}},                          focusstack,     {.i = +1 } }),
     &((Keychord){1, {{MODKEY, XK_k}},                          focusstack,     {.i = -1 } }),
-    // &((Keychord){1, {{MODKEY|ShiftMask, XK_j}},                movestack,      {.i = +1 } }),
-    // &((Keychord){1, {{MODKEY|ShiftMask, XK_k}},                movestack,      {.i = -1 } }),
+    &((Keychord){1, {{MODKEY|ShiftMask, XK_j}},                movestack,      {.i = +1 } }),
+    &((Keychord){1, {{MODKEY|ShiftMask, XK_k}},                movestack,      {.i = -1 } }),
     &((Keychord){1, {{MODKEY, XK_c}},                          incnmaster,     {.i = +1 } }),
     &((Keychord){1, {{MODKEY, XK_p}},                          incnmaster,     {.i = -1 } }),
     &((Keychord){1, {{MODKEY, XK_h}},                          setmfact,       {.f = -0.05} }),
