@@ -40,11 +40,12 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static int nmaster     = 1;    /* number of clients in master area */
+static int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int attachbelow = 1;    /* 1 means attach after the currently active window */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
-static const int refreshrate = 120;  /* refresh rate (per second) for client move/resize */
+static const int refreshrate    = 144; /* refresh rate (per second) for client move/resize */
 
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
 #include "vanitygaps.c"
@@ -97,6 +98,7 @@ static const char *scrotselclip[]  = { "/bin/sh", "-c", "maim -s | xclip -select
 static const char *scrotfullfile[] = { "/bin/sh", "-c", "maim \"$HOME/Pictures/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png\"", NULL };
 static const char *scrotselfile[]  = { "/bin/sh", "-c", "maim -s \"$HOME/Pictures/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png\"", NULL };
 
+#include "movestack.c"
 static Keychord *keychords[] = {
     /* Program launcher & system */
     &((Keychord){1, {{MODKEY, XK_d}},                          spawn,          {.v = dmenucmd } }),
@@ -104,8 +106,8 @@ static Keychord *keychords[] = {
     &((Keychord){1, {{MODKEY, XK_b}},                          togglebar,      {0} }),
     &((Keychord){1, {{MODKEY, XK_j}},                          focusstack,     {.i = +1 } }),
     &((Keychord){1, {{MODKEY, XK_k}},                          focusstack,     {.i = -1 } }),
-    // &((Keychord){1, {{MODKEY|ShiftMask, XK_j}},                movestack,      {.i = +1 } }),
-    // &((Keychord){1, {{MODKEY|ShiftMask, XK_k}},                movestack,      {.i = -1 } }),
+    &((Keychord){1, {{MODKEY|ShiftMask, XK_j}},                movestack,      {.i = +1 } }),
+    &((Keychord){1, {{MODKEY|ShiftMask, XK_k}},                movestack,      {.i = -1 } }),
     &((Keychord){1, {{MODKEY, XK_c}},                          incnmaster,     {.i = +1 } }),
     &((Keychord){1, {{MODKEY, XK_p}},                          incnmaster,     {.i = -1 } }),
     &((Keychord){1, {{MODKEY, XK_h}},                          setmfact,       {.f = -0.05} }),
