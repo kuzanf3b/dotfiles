@@ -1512,7 +1512,7 @@ void resizeclient(Client *c, int x, int y, int w, int h) {
 }
 
 void resizemouse(const Arg *arg) {
-  int ocx, ocy, nw, nh;
+  int x, y, ocw, och, nw, nh;
   Client *c;
   Monitor *m;
   XEvent ev;
@@ -1523,13 +1523,13 @@ void resizemouse(const Arg *arg) {
   if (c->isfullscreen) /* no support resizing fullscreen windows by mouse */
     return;
   restack(selmon);
-  ocx = c->x;
-  ocy = c->y;
+  ocw = c->w;
+  och = c->h;
   if (XGrabPointer(dpy, root, False, MOUSEMASK, GrabModeAsync, GrabModeAsync,
                    None, cursor[CurResize]->cursor, CurrentTime) != GrabSuccess)
     return;
-  XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w + c->bw - 1,
-               c->h + c->bw - 1);
+  if(!getrootptr(&x, &y))
+      return;
   do {
     XMaskEvent(dpy, MOUSEMASK | ExposureMask | SubstructureRedirectMask, &ev);
     switch (ev.type) {
@@ -1543,8 +1543,8 @@ void resizemouse(const Arg *arg) {
         continue;
       lasttime = ev.xmotion.time;
 
-      nw = MAX(ev.xmotion.x - ocx - 2 * c->bw + 1, 1);
-      nh = MAX(ev.xmotion.y - ocy - 2 * c->bw + 1, 1);
+      nw = MAX(ocw + (ev.xmotion.x - x), 1);
+      nh = MAX(och + (ev.xmotion.y - y), 1);
       if (c->mon->wx + nw >= selmon->wx &&
           c->mon->wx + nw <= selmon->wx + selmon->ww &&
           c->mon->wy + nh >= selmon->wy &&
@@ -1558,8 +1558,6 @@ void resizemouse(const Arg *arg) {
       break;
     }
   } while (ev.type != ButtonRelease);
-  XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w + c->bw - 1,
-               c->h + c->bw - 1);
   XUngrabPointer(dpy, CurrentTime);
   while (XCheckMaskEvent(dpy, EnterWindowMask, &ev))
     ;

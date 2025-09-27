@@ -1,0 +1,70 @@
+! ───────────────────────────────────────────────
+!  TokyoNight Theme for DWM, dmenu & slock
+! ───────────────────────────────────────────────
+
+! ── Fonts ──────────────────────────────────────
+dwm.font:          DroidSansM Nerd Font:size=12
+dmenu.font:        DroidSansM Nerd Font:size=12
+slock.font:        DroidSansM Nerd Font:size=12
+
+! ── Border ─────────────────────────────────────
+dwm.borderpx:      2
+
+! ── DWM Colors ─────────────────────────────────
+! Normal (inactive windows)
+dwm.normbgcolor:      #1a1b26
+dwm.normfgcolor:      #c0caf5
+dwm.normbordercolor:  #1a1b26
+
+! Selected (active window)
+dwm.selbgcolor:       #1a1b26
+dwm.selfgcolor:       #7aa2f7
+dwm.selbordercolor:   #7aa2f7
+
+! ── Extra TokyoNight Palette ───────────────────
+dwm.color0:   #1a1b26
+dwm.color1:   #15161e
+dwm.color2:   #7aa2f7
+dwm.color3:   #9ece6a
+dwm.color4:   #f7768e
+dwm.color5:   #ff9e64
+dwm.color6:   #9d7cd8
+dwm.color7:   #c0caf5
+dwm.color8:   #16161e
+dwm.color9:   #1f2335
+
+! ───────────────────────────────────────────────
+!  dmenu TokyoNight Colors
+! ───────────────────────────────────────────────
+
+! Normal scheme
+dmenu.normfgcolor:   #c0caf5
+dmenu.normbgcolor:   #1a1b26
+
+! Selected scheme
+dmenu.selfgcolor:    #7aa2f7
+dmenu.selbgcolor:    #1a1b26
+
+! Fuzzyhighlight (fuzzymatch patch)
+dmenu.normhighlightfg:      #ff9e64
+dmenu.normhighlightbg:      #1a1b26
+dmenu.selhighlightfg:       #f7768e
+dmenu.selhighlightbg:       #1a1b26
+
+! Border untuk dmenu
+dmenu.bordercolor:   #7aa2f7
+dmenu.borderwidth:   2
+
+! ───────────────────────────────────────────────
+!  slock TokyoNight Colors
+! ───────────────────────────────────────────────
+
+! Background colors
+slock.color0:   #1a1b26
+slock.color4:   #7aa2f7
+slock.color3:   #ff9e64
+slock.color1:   #f7768e
+
+! Text
+slock.textcolor:   #c0caf5
+slock.message:     Locked at %a %d, %H:%M
