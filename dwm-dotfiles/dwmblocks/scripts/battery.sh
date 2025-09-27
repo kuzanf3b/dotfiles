@@ -45,7 +45,7 @@ fi
 
 # Output DWMbar dengan warna TokyoNight
 if [[ "$perc_num" -le $LOW_BATTERY ]]; then
-  echo "^c#f7768e^🔋 $perc^d^" # merah TokyoNight
+  echo "🔋 $perc" # merah TokyoNight
 else
-  echo "^c#c0caf5^🔋 $perc^d^" # biru terang TokyoNight
+  echo "🔋 $perc" # biru terang TokyoNight
 fi

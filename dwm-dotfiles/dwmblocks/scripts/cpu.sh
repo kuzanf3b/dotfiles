@@ -40,4 +40,4 @@ if [[ -n "$BLOCK_BUTTON" ]]; then
 fi
 
 # Output untuk DWMbar dengan warna TokyoNight
-echo "^c${color}^$icon ${usage}%^d^"
+echo "$icon ${usage}%"
