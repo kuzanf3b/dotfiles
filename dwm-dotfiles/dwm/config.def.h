@@ -170,6 +170,9 @@ static Keychord *keychords[] = {
     &((Keychord){1, {{0, XF86XK_AudioMute}},                   spawn,          {.v = mutevol } }),
     &((Keychord){1, {{MODKEY|ShiftMask, XK_m}},                spawn,          {.v = unmutevol} }),
 
+    /* Screen lock using SHCMD */
+    &((Keychord){1, {{MODKEY|ShiftMask, XK_x}},                spawn,          SHCMD("slock") }),
+
     /* Vanitygaps: Mod+i + key */
     &((Keychord){2, {{MODKEY, XK_i}, {0, XK_u}},               incrgaps,       {.i = +1 } }),
     &((Keychord){2, {{MODKEY, XK_i}, {ShiftMask, XK_u}},       incrgaps,       {.i = -1 } }),

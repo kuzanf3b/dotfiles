@@ -1,26 +1,51 @@
 #!/usr/bin/env bash
 
-notify() { command -v notify-send >/dev/null && notify-send -u low "$1" "$2" -t 5000; }
+LOW_BATTERY=20
 
+notify() {
+  command -v notify-send >/dev/null && notify-send -u critical "$1" "$2" -t 5000
+}
+
+# Ambil info battery
+get_battery() {
+  if command -v upower >/dev/null; then
+    perc=$(upower -i $(upower -e | grep BAT) | awk -F: '/percentage/ {gsub(/ /, "", $2); print $2; exit}')
+    state=$(upower -i $(upower -e | grep BAT) | awk -F: '/state/ {gsub(/ /, "", $2); print $2; exit}')
+  elif command -v acpi >/dev/null; then
+    perc=$(acpi -b | awk -F', ' '{print $2; exit}')
+    state=$(acpi -b | awk -F', ' '{gsub(/ /,"",$1); print $1; exit}')
+  else
+    perc="$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null)%"
+    state="unknown"
+  fi
+  perc_num=${perc//%/}
+}
+
+# Klik event
 if [[ -n "$BLOCK_BUTTON" ]]; then
+  get_battery
   if command -v upower >/dev/null; then
     info=$(upower -i $(upower -e | grep BAT) | grep -E 'state|percentage|time')
   elif command -v acpi >/dev/null; then
     info=$(acpi -b)
   else
-    info="$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null)%"
+    info="${perc:-N/A}"
   fi
-  notify "Baterai" "$info"
+  notify "Battery Info" "$info"
   exit
 fi
 
-perc=""
-if command -v upower >/dev/null; then
-  perc=$(upower -i $(upower -e | grep BAT) | awk -F: '/percentage/ {gsub(/ /, "", $2); print $2; exit}')
-elif command -v acpi >/dev/null; then
-  perc=$(acpi -b | awk -F', ' '{print $2; exit}')
-else
-  perc="$(cat /sys/class/power_supply/BAT*/capacity 2>/dev/null)%"
+# Ambil battery info untuk bar
+get_battery
+
+# Peringatan battery rendah
+if [[ "$perc_num" -le $LOW_BATTERY ]] && [[ "$state" != "charging" ]]; then
+  notify "Battery low" "Plug in!"
 fi
 
-echo "🔋 ${perc:-N/A}"
+# Output DWMbar dengan warna TokyoNight
+if [[ "$perc_num" -le $LOW_BATTERY ]]; then
+  echo "^c#f7768e^🔋 $perc^d^" # merah TokyoNight
+else
+  echo "^c#c0caf5^🔋 $perc^d^" # biru terang TokyoNight
+fi

@@ -1,29 +1,47 @@
 #!/usr/bin/env bash
 
-notify() { command -v notify-send >/dev/null && notify-send -u low "$1" "$2" -t 5000; }
+notify() {
+  command -v notify-send >/dev/null && notify-send -u low "$1" "$2" -t 5000
+}
 
+# Grafik animasi sederhana untuk "level musik"
+music_bar() {
+  local frames=("▁" "▂" "▃" "▄" "▅" "▆" "▇" "█")
+  local idx=$((RANDOM % 8))
+  echo "${frames[$idx]}${frames[$(((idx + 2) % 8))]}${frames[$(((idx + 4) % 8))]}"
+}
+
+# Klik event
 if [[ -n "$BLOCK_BUTTON" ]]; then
   if command -v playerctl >/dev/null; then
-    info=$(playerctl metadata --format "{{artist}} - {{title}}\nAlbum: {{xesam:album}}\nStatus: {{status}}")
+    info=$(playerctl metadata --format "{{artist}} - {{title}}\nAlbum: {{xesam:album}}\nStatus: {{status}}" 2>/dev/null)
   elif command -v mpc >/dev/null; then
     info="$(mpc current)\n$(mpc status | head -n2)"
   else
     info="No player found"
   fi
-  notify "Now Playing" "$info"
+  [[ -n "$info" ]] && notify "Now Playing" "$info"
   exit
 fi
 
+# Output DWMbar
 if command -v playerctl >/dev/null; then
   status=$(playerctl status 2>/dev/null)
   meta=$(playerctl metadata --format '{{artist}} - {{title}}' 2>/dev/null)
-  [[ -z $meta ]] && echo "—" || {
-    [[ ${#meta} -gt 40 ]] && meta="${meta:0:37}..."
-    [[ $status == Playing ]] && echo "▶ $meta" || echo "⏸ $meta"
-  }
+  if [[ -z $meta || $status == "Stopped" ]]; then
+    echo "" # kosong jika tidak ada lagu
+  else
+    [[ ${#meta} -gt 30 ]] && meta="${meta:0:27}..."
+    [[ $status == "Playing" ]] && echo "▶ $meta $(music_bar)" || echo "⏸ $meta"
+  fi
 elif command -v mpc >/dev/null; then
   cur=$(mpc current)
-  [[ -z $cur ]] && echo "—" || echo "♫ ${cur:0:40}"
+  if [[ -z $cur ]]; then
+    echo ""
+  else
+    [[ ${#cur} -gt 30 ]] && cur="${cur:0:27}..."
+    echo "♫ $cur $(music_bar)"
+  fi
 else
-  echo "—"
+  echo ""
 fi
