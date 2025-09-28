@@ -9,11 +9,3 @@
  static void spawn(const Arg *arg);
  static void tag(const Arg *arg);
  static void tagmon(const Arg *arg);
-@@ -260,6 +262,7 @@ static void (*handler[LASTEvent]) (XEvent *) = {
- 	[UnmapNotify] = unmapnotify
- };
- static Atom wmatom[WMLast], netatom[NetLast];
-+static int restart = 0;
- static int running = 1;
- static Cur *cursor[CurLast];
- static Clr **scheme;
