@@ -1,21 +1,23 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 1;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "monospace:size=12" };
-static const char dmenufont[]       = "monospace:size=12";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
-static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+static unsigned int borderpx  = 1;        /* border pixel of windows */
+static unsigned int snap      = 32;       /* snap pixel */
+static int showbar            = 1;        /* 0 means no bar */
+static int topbar             = 1;        /* 0 means bottom bar */
+static char font[]            = "monospace:size=10";
+static char dmenufont[]       = "monospace:size=10";
+static const char *fonts[]          = { font };
+static char normbgcolor[]           = "#222222";
+static char normbordercolor[]       = "#444444";
+static char normfgcolor[]           = "#bbbbbb";
+static char selfgcolor[]            = "#eeeeee";
+static char selbordercolor[]        = "#005577";
+static char selbgcolor[]            = "#005577";
+static char *colors[][3] = {
+       /*               fg           bg           border   */
+       [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
+       [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
 };
 
 /* gaps (for vanitygaps patch) */
@@ -40,14 +42,16 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static int nmaster     = 1;    /* number of clients in master area */
+static int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static const int attachbelow = 1;    /* 1 means attach after the currently active window */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 static const int refreshrate = 120;  /* refresh rate (per second) for client move/resize */
 
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
 #include "vanitygaps.c"
+#include "tatami.c"
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -64,6 +68,7 @@ static const Layout layouts[] = {
 	{ ":::",      gaplessgrid },
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
+  { "|+|",      tatami },
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ NULL,       NULL },
 };
@@ -97,6 +102,28 @@ static const char *scrotselclip[]  = { "/bin/sh", "-c", "maim -s | xclip -select
 static const char *scrotfullfile[] = { "/bin/sh", "-c", "maim \"$HOME/Pictures/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png\"", NULL };
 static const char *scrotselfile[]  = { "/bin/sh", "-c", "maim -s \"$HOME/Pictures/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png\"", NULL };
 
+/*
+ * Xresources preferences to load at startup
+ */
+ResourcePref resources[] = {
+       { "font",               STRING,  &font },
+       { "dmenufont",          STRING,  &dmenufont },
+       { "normbgcolor",        STRING,  &normbgcolor },
+       { "normbordercolor",    STRING,  &normbordercolor },
+       { "normfgcolor",        STRING,  &normfgcolor },
+       { "selbgcolor",         STRING,  &selbgcolor },
+       { "selbordercolor",     STRING,  &selbordercolor },
+       { "selfgcolor",         STRING,  &selfgcolor },
+       { "borderpx",           INTEGER, &borderpx },
+       { "snap",               INTEGER, &snap },
+       { "showbar",            INTEGER, &showbar },
+       { "topbar",             INTEGER, &topbar },
+       { "nmaster",            INTEGER, &nmaster },
+       { "resizehints",        INTEGER, &resizehints },
+       { "mfact",              FLOAT,   &mfact },
+};
+
+#include "movestack.c"
 static Keychord *keychords[] = {
     /* Program launcher & system */
     &((Keychord){1, {{MODKEY, XK_d}},                          spawn,          {.v = dmenucmd } }),
@@ -104,8 +131,8 @@ static Keychord *keychords[] = {
     &((Keychord){1, {{MODKEY, XK_b}},                          togglebar,      {0} }),
     &((Keychord){1, {{MODKEY, XK_j}},                          focusstack,     {.i = +1 } }),
     &((Keychord){1, {{MODKEY, XK_k}},                          focusstack,     {.i = -1 } }),
-    // &((Keychord){1, {{MODKEY|ShiftMask, XK_j}},                movestack,      {.i = +1 } }),
-    // &((Keychord){1, {{MODKEY|ShiftMask, XK_k}},                movestack,      {.i = -1 } }),
+    &((Keychord){1, {{MODKEY|ShiftMask, XK_j}},                movestack,      {.i = +1 } }),
+    &((Keychord){1, {{MODKEY|ShiftMask, XK_k}},                movestack,      {.i = -1 } }),
     &((Keychord){1, {{MODKEY, XK_c}},                          incnmaster,     {.i = +1 } }),
     &((Keychord){1, {{MODKEY, XK_p}},                          incnmaster,     {.i = -1 } }),
     &((Keychord){1, {{MODKEY, XK_h}},                          setmfact,       {.f = -0.05} }),
@@ -120,7 +147,7 @@ static Keychord *keychords[] = {
     &((Keychord){1, {{MODKEY, XK_r}},                          quit,           {1} }),
     &((Keychord){1, {{MODKEY, XK_space}},                      setlayout,      {0} }),
     &((Keychord){1, {{MODKEY|ShiftMask, XK_space}},            togglefloating, {0} }),
-    // &((Keychord){1, {{MODKEY|ShiftMask, XK_f}},                togglefullscr,  {0} }),
+    &((Keychord){1, {{MODKEY|ShiftMask, XK_f}},                togglefullscr,  {0} }),
     &((Keychord){1, {{MODKEY, XK_0}},                          view,           {.ui = ~0 } }),
     &((Keychord){1, {{MODKEY|ShiftMask, XK_0}},                tag,            {.ui = ~0 } }),
     &((Keychord){1, {{MODKEY, XK_comma}},                      focusmon,       {.i = -1 } }),
@@ -169,7 +196,8 @@ static Keychord *keychords[] = {
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_c}},               setlayout,      {.v = &layouts[10]} }), /* ::: gaplessgrid */
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_y}},               setlayout,      {.v = &layouts[11]} }), /* |M| centeredmaster */
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_f}},               setlayout,      {.v = &layouts[12]} }), /* >M> centeredfloatingmaster */
-    &((Keychord){2, {{MODKEY, XK_a}, {0, XK_i}},               setlayout,      {.v = &layouts[13]} }), /*<>> no floating */
+    &((Keychord){2, {{MODKEY, XK_a}, {0, XK_a}},               setlayout,      {.v = &layouts[13]} }), /* |+| tatami */
+    &((Keychord){2, {{MODKEY, XK_a}, {0, XK_i}},               setlayout,      {.v = &layouts[14]} }), /*<>> no floating */
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_space}},           setlayout,      {0} }),                 /* toggle last/floating */
 
     /* Screenshot keybindings */
