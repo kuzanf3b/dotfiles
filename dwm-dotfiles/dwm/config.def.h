@@ -8,11 +8,6 @@ static const unsigned int systrayonleft = 0;    /* 0: systray in the right corne
 static const unsigned int systrayspacing = 8;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray        = 1;        /* 0 means no systray */
-static const unsigned int gappih    = 8;  /* horiz inner gap between windows */
-static const unsigned int gappiv    = 8;  /* vert inner gap between windows */
-static const unsigned int gappoh    = 10;  /* horiz outer gap between windows and screen edge */
-static const unsigned int gappov    = 10;  /* vert outer gap between windows and screen edge */
-static       int smartgaps          = 0;   /* 1 = no outer gap when only one window */
 
 static const int showbar     = 1;          /* 0 = no bar */
 static const int topbar      = 1;          /* 0 = bottom bar */
@@ -40,6 +35,13 @@ static const char *colors[][3] = {
     [SchemeSel]  = { col_blu, col_bg, col_cyn  },
 };
 
+/* gaps (for vanitygaps patch) */
+static int gappih = 8;  /* horiz inner gap between windows */
+static int gappiv = 8;  /* vert inner gap between windows */
+static int gappoh = 10;  /* horiz outer gap between windows and screen edge */
+static int gappov = 12;  /* vert outer gap between windows and screen edge */
+static int smartgaps = 0; /* 1 means no outer gap when there is only one window */
+
 /* -------------------- Transparency -------------------- */
 #define OPAQUE      0xffU
 #define baralpha    0xeeU
@@ -63,15 +65,15 @@ static const unsigned int ulinestroke  = 2;    /* thickness / height of the unde
 static const unsigned int ulinevoffset = 0;    /* how far above the bottom of the bar the line should appear */
 static const int ulineall      = 0;    /* 1 to show underline on all tags, 0 for just the active ones */
 
-/* -------------------- Rules -------------------- */
 static const Rule rules[] = {
-    /* class           instance  title  tags mask  isfloating  monitor */
-    { "Gimp",          NULL,     NULL,  0,         1,          -1 },
-    { "Brave-browser", NULL,     NULL,  1 << 2,    0,          -1 },
-    { "firefox",       NULL,     NULL,  1 << 1,    0,          -1 },
-    { "zen",           NULL,     NULL,  1 << 1,    0,          -1 },
-    { "discord",       NULL,     NULL,  1 << 4,    0,          -1 },
-    { "code",          NULL,     NULL,  1 << 5,    0,          -1 },
+	/* class      instance    title       tags mask     isfloating   monitor */
+	{ "Gimp",            NULL,       NULL,       0,            1,           -1 },
+  { "Brave-browser",   NULL,       NULL,       1 << 2,       0,           -1 },
+	{ "firefox",         NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "zen",             NULL,       NULL,       1 << 1,       0,           -1 },
+	{ "discord",         NULL,       NULL,       1 << 3,       0,           -1 },
+	{ "Code",            NULL,       NULL,       1 << 4,       0,           -1 },
+	{ "Thunar",          NULL,       NULL,       1 << 5,       0,           -1 },
 };
 
 /* -------------------- Layout(s) -------------------- */
@@ -114,34 +116,26 @@ static const Layout layouts[] = {
     { MODKEY|ShiftMask,             KEY, tag,        { .ui = 1 << TAG } }, \
     { MODKEY|ControlMask|ShiftMask, KEY, toggletag,  { .ui = 1 << TAG } },
 
-#define SHCMD(cmd) { .v = (const char *[]) { "/bin/sh", "-c", cmd, NULL } }
+/* helper for spawning shell commands in the pre dwm-5.0 fashion */
+#define SHCMD(cmd) { .v = (const char*[]){ "/bin/sh", "-c", cmd, NULL } }
+#include <X11/XF86keysym.h>
 
-/* -------------------- Commands -------------------- */
-static char dmenumon[2] = "0";
-static const char *dmenucmd[] = {
-    "env", "PATH=$HOME/bin:/usr/local/bin:/usr/bin", "dmenu_run",
-    "-m", dmenumon, "-fn", dmenufont,
-    "-l", "10",
-    NULL
-};
+/* commands */
+static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
+static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, NULL };
+static const char *termcmd[] = { "alacritty", NULL };
 
-static const char *termcmd[] = {
-    "alacritty", "--config-file",
-    "/home/kuzan/.config/alacritty/alacritty-dwm.toml",
-    NULL
-};
+/* Volome Control */
+// static const char *upvol[]   = { "pactl", "set-sink-volume",   "@DEFAULT_SINK@", "+5%", NULL };
+// static const char *downvol[] = { "pactl", "set-sink-volume",   "@DEFAULT_SINK@", "-5%", NULL };
+// static const char *mutevol[] = { "pactl", "set-sink-mute",     "@DEFAULT_SINK@", "toggle", NULL };
+// static const char *unmutevol[] = { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "0", NULL };
 
-static const char *screenshot_select_cmd[] = {
-    "/bin/sh", "-c",
-    "maim -s | tee ~/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png | xclip -selection clipboard -t image/png",
-    NULL
-};
-
-static const char *screenshot_full_cmd[] = {
-    "/bin/sh", "-c",
-    "maim | tee ~/Pictures/Screenshots/screenshot-$(date +%Y-%m-%d_%H-%M-%S).png | xclip -selection clipboard -t image/png",
-    NULL
-};
+/* Screenshot commands (POSIX sh compatible) */
+// static const char *scrotfullclip[] = { "/bin/sh", "-c", "maim | xclip -selection clipboard -t image/png", NULL };
+// static const char *scrotselclip[]  = { "/bin/sh", "-c", "maim -s | xclip -selection clipboard -t image/png", NULL };
+// static const char *scrotfullfile[] = { "/bin/sh", "-c", "maim \"$HOME/Pictures/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png\"", NULL };
+// static const char *scrotselfile[]  = { "/bin/sh", "-c", "maim -s \"$HOME/Pictures/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png\"", NULL };
 
 /* -------------------- Keys -------------------- */
 #include "movestack.c"
@@ -149,8 +143,6 @@ static const Key keys[] = {
     /* spawn apps */
     { MODKEY,             XK_d,      spawn,          { .v = dmenucmd } },
     { MODKEY,             XK_Return, spawn,          { .v = termcmd } },
-    { 0,                  XK_Print,  spawn,          { .v = screenshot_select_cmd } },
-    { MODKEY,             XK_Print,  spawn,          { .v = screenshot_full_cmd } },
 
     /* bar + focus */
     { MODKEY,             XK_b,      togglebar,      { 0 } },
