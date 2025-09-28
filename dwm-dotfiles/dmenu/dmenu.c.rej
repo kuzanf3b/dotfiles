@@ -1,20 +1,36 @@
 --- dmenu.c
 +++ dmenu.c
-@@ -633,7 +633,7 @@ setup(void)
- 	utf8 = XInternAtom(dpy, "UTF8_STRING", False);
+@@ -277,6 +277,13 @@ match(void)
+ 		matchend = substrend;
+ 	}
+ 	curr = sel = matches;
++
++	if (instant && matches && matches==matchend && !lsubstr) {
++		puts(matches->text);
++		cleanup();
++		exit(0);
++	}
++
+ 	calcoffsets();
+ }
  
- 	/* calculate menu geometry */
--	bh = drw->fonts->h + 2;
-+	bh = drw->fonts->h + vertpadbar;
- 	lines = MAX(lines, 0);
- 	mh = (lines + 1) * bh;
- #ifdef XINERAMA
-@@ -774,7 +774,7 @@ main(int argc, char *argv[])
- 	drw = drw_create(dpy, screen, root, wa.width, wa.height);
- 	if (!drw_fontset_create(drw, fonts, LENGTH(fonts)))
- 		die("no fonts could be loaded.");
--	lrpad = drw->fonts->h;
-+	lrpad = drw->fonts->h + horizpadbar;
+@@ -715,7 +722,7 @@ setup(void)
+ static void
+ usage(void)
+ {
+-	die("usage: dmenu [-bfiv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
++	die("usage: dmenu [-bfinv] [-l lines] [-p prompt] [-fn font] [-m monitor]\n"
+ 	    "             [-nb color] [-nf color] [-sb color] [-sf color] [-w windowid]");
+ }
  
- #ifdef __OpenBSD__
- 	if (pledge("stdio rpath", NULL) == -1)
+@@ -737,7 +744,9 @@ main(int argc, char *argv[])
+ 		else if (!strcmp(argv[i], "-i")) { /* case-insensitive item matching */
+ 			fstrncmp = strncasecmp;
+ 			fstrstr = cistrstr;
+-		} else if (i + 1 == argc)
++		} else if (!strcmp(argv[i], "-n")) /* instant select only match */
++			instant = 1;
++		else if (i + 1 == argc)
+ 			usage();
+ 		/* these options take one argument */
+ 		else if (!strcmp(argv[i], "-l"))   /* number of lines in vertical list */

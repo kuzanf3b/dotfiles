@@ -1,38 +1,78 @@
-/* See LICENSE file for copyright and license details. */
-/* Default settings; can be overriden by command line. */
+/* Default settings; can be overridden by command line. */
 
-static int topbar = 1;      /* -b  option; if 0, dmenu appears at bottom     */
-static int horizpadbar = 8; /* horizontal padding */
-static int vertpadbar = 8;  /* vertical padding */
-static const unsigned int alpha = 0x66; /* Amount of opacity. 0xff is opaque */
-static int centered = 1;                /* -c option; centers dmenu on screen */
-static int min_width = 500;             /* minimum width when centered */
-static const float menu_height_ratio =
-    4.0f; /* This is the ratio used in the original calculation */
-/* -fn option overrides fonts[0]; default X11 font or font set */
-static const char *fonts[] = {"DroidSansM Nerd Font:size=12"};
-static const char *prompt =
-    NULL; /* -p  option; prompt to the left of input field */
-static const char *colors[SchemeLast][2] = {
-    /*     fg         bg       */
-    [SchemeNorm] = {"#bbbbbb", "#222222"},
-    [SchemeSel] = {"#eeeeee", "#005577"},
-    [SchemeOut] = {"#000000", "#00ffff"},
+/* ── Layout ────────────────────────────────────────────── */
+static int instant = 1;        /* -n  option; if 1, select single entry automatically */
+static int topbar = 1;       /* -b : 0 = bottom, 1 = top               */
+static int horizpadbar = 8; /* horizontal padding                     */
+static int vertpadbar = 12;  /* vertical padding                       */
+static int centered = 1;     /* -c : center the menu                   */
+static int min_width = 500;  /* minimum width when centered            */
+static const float menu_height_ratio = 4.0f;
+
+/* ── Opacity ───────────────────────────────────────────── */
+static const unsigned int alpha = 0x99; /* 0xff = fully opaque */
+
+/* ── Fonts ─────────────────────────────────────────────── */
+static char font[] = "monospace:size=10";
+static const char *fonts[] = {font, "monospace:size=12"};
+
+/* ── Prompt ────────────────────────────────────────────── */
+static char *prompt = NULL; /* -p : prompt text left of input field  */
+
+/* ── Fuzzymatch ────────────────────────────────────────── */
+static int fuzzy = 1; /* -F : enable fuzzy-matching by default */
+
+/* ── Default Colors ────────────────────────────────────── */
+static char normfgcolor[] = "#bbbbbb";
+static char normbgcolor[] = "#222222";
+static char selfgcolor[] = "#eeeeee";
+static char selbgcolor[] = "#005577";
+static char bordercolor[] = "#7aa2f7"; /* border color for dmenu */
+
+/* ── Fuzzyhighlight Colors ─────────────────────────────── */
+static char selhighlightfg[] = "#ffc978";
+static char selhighlightbg[] = "#005577";
+static char normhighlightfg[] = "#ffc978";
+static char normhighlightbg[] = "#222222";
+
+/* ── Color Schemes ─────────────────────────────────────── */
+static const char *colors[SchemeLast][3] = {
+    /*                 fg                  bg               border     */
+    [SchemeNorm] = {normfgcolor, normbgcolor, bordercolor},
+    [SchemeSel] = {selfgcolor, selbgcolor, bordercolor},
+    [SchemeNormHighlight] = {normhighlightfg, normhighlightbg, bordercolor},
+    [SchemeSelHighlight] = {selhighlightfg, selhighlightbg, bordercolor},
+    [SchemeOut] = {"#000000", "#00ffff", bordercolor},
 };
 
+/* ── Opacity per Scheme ────────────────────────────────── */
 static const unsigned int alphas[SchemeLast][2] = {
     [SchemeNorm] = {OPAQUE, alpha},
     [SchemeSel] = {OPAQUE, alpha},
     [SchemeOut] = {OPAQUE, alpha},
 };
-/* -l option; if nonzero, dmenu uses vertical list with given number of lines */
-static unsigned int lines = 0;
 
-/*
- * Characters not considered part of a word while deleting words
- * for example: " /?\"&[]"
- */
+/* ── List Layout ───────────────────────────────────────── */
+static unsigned int lines = 5;        /* -l : vertical list line count       */
+static unsigned int maxhist    = 64;
+static unsigned int border_width = 2; /* default border thickness            */
+
+/* ── Xresources Preferences ────────────────────────────── */
+ResourcePref resources[] = {
+    {"font", STRING, &font},
+    {"normfgcolor", STRING, &normfgcolor},
+    {"normbgcolor", STRING, &normbgcolor},
+    {"selfgcolor", STRING, &selfgcolor},
+    {"selbgcolor", STRING, &selbgcolor},
+    {"selhighlightfg", STRING, &selhighlightfg},
+    {"selhighlightbg", STRING, &selhighlightbg},
+    {"normhighlightfg", STRING, &normhighlightfg},
+    {"normhighlightbg", STRING, &normhighlightbg},
+    {"bordercolor", STRING, &bordercolor},
+    {"borderwidth", INTEGER, &border_width},
+    {"prompt", STRING, &prompt},
+    {"fuzzy", INTEGER, &fuzzy},
+};
+
+/* ── Word Deletion Characters ──────────────────────────── */
 static const char worddelimiters[] = " ";
-
-/* Size of the window border */
-static unsigned int border_width = 2;
