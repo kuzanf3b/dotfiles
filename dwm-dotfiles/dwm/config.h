@@ -1,38 +1,32 @@
 /* See LICENSE file for copyright and license details. */
 
 /* -------------------- Appearance -------------------- */
-static const unsigned int borderpx  = 2;   /* border pixel of windows */
-static const unsigned int snap      = 32;  /* snap pixel */
+static unsigned int borderpx  = 1;        /* border pixel of windows */
+static unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft = 0;    /* 0: systray in the right corner, >0: systray on left of status text */
-static const unsigned int systrayspacing = 8;   /* systray spacing */
+static const unsigned int systrayspacing = 6;   /* systray spacing */
 static const int systraypinningfailfirst = 1;   /* 1: if pinning fails, display systray on the first monitor, False: display systray on the last monitor*/
 static const int showsystray        = 1;        /* 0 means no systray */
 
-static const int showbar     = 1;          /* 0 = no bar */
-static const int topbar      = 1;          /* 0 = bottom bar */
-static const int barpad_top = 8;   /* padding atas bar */
+static int showbar            = 1;        /* 0 means no bar */
+static int topbar             = 1;        /* 0 means bottom bar */
+static const int barpad_top = 6;   /* padding atas bar */
 static const int barpad_bot = 4;    /* padding bawah bar */
 static const int sidepad     = 10;          /* margin left/right for bar */
-static const char *fonts[]   = { "DroidSansM Nerd Font:size=12" };
-static const char dmenufont[] = "DroidSansM Nerd Font:size=12";
-
-/* -------------------- Colors (Nord) -------------------- */
-static const char col_bg[]    = "#2E3440";
-static const char col_fg[]    = "#D8DEE9";
-static const char col_blk[]   = "#3B4252";
-static const char col_red[]   = "#BF616A";
-static const char col_grn[]   = "#A3BE8C";
-static const char col_ylw[]   = "#EBCB8B";
-static const char col_blu[]   = "#81A1C1";
-static const char col_mag[]   = "#B48EAD";
-static const char col_cyn[]   = "#88C0D0";
-static const char col_brblk[] = "#4C566A";
-
-static const char *colors[][3] = {
-    /*               fg      bg      border   */
-    [SchemeNorm] = { col_fg, col_bg, col_brblk },
-    [SchemeSel]  = { col_blu, col_bg, col_cyn  },
+static char font[]            = "monospace:size=10";
+static char dmenufont[]       = "monospace:size=10";
+static const char *fonts[]          = { font };
+static char normbgcolor[]           = "#222222";
+static char normbordercolor[]       = "#444444";
+static char normfgcolor[]           = "#bbbbbb";
+static char selfgcolor[]            = "#eeeeee";
+static char selbordercolor[]        = "#005577";
+static char selbgcolor[]            = "#005577";
+static char *colors[][3] = {
+       /*               fg           bg           border   */
+       [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
+       [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
 };
 
 /* gaps (for vanitygaps patch) */
@@ -77,9 +71,9 @@ static const Rule rules[] = {
 };
 
 /* -------------------- Layout(s) -------------------- */
-static const float mfact        = 0.55; /* master area size [0.05..0.95] */
-static const int nmaster        = 1;    /* number of clients in master area */
-static const int resizehints    = 1;    /* 1 = respect size hints */
+static float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static int nmaster     = 1;    /* number of clients in master area */
+static int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 static const int attachbelow = 1;    /* 1 means attach after the currently active window */
 static const int lockfullscreen = 1;    /* 1 = force focus on fullscreen */
 static const int refreshrate    = 144;  /* refresh rate */
@@ -136,6 +130,27 @@ static const char *scrotfullclip[] = { "/bin/sh", "-c", "maim | xclip -selection
 static const char *scrotselclip[]  = { "/bin/sh", "-c", "maim -s | xclip -selection clipboard -t image/png", NULL };
 static const char *scrotfullfile[] = { "/bin/sh", "-c", "maim \"$HOME/Pictures/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png\"", NULL };
 static const char *scrotselfile[]  = { "/bin/sh", "-c", "maim -s \"$HOME/Pictures/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png\"", NULL };
+
+/*
+ * Xresources preferences to load at startup
+ */
+ResourcePref resources[] = {
+       { "font",               STRING,  &font },
+       { "dmenufont",          STRING,  &dmenufont },
+       { "normbgcolor",        STRING,  &normbgcolor },
+       { "normbordercolor",    STRING,  &normbordercolor },
+       { "normfgcolor",        STRING,  &normfgcolor },
+       { "selbgcolor",         STRING,  &selbgcolor },
+       { "selbordercolor",     STRING,  &selbordercolor },
+       { "selfgcolor",         STRING,  &selfgcolor },
+       { "borderpx",           INTEGER, &borderpx },
+       { "snap",               INTEGER, &snap },
+       { "showbar",            INTEGER, &showbar },
+       { "topbar",             INTEGER, &topbar },
+       { "nmaster",            INTEGER, &nmaster },
+       { "resizehints",        INTEGER, &resizehints },
+       { "mfact",              FLOAT,   &mfact },
+};
 
 /* -------------------- Keys -------------------- */
 #include "movestack.c"

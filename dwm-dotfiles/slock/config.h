@@ -33,4 +33,4 @@ static const char *font_name =
     "-misc-fixed-medium-r-normal--20-200-75-75-c-100-iso8859-1";
 
 /* time in seconds before the monitor shuts down */
-static const int monitortime = 5;
+static const int monitortime = 30;

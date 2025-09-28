@@ -36,6 +36,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xproto.h>
 #include <X11/Xutil.h>
+#include <X11/Xresource.h>
 #ifdef XINERAMA
 #include <X11/extensions/Xinerama.h>
 #endif /* XINERAMA */
@@ -173,6 +174,19 @@ struct Systray {
 	Client *icons;
 };
 
+/* Xresources preferences */
+enum resource_type {
+	STRING = 0,
+	INTEGER = 1,
+	FLOAT = 2
+};
+
+typedef struct {
+	char *name;
+	enum resource_type type;
+	void *dst;
+} ResourcePref;
+
 /* function declarations */
 static void applyrules(Client *c);
 static int applysizehints(Client *c, int *x, int *y, int *w, int *h, int interact);
@@ -278,6 +292,8 @@ static int xerror(Display *dpy, XErrorEvent *ee);
 static int xerrordummy(Display *dpy, XErrorEvent *ee);
 static int xerrorstart(Display *dpy, XErrorEvent *ee);
 static void zoom(const Arg *arg);
+static void load_xresources(void);
+static void resource_load(XrmDatabase db, char *name, enum resource_type rtype, void *dst);
 
 /* variables */
 static Systray *systray = NULL;
@@ -861,51 +877,64 @@ void
 drawbar(Monitor *m)
 {
 	int x, w, tw = 0, stw = 0;
-/*	int boxs = drw->fonts->h / 9;
-	int boxw = drw->fonts->h / 6 + 2; */
 	unsigned int i, occ = 0, urg = 0;
 	Client *c;
 
 	if (!m->showbar)
 		return;
 
-  if(showsystray && m == systraytomon(m) && !systrayonleft)
-      stw = getsystraywidth();
+	/* hitung lebar systray kalau ada */
+	if (showsystray && m == systraytomon(m) && !systrayonleft)
+		stw = getsystraywidth();
 
-	/* draw status first so it can be overdrawn by tags later */
-	if (m == selmon) { /* status is only drawn on selected monitor */
+	/* status text (kanan) */
+	if (m == selmon) {
 		drw_setscheme(drw, scheme[SchemeNorm]);
-    tw = TEXTW(stext) - lrpad / 2 + 2; /* 2px extra right padding */
-    drw_text(drw, m->ww - tw - stw, 0, tw, bh, lrpad / 2 - 2, stext, 0);
+		tw = TEXTW(stext) - lrpad / 2 + 2;
+		/* geser ke kiri sesuai panjang systray */
+		drw_text(drw, m->ww - tw - stw - sp, 0, tw, bh, lrpad / 2 - 2, stext, 0);
 	}
 
-  resizebarwin(m);
+	resizebarwin(m);
 	for (c = m->clients; c; c = c->next) {
 		occ |= c->tags == TAGMASK ? 0 : c->tags;
 		if (c->isurgent)
 			urg |= c->tags;
 	}
+
+	/* taglist (kiri) */
 	x = 0;
 	for (i = 0; i < LENGTH(tags); i++) {
-		/* Do not draw vacant tags */
-		if(!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
+		if (!(occ & 1 << i || m->tagset[m->seltags] & 1 << i))
 			continue;
 		w = TEXTW(tags[i]);
 		drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
 		drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
-    if (ulineall || m->tagset[m->seltags] & 1 << i) /* if there are conflicts, just move these lines directly underneath both 'drw_setscheme' and 'drw_text' :) */
-        drw_rect(drw, x + ulinepad, bh - ulinestroke - ulinevoffset, w - (ulinepad * 2), ulinestroke, 1, 0);
+		if (ulineall || m->tagset[m->seltags] & 1 << i)
+			drw_rect(drw, x + ulinepad, bh - ulinestroke - ulinevoffset,
+			         w - (ulinepad * 2), ulinestroke, 1, 0);
 		x += w;
 	}
+
+	/* layout symbol */
 	w = TEXTW(m->ltsymbol);
 	drw_setscheme(drw, scheme[SchemeNorm]);
 	x = drw_text(drw, x, 0, w, bh, lrpad / 2, m->ltsymbol, 0);
 
-	if ((w = m->ww - tw - stw - x) > bh) {
-			drw_setscheme(drw, scheme[SchemeNorm]);
-			drw_rect(drw, x, 0, w - 2 * sp, bh, 1, 1);
+	/* filler antara layout & status text */
+	if ((w = m->ww - tw - stw - x - sp) > bh) {
+		drw_setscheme(drw, scheme[SchemeNorm]);
+		drw_rect(drw, x, 0, w, bh, 1, 1);
 	}
-	drw_map(drw, m->barwin, 0, 0, m->ww - stw, bh);
+
+	/* map full bar */
+	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
+
+	/* systray selalu dipaksa di pojok kanan */
+	if (showsystray && m == systraytomon(m)) {
+		XMoveWindow(dpy, systray->win, m->ww - stw, 0);
+		updatesystray();
+	}
 }
 
 void
@@ -2444,42 +2473,41 @@ updatesystray(void)
     XWindowChanges wc;
     Client *i;
     Monitor *m = systraytomon(NULL);
-    unsigned int x = m->mx + m->mw - sidepad;
-    unsigned int sw = TEXTW(stext) - lrpad + systrayspacing;
-    unsigned int w = 1;
+    unsigned int x, w = 1;
 
     if (!showsystray)
         return;
-    if (systrayonleft)
-        x -= sw + lrpad / 2;
+
     if (!systray) {
         /* init systray */
         if (!(systray = (Systray *)calloc(1, sizeof(Systray))))
             die("fatal: could not malloc() %u bytes\n", sizeof(Systray));
-        systray->win = XCreateSimpleWindow(dpy, root, x, m->by + barpad_top, w, bh, 0, 0, scheme[SchemeSel][ColBg].pixel);
+        systray->win = XCreateSimpleWindow(dpy, root, 0, m->by + barpad_top, w, bh, 0, 0,
+                                           scheme[SchemeSel][ColBg].pixel);
         wa.event_mask        = ButtonPressMask | ExposureMask;
         wa.override_redirect = True;
         wa.background_pixel  = scheme[SchemeNorm][ColBg].pixel;
         XSelectInput(dpy, systray->win, SubstructureNotifyMask);
         XChangeProperty(dpy, systray->win, netatom[NetSystemTrayOrientation], XA_CARDINAL, 32,
-                PropModeReplace, (unsigned char *)&netatom[NetSystemTrayOrientationHorz], 1);
+                        PropModeReplace, (unsigned char *)&netatom[NetSystemTrayOrientationHorz], 1);
         XChangeWindowAttributes(dpy, systray->win, CWEventMask|CWOverrideRedirect|CWBackPixel, &wa);
         XMapRaised(dpy, systray->win);
         XSetSelectionOwner(dpy, netatom[NetSystemTray], systray->win, CurrentTime);
         if (XGetSelectionOwner(dpy, netatom[NetSystemTray]) == systray->win) {
-            sendevent(root, xatom[Manager], StructureNotifyMask, CurrentTime, netatom[NetSystemTray], systray->win, 0, 0);
+            sendevent(root, xatom[Manager], StructureNotifyMask, CurrentTime,
+                      netatom[NetSystemTray], systray->win, 0, 0);
             XSync(dpy, False);
-        }
-        else {
+        } else {
             fprintf(stderr, "dwm: unable to obtain system tray.\n");
             free(systray);
             systray = NULL;
             return;
         }
     }
+
+    /* hitung ulang lebar systray berdasarkan icon */
     for (w = 0, i = systray->icons; i; i = i->next) {
-        /* make sure the background color stays the same */
-        wa.background_pixel  = scheme[SchemeNorm][ColBg].pixel;
+        wa.background_pixel = scheme[SchemeNorm][ColBg].pixel;
         XChangeWindowAttributes(dpy, i->win, CWBackPixel, &wa);
         XMapRaised(dpy, i->win);
         w += systrayspacing;
@@ -2489,14 +2517,25 @@ updatesystray(void)
         if (i->mon != m)
             i->mon = m;
     }
+
     w = w ? w + systrayspacing : 1;
-    x -= w;
+
+    /* letakkan systray di paling kanan monitor, dwmblocks akan stop sebelum ini */
+    x = m->wx + m->ww - w - sp;
+
     XMoveResizeWindow(dpy, systray->win, x, m->by + barpad_top, w, bh);
-    wc.x = x; wc.y = m->by + barpad_top; wc.width = w; wc.height = bh;
-    wc.stack_mode = Above; wc.sibling = m->barwin;
-    XConfigureWindow(dpy, systray->win, CWX|CWY|CWWidth|CWHeight|CWSibling|CWStackMode, &wc);
+    wc.x = x;
+    wc.y = m->by + barpad_top;
+    wc.width = w;
+    wc.height = bh;
+    wc.stack_mode = Above;
+    wc.sibling = m->barwin;
+    XConfigureWindow(dpy, systray->win,
+                     CWX|CWY|CWWidth|CWHeight|CWSibling|CWStackMode, &wc);
+
     XMapWindow(dpy, systray->win);
     XMapSubwindows(dpy, systray->win);
+
     /* redraw background */
     XSetForeground(dpy, drw->gc, scheme[SchemeNorm][ColBg].pixel);
     XFillRectangle(dpy, systray->win, drw->gc, 0, 0, w, bh);
@@ -2685,6 +2724,60 @@ zoom(const Arg *arg)
 	pop(c);
 }
 
+void
+resource_load(XrmDatabase db, char *name, enum resource_type rtype, void *dst)
+{
+	char *sdst = NULL;
+	int *idst = NULL;
+	float *fdst = NULL;
+
+	sdst = dst;
+	idst = dst;
+	fdst = dst;
+
+	char fullname[256];
+	char *type;
+	XrmValue ret;
+
+	snprintf(fullname, sizeof(fullname), "%s.%s", "dwm", name);
+	fullname[sizeof(fullname) - 1] = '\0';
+
+	XrmGetResource(db, fullname, "*", &type, &ret);
+	if (!(ret.addr == NULL || strncmp("String", type, 64)))
+	{
+		switch (rtype) {
+		case STRING:
+			strcpy(sdst, ret.addr);
+			break;
+		case INTEGER:
+			*idst = strtoul(ret.addr, NULL, 10);
+			break;
+		case FLOAT:
+			*fdst = strtof(ret.addr, NULL);
+			break;
+		}
+	}
+}
+
+void
+load_xresources(void)
+{
+	Display *display;
+	char *resm;
+	XrmDatabase db;
+	ResourcePref *p;
+
+	display = XOpenDisplay(NULL);
+	resm = XResourceManagerString(display);
+	if (!resm)
+		return;
+
+	db = XrmGetStringDatabase(resm);
+	for (p = resources; p < resources + LENGTH(resources); p++)
+		resource_load(db, p->name, p->type, p->dst);
+	XCloseDisplay(display);
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -2697,6 +2790,8 @@ main(int argc, char *argv[])
 	if (!(dpy = XOpenDisplay(NULL)))
 		die("dwm: cannot open display");
 	checkotherwm();
+	XrmInitialize();
+	load_xresources();
 	setup();
 #ifdef __OpenBSD__
 	if (pledge("stdio rpath proc exec", NULL) == -1)
