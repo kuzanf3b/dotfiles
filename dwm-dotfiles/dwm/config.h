@@ -40,7 +40,7 @@ static const int ulineall 		= 0;	/* 1 to show underline on all tags, 0 for just 
 static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",            NULL,       NULL,       0,            1,           -1 },
-    { "Brave-browser",   NULL,       NULL,       1 << 2,       0,           -1 },
+  { "Brave-browser",   NULL,       NULL,       1 << 2,       0,           -1 },
 	{ "firefox",         NULL,       NULL,       1 << 1,       0,           -1 },
 	{ "zen",             NULL,       NULL,       1 << 1,       0,           -1 },
 	{ "discord",         NULL,       NULL,       1 << 3,       0,           -1 },
@@ -131,8 +131,7 @@ ResourcePref resources[] = {
 };
 
 #include "movestack.c"
-static Keychord *keychords[] = {
-    /* Program launcher & system */
+static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){1, {{MODKEY, XK_d}},                          spawn,          {.v = dmenucmd } }),
     &((Keychord){1, {{MODKEY, XK_Return}},                     spawn,          {.v = termcmd } }),
     &((Keychord){1, {{MODKEY, XK_b}},                          togglebar,      {0} }),
@@ -161,6 +160,11 @@ static Keychord *keychords[] = {
     &((Keychord){1, {{MODKEY, XK_period}},                     focusmon,       {.i = +1 } }),
     &((Keychord){1, {{MODKEY|ShiftMask, XK_comma}},            tagmon,         {.i = -1 } }),
     &((Keychord){1, {{MODKEY|ShiftMask, XK_period}},           tagmon,         {.i = +1 } }),
+    
+    /* Monitor Control */
+    &((Keychord){2, {{MODKEY, XK_t}, {0, XK_t}},               toggletag,      {.ui = 1 << 0} }),
+    &((Keychord){2, {{MODKEY, XK_t}, {0, XK_n}},               tagnextmon,     {.ui = 1 << 0} }),
+    &((Keychord){2, {{MODKEY, XK_t}, {0, XK_p}},               tagprevmon,     {.ui = 1 << 0} }),
 
     /* Volume control */
     &((Keychord){1, {{0, XF86XK_AudioRaiseVolume}},            spawn,          {.v = upvol } }),
