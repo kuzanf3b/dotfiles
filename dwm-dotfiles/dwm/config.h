@@ -5,8 +5,8 @@ static unsigned int borderpx  = 1;        /* border pixel of windows */
 static unsigned int snap      = 32;       /* snap pixel */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
-static const int horizpadbar        = 8;        /* horizontal padding for statusbar */
-static const int vertpadbar         = 6;        /* vertical padding for statusbar */
+static const int horizpadbar        = 11;        /* horizontal padding for statusbar */
+static const int vertpadbar         = 9;        /* vertical padding for statusbar */
 static char font[]            = "monospace:size=10";
 static char dmenufont[]       = "monospace:size=10";
 static const char *fonts[]          = { font };
@@ -40,7 +40,7 @@ static const int ulineall 		= 0;	/* 1 to show underline on all tags, 0 for just 
 static const Rule rules[] = {
 	/* class      instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",            NULL,       NULL,       0,            1,           -1 },
-  { "Brave-browser",   NULL,       NULL,       1 << 2,       0,           -1 },
+    { "Brave-browser",   NULL,       NULL,       1 << 2,       0,           -1 },
 	{ "firefox",         NULL,       NULL,       1 << 1,       0,           -1 },
 	{ "zen",             NULL,       NULL,       1 << 1,       0,           -1 },
 	{ "discord",         NULL,       NULL,       1 << 3,       0,           -1 },
@@ -75,7 +75,7 @@ static const Layout layouts[] = {
 	{ ":::",      gaplessgrid },
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
-  { "|+|",      tatami },
+    { "|+|",      tatami },
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ NULL,       NULL },
 };
@@ -225,7 +225,6 @@ static const Button buttons[] = {
 	/* click                event mask      button          function        argument */
 	{ ClkLtSymbol,          0,              Button1,        setlayout,      {0} },
 	{ ClkLtSymbol,          0,              Button3,        setlayout,      {.v = &layouts[2]} },
-	{ ClkWinTitle,          0,              Button2,        zoom,           {0} },
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
