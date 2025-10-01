@@ -38,14 +38,16 @@ static const unsigned int ulinevoffset	= 0;	/* how far above the bottom of the b
 static const int ulineall 		= 0;	/* 1 to show underline on all tags, 0 for just the active ones */
 
 static const Rule rules[] = {
-	/* class      instance    title       tags mask     isfloating   monitor */
+    /* class             instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",            NULL,       NULL,       0,            1,           -1 },
-  { "Brave-browser",   NULL,       NULL,       1 << 2,       0,           -1 },
+    { "Brave-browser",   NULL,       NULL,       1 << 2,       0,           -1 },
 	{ "firefox",         NULL,       NULL,       1 << 1,       0,           -1 },
 	{ "zen",             NULL,       NULL,       1 << 1,       0,           -1 },
 	{ "discord",         NULL,       NULL,       1 << 3,       0,           -1 },
 	{ "Code",            NULL,       NULL,       1 << 4,       0,           -1 },
 	{ "Thunar",          NULL,       NULL,       1 << 5,       0,           -1 },
+	{ "kdenlive",        NULL,       NULL,       1 << 2,       0,           -1 },
+	{ "Inkscape",        NULL,       NULL,       1 << 2,       0,           -1 },
 };
 
 /* layout(s) */
@@ -161,10 +163,29 @@ static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){1, {{MODKEY|ShiftMask, XK_comma}},            tagmon,         {.i = -1 } }),
     &((Keychord){1, {{MODKEY|ShiftMask, XK_period}},           tagmon,         {.i = +1 } }),
     
-    /* Monitor Control */
-    &((Keychord){2, {{MODKEY, XK_t}, {0, XK_t}},               toggletag,      {.ui = 1 << 0} }),
-    &((Keychord){2, {{MODKEY, XK_t}, {0, XK_n}},               tagnextmon,     {.ui = 1 << 0} }),
-    &((Keychord){2, {{MODKEY, XK_t}, {0, XK_p}},               tagprevmon,     {.ui = 1 << 0} }),
+    /* Monitor toggletag */
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_1}},   toggletag,  {.ui = 1 << 0} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_2}},   toggletag,  {.ui = 1 << 1} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_3}},   toggletag,  {.ui = 1 << 2} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_4}},   toggletag,  {.ui = 1 << 3} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_5}},   toggletag,  {.ui = 1 << 4} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_6}},   toggletag,  {.ui = 1 << 5} }),
+
+    /* Monitor tagnextmon */
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_1}},   tagnextmon, {.ui = 1 << 0} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_2}},   tagnextmon, {.ui = 1 << 1} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_3}},   tagnextmon, {.ui = 1 << 2} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_4}},   tagnextmon, {.ui = 1 << 3} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_5}},   tagnextmon, {.ui = 1 << 4} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_6}},   tagnextmon, {.ui = 1 << 5} }),
+
+    /* Monitor tagprevmon */
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_1}},   tagprevmon, {.ui = 1 << 0} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_2}},   tagprevmon, {.ui = 1 << 1} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_3}},   tagprevmon, {.ui = 1 << 2} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_4}},   tagprevmon, {.ui = 1 << 3} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_5}},   tagprevmon, {.ui = 1 << 4} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_6}},   tagprevmon, {.ui = 1 << 5} }),
 
     /* Volume control */
     &((Keychord){1, {{0, XF86XK_AudioRaiseVolume}},            spawn,          {.v = upvol } }),
