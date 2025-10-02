@@ -1,11 +1,12 @@
 ! ───────────────────────────────────────────────
-!  TokyoNight Theme for DWM, dmenu & slock
+!  TokyoNight Theme for DWM, dmenu, slock, st
 ! ───────────────────────────────────────────────
 
 ! ── Fonts ──────────────────────────────────────
 dwm.font:          DroidSansM Nerd Font:size=12
 dmenu.font:        DroidSansM Nerd Font:size=12
 slock.font:        DroidSansM Nerd Font:size=12
+st.font:           DroidSansM Nerd Font:size=11:antialias=true:autohint=true
 
 ! ── Border ─────────────────────────────────────
 dwm.borderpx:      2
@@ -68,3 +69,39 @@ slock.color1:   #f7768e
 ! Text
 slock.textcolor:   #c0caf5
 slock.message:     Locked at %a %d, %H:%M
+
+! ───────────────────────────────────────────────
+!  st TokyoNight Colors
+! ───────────────────────────────────────────────
+
+! ──────────────────────────────
+! Colors
+! ──────────────────────────────
+st.background:   #1a1b26
+st.foreground:   #c0caf5
+st.cursorColor:  #c0caf5
+st.reverse-cursor: #1a1b26
+
+! ──────────────────────────────
+!  ANSI Colors (normal)
+! ──────────────────────────────
+st.color0:  #1a1b26
+st.color1:  #f7768e
+st.color2:  #9ece6a
+st.color3:  #e0af68
+st.color4:  #7aa2f7
+st.color5:  #bb9af7
+st.color6:  #7dcfff
+st.color7:  #a9b1d6
+
+! ──────────────────────────────
+!  ANSI Colors (bright)
+! ──────────────────────────────
+st.color8:  #414868
+st.color9:  #f7768e
+st.color10: #9ece6a
+st.color11: #e0af68
+st.color12: #7aa2f7
+st.color13: #bb9af7
+st.color14: #7dcfff
+st.color15: #c0caf5
