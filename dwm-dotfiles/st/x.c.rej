@@ -1,6 +1,6 @@
 --- x.c
 +++ x.c
-@@ -1175,19 +1198,15 @@ xinit(int cols, int rows)
+@@ -1189,19 +1210,15 @@ xinit(int cols, int rows)
  		| ButtonMotionMask | ButtonPressMask | ButtonReleaseMask;
  	xw.attrs.colormap = xw.cmap;
  
