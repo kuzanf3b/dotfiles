@@ -233,10 +233,10 @@ static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_space}},           setlayout,      {0} }),                 /* toggle last/floating */
 
     /* Screenshot keybindings */
-    &((Keychord){1, {{MODKEY, XK_Print}},                      spawn,          {.v = scrotfullclip} }),  /* Super + Print → full ke clipboard */
-    &((Keychord){1, {{0, XK_Print}},                           spawn,          {.v = scrotselclip} }),   /* Print → select ke clipboard */
-    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_Print}},           spawn,          {.v = scrotfullfile} }),  /* Super + f + Print → full ke file */
-    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_s}},               spawn,          {.v = scrotselfile} }),   /* Super + f + s → select ke file */
+    &((Keychord){1, {{MODKEY, XK_Print}},                      spawn,          {.v = scrotfullclip} }),
+    &((Keychord){1, {{0, XK_Print}},                           spawn,          {.v = scrotselclip} }),
+    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_Print}},           spawn,          {.v = scrotfullfile} }),
+    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_s}},               spawn,          {.v = scrotselfile} }),
 
     /* Tag keys */
     TAGKEYS( XK_1, 0) TAGKEYS( XK_2, 1) TAGKEYS( XK_3, 2)
