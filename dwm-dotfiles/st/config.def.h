@@ -6,7 +6,7 @@
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 static char *font = "monospace:pixelsize=14:antialias=true:autohint=true";
-static int borderpx = 10;
+static int borderpx = 8;
 
 /* How to align the content in the window when the size of the terminal
  * doesn't perfectly match the size of the window. The values are percentages.
@@ -102,7 +102,7 @@ char *termname = "st-256color";
 unsigned int tabspaces = 8;
 
 /* bg opacity */
-float alpha = 0.93, alphaUnfocused = 0.6;
+float alpha = 0.83, alphaUnfocused = 0.6;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
