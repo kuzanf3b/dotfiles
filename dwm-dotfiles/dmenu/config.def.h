@@ -53,7 +53,7 @@ static const unsigned int alphas[SchemeLast][2] = {
 };
 
 /* ── List Layout ───────────────────────────────────────── */
-static unsigned int lines = 5;        /* -l : vertical list line count       */
+static unsigned int lines = 6;        /* -l : vertical list line count       */
 static unsigned int maxhist    = 64;
 static unsigned int border_width = 2; /* default border thickness            */
 
