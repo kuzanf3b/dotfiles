@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "monospace:pixelsize=14:antialias=true:autohint=true";
+static char *font = "DroidSansM Nerd Font:pixelsize=14:antialias=true:autohint=true";
 static int borderpx = 8;
 
 /* How to align the content in the window when the size of the terminal
