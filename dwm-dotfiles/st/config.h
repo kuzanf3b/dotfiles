@@ -5,8 +5,8 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "DrodSansM Nerd Font:pixelsize=14:antialias=true:autohint=true";
-static int borderpx = 2;
+static char *font = "monospace:pixelsize=14:antialias=true:autohint=true";
+static int borderpx = 10;
 
 /* How to align the content in the window when the size of the terminal
  * doesn't perfectly match the size of the window. The values are percentages.
@@ -211,8 +211,11 @@ static uint forcemousemod = ShiftMask;
  * Internal mouse shortcuts.
  * Beware that overloading Button1 will disable the selection.
  */
+static const unsigned int mousescrollincrement = 3;
 static MouseShortcut mshortcuts[] = {
 	/* mask                 button   function        argument       release */
+    { XK_ANY_MOD,           Button4, kscrollup,      {.i = mousescrollincrement} },
+    { XK_ANY_MOD,           Button5, kscrolldown,    {.i = mousescrollincrement} },
 	{ TERMMOD,              Button3, previewimage,   {.s = "feh"} },
 	{ TERMMOD,              Button2, showimageinfo,  {},            1 },
 	{ XK_ANY_MOD,           Button2, selpaste,       {.i = 0},      1 },
@@ -236,6 +239,8 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
+    { ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
+    { ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
     { TERMMOD,              XK_F1,          togglegrdebug,  {.i =  0} },
     { TERMMOD,              XK_F6,          dumpgrstate,    {.i =  0} },
     { TERMMOD,              XK_F7,          unloadimages,   {.i =  0} },
