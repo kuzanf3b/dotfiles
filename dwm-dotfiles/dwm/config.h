@@ -97,13 +97,13 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, NULL };
-static const char *termcmd[] = { "alacritty", NULL };
+static const char *termcmd[] = { "st", NULL };
 
 /* Volome Control */
-static const char *upvol[]   = { "pactl", "set-sink-volume",   "@DEFAULT_SINK@", "+5%", NULL };
-static const char *downvol[] = { "pactl", "set-sink-volume",   "@DEFAULT_SINK@", "-5%", NULL };
-static const char *mutevol[] = { "pactl", "set-sink-mute",     "@DEFAULT_SINK@", "toggle", NULL };
-static const char *unmutevol[] = { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "0", NULL };
+static const char *upvol[]   = { "pamixer", "--increase", "5", NULL };
+static const char *downvol[] = { "pamixer", "--decrease", "5", NULL };
+static const char *mutevol[] = { "pamixer", "--toggle-mute", NULL };
+static const char *unmutevol[] = { "pamixer", "--unmute", NULL };
 
 /* Screenshot commands (POSIX sh compatible) */
 static const char *scrotfullclip[] = { "/bin/sh", "-c", "maim | xclip -selection clipboard -t image/png", NULL };
@@ -233,10 +233,10 @@ static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_space}},           setlayout,      {0} }),                 /* toggle last/floating */
 
     /* Screenshot keybindings */
-    &((Keychord){1, {{MODKEY, XK_Print}},                      spawn,          {.v = scrotfullclip} }),  /* Super + Print → full ke clipboard */
-    &((Keychord){1, {{0, XK_Print}},                           spawn,          {.v = scrotselclip} }),   /* Print → select ke clipboard */
-    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_Print}},           spawn,          {.v = scrotfullfile} }),  /* Super + f + Print → full ke file */
-    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_s}},               spawn,          {.v = scrotselfile} }),   /* Super + f + s → select ke file */
+    &((Keychord){1, {{MODKEY, XK_Print}},                      spawn,          {.v = scrotfullclip} }),
+    &((Keychord){1, {{0, XK_Print}},                           spawn,          {.v = scrotselclip} }),
+    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_Print}},           spawn,          {.v = scrotfullfile} }),
+    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_s}},               spawn,          {.v = scrotselfile} }),
 
     /* Tag keys */
     TAGKEYS( XK_1, 0) TAGKEYS( XK_2, 1) TAGKEYS( XK_3, 2)

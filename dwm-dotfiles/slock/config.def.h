@@ -1,6 +1,6 @@
 /* user and group to drop privileges to */
-static const char *user = "kuzan";
-static const char *group = "kuzan";
+static const char *user = "zen";
+static const char *group = "zen";
 
 static const char *colorname[NUMCOLS] = {
     [INIT] = "black",    /* after initialization */
@@ -29,8 +29,7 @@ static const char *message = "Locked at " __DATE__ " " __TIME__;
 static const char *text_color = "#C0CAF5";
 
 /* text size / font */
-static const char *font_name =
-    "-misc-fixed-medium-r-normal--20-200-75-75-c-100-iso8859-1";
+static const char *font_name = "-misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso8859-1";
 
 /* time in seconds before the monitor shuts down */
 static const int monitortime = 30;

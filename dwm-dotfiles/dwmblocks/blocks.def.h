@@ -4,14 +4,14 @@
 static const Block blocks[] = {
     /* Icon  | Command                                                        |
        Interval | Signal */
-    {"", "/home/kuzan/dotfiles/dwm-dotfiles/dwmblocks/scripts/song.sh", 1, 5},
-    {"", "/home/kuzan/dotfiles/dwm-dotfiles/dwmblocks/scripts/cpu.sh", 1, 3},
-    {"", "/home/kuzan/dotfiles/dwm-dotfiles/dwmblocks/scripts/battery.sh",
+    {"", "/home/zen/dotfiles/dwm-dotfiles/dwmblocks/scripts/song.sh", 1, 5},
+    {"", "/home/zen/dotfiles/dwm-dotfiles/dwmblocks/scripts/cpu.sh", 1, 3},
+    {"", "/home/zen/dotfiles/dwm-dotfiles/dwmblocks/scripts/battery.sh",
     15,
      2},
-    {"", "/home/kuzan/dotfiles/dwm-dotfiles/dwmblocks/scripts/audio.sh", 1,
+    {"", "/home/zen/dotfiles/dwm-dotfiles/dwmblocks/scripts/audio.sh", 1,
     4},
-    {"", "/home/kuzan/dotfiles/dwm-dotfiles/dwmblocks/scripts/date.sh", 60, 1},
+    {"", "/home/zen/dotfiles/dwm-dotfiles/dwmblocks/scripts/date.sh", 60, 1},
 };
 
 // sets delimiter between status commands.

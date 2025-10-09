@@ -97,13 +97,13 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, NULL };
-static const char *termcmd[] = { "alacritty", NULL };
+static const char *termcmd[] = { "st", NULL };
 
 /* Volome Control */
-static const char *upvol[]   = { "pactl", "set-sink-volume",   "@DEFAULT_SINK@", "+5%", NULL };
-static const char *downvol[] = { "pactl", "set-sink-volume",   "@DEFAULT_SINK@", "-5%", NULL };
-static const char *mutevol[] = { "pactl", "set-sink-mute",     "@DEFAULT_SINK@", "toggle", NULL };
-static const char *unmutevol[] = { "pactl", "set-sink-mute", "@DEFAULT_SINK@", "0", NULL };
+static const char *upvol[]   = { "pamixer", "--increase", "5", NULL };
+static const char *downvol[] = { "pamixer", "--decrease", "5", NULL };
+static const char *mutevol[] = { "pamixer", "--toggle-mute", NULL };
+static const char *unmutevol[] = { "pamixer", "--unmute", NULL };
 
 /* Screenshot commands (POSIX sh compatible) */
 static const char *scrotfullclip[] = { "/bin/sh", "-c", "maim | xclip -selection clipboard -t image/png", NULL };
@@ -164,28 +164,28 @@ static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){1, {{MODKEY|ShiftMask, XK_period}},           tagmon,         {.i = +1 } }),
     
     /* Monitor toggletag */
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_1}},   toggletag,  {.ui = 1 << 0} }),
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_2}},   toggletag,  {.ui = 1 << 1} }),
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_3}},   toggletag,  {.ui = 1 << 2} }),
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_4}},   toggletag,  {.ui = 1 << 3} }),
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_5}},   toggletag,  {.ui = 1 << 4} }),
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_6}},   toggletag,  {.ui = 1 << 5} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_1}},   toggletag,      {.ui = 1 << 0} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_2}},   toggletag,      {.ui = 1 << 1} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_3}},   toggletag,      {.ui = 1 << 2} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_4}},   toggletag,      {.ui = 1 << 3} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_5}},   toggletag,      {.ui = 1 << 4} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_6}},   toggletag,      {.ui = 1 << 5} }),
 
     /* Monitor tagnextmon */
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_1}},   tagnextmon, {.ui = 1 << 0} }),
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_2}},   tagnextmon, {.ui = 1 << 1} }),
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_3}},   tagnextmon, {.ui = 1 << 2} }),
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_4}},   tagnextmon, {.ui = 1 << 3} }),
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_5}},   tagnextmon, {.ui = 1 << 4} }),
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_6}},   tagnextmon, {.ui = 1 << 5} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_1}},   tagnextmon,     {.ui = 1 << 0} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_2}},   tagnextmon,     {.ui = 1 << 1} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_3}},   tagnextmon,     {.ui = 1 << 2} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_4}},   tagnextmon,     {.ui = 1 << 3} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_5}},   tagnextmon,     {.ui = 1 << 4} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_6}},   tagnextmon,     {.ui = 1 << 5} }),
 
     /* Monitor tagprevmon */
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_1}},   tagprevmon, {.ui = 1 << 0} }),
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_2}},   tagprevmon, {.ui = 1 << 1} }),
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_3}},   tagprevmon, {.ui = 1 << 2} }),
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_4}},   tagprevmon, {.ui = 1 << 3} }),
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_5}},   tagprevmon, {.ui = 1 << 4} }),
-    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_6}},   tagprevmon, {.ui = 1 << 5} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_1}},   tagprevmon,     {.ui = 1 << 0} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_2}},   tagprevmon,     {.ui = 1 << 1} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_3}},   tagprevmon,     {.ui = 1 << 2} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_4}},   tagprevmon,     {.ui = 1 << 3} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_5}},   tagprevmon,     {.ui = 1 << 4} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_6}},   tagprevmon,     {.ui = 1 << 5} }),
 
     /* Volume control */
     &((Keychord){1, {{0, XF86XK_AudioRaiseVolume}},            spawn,          {.v = upvol } }),
@@ -193,10 +193,10 @@ static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){1, {{0, XF86XK_AudioMute}},                   spawn,          {.v = mutevol } }),
     &((Keychord){1, {{MODKEY|ShiftMask, XK_m}},                spawn,          {.v = unmutevol} }),
 
-    /* Screen lock using SHCMD */
+    /* Screen lock */
     &((Keychord){1, {{MODKEY|ShiftMask, XK_x}},                spawn,          SHCMD("slock") }),
 
-    /* Vanitygaps: Mod+i + key */
+    /* Vanitygaps */
     &((Keychord){2, {{MODKEY, XK_i}, {0, XK_u}},               incrgaps,       {.i = +1 } }),
     &((Keychord){2, {{MODKEY, XK_i}, {ShiftMask, XK_u}},       incrgaps,       {.i = -1 } }),
     &((Keychord){2, {{MODKEY, XK_i}, {0, XK_i}},               incrigaps,      {.i = +1 } }),
@@ -214,7 +214,7 @@ static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){2, {{MODKEY, XK_i}, {0, XK_0}},               togglegaps,     {0} }),
     &((Keychord){2, {{MODKEY, XK_i}, {ShiftMask, XK_0}},       defaultgaps,    {0} }),
 
-    /* Layouts: Mod+a + key */
+    /* Layouts */
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_t}},               setlayout,      {.v = &layouts[0]} }),  /* []= tile */
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_m}},               setlayout,      {.v = &layouts[1]} }),  /* [M] monocle */
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_s}},               setlayout,      {.v = &layouts[2]} }),  /* [@] spiral */
@@ -232,7 +232,7 @@ static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_i}},               setlayout,      {.v = &layouts[14]} }), /*<>> no floating */
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_space}},           setlayout,      {0} }),                 /* toggle last/floating */
 
-    /* Screenshot keybindings */
+    /* Screenshot */
     &((Keychord){1, {{MODKEY, XK_Print}},                      spawn,          {.v = scrotfullclip} }),
     &((Keychord){1, {{0, XK_Print}},                           spawn,          {.v = scrotselclip} }),
     &((Keychord){2, {{MODKEY, XK_s}, {0, XK_Print}},           spawn,          {.v = scrotfullfile} }),

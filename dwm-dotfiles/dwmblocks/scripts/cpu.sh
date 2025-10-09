@@ -20,24 +20,18 @@ totald=$((total - prev_total))
 idled=$((idle - prev_idle))
 usage=$(((1000 * (totald - idled) / totald + 5) / 10))
 
-# Pilih ikon dan warna sesuai TokyoNight
 if ((usage > 75)); then
-  icon="🔥"
-  color="#f7768e" # merah TokyoNight
+  icon="󰈸 "
 elif ((usage > 40)); then
   icon="⚡"
-  color="#e0af68" # kuning TokyoNight
 else
-  icon="💻"
-  color="#9ece6a" # hijau TokyoNight
+  icon=" "
 fi
 
-# Klik event
 if [[ -n "$BLOCK_BUTTON" ]]; then
   top1=$(ps -eo comm,pcpu --sort=-pcpu | sed -n '2,4p')
   notify "CPU ${usage}%" "$top1"
   exit
 fi
 
-# Output untuk DWMbar dengan warna TokyoNight
 echo "$icon ${usage}%"

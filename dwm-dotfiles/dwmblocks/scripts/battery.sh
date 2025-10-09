@@ -6,7 +6,6 @@ notify() {
   command -v notify-send >/dev/null && notify-send -u critical "$1" "$2" -t 5000
 }
 
-# Ambil info battery
 get_battery() {
   if command -v upower >/dev/null; then
     perc=$(upower -i $(upower -e | grep BAT) | awk -F: '/percentage/ {gsub(/ /, "", $2); print $2; exit}')
@@ -21,7 +20,6 @@ get_battery() {
   perc_num=${perc//%/}
 }
 
-# Klik event
 if [[ -n "$BLOCK_BUTTON" ]]; then
   get_battery
   if command -v upower >/dev/null; then
@@ -35,17 +33,14 @@ if [[ -n "$BLOCK_BUTTON" ]]; then
   exit
 fi
 
-# Ambil battery info untuk bar
 get_battery
 
-# Peringatan battery rendah
 if [[ "$perc_num" -le $LOW_BATTERY ]] && [[ "$state" != "charging" ]]; then
   notify "Battery low" "Plug in!"
 fi
 
-# Output DWMbar dengan warna TokyoNight
 if [[ "$perc_num" -le $LOW_BATTERY ]]; then
-  echo "🔋 $perc" # merah TokyoNight
+  echo "󰁻 $perc" # merah TokyoNight
 else
-  echo "🔋 $perc" # biru terang TokyoNight
+  echo "󰂂 $perc" # biru terang TokyoNight
 fi

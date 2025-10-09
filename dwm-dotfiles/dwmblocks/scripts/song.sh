@@ -4,14 +4,12 @@ notify() {
   command -v notify-send >/dev/null && notify-send -u low "$1" "$2" -t 5000
 }
 
-# Grafik animasi sederhana untuk "level musik"
 music_bar() {
   local frames=("▁" "▂" "▃" "▄" "▅" "▆" "▇" "█")
   local idx=$((RANDOM % 8))
   echo "${frames[$idx]}${frames[$(((idx + 2) % 8))]}${frames[$(((idx + 4) % 8))]}"
 }
 
-# Klik event
 if [[ -n "$BLOCK_BUTTON" ]]; then
   if command -v playerctl >/dev/null; then
     info=$(playerctl metadata --format "{{artist}} - {{title}}\nAlbum: {{xesam:album}}\nStatus: {{status}}" 2>/dev/null)
@@ -24,12 +22,11 @@ if [[ -n "$BLOCK_BUTTON" ]]; then
   exit
 fi
 
-# Output DWMbar
 if command -v playerctl >/dev/null; then
   status=$(playerctl status 2>/dev/null)
   meta=$(playerctl metadata --format '{{artist}} - {{title}}' 2>/dev/null)
   if [[ -z $meta || $status == "Stopped" ]]; then
-    echo "" # kosong jika tidak ada lagu
+    echo ""
   else
     [[ ${#meta} -gt 30 ]] && meta="${meta:0:27}..."
     [[ $status == "Playing" ]] && echo "▶ $meta $(music_bar)" || echo "⏸ $meta"
