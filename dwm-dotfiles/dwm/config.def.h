@@ -112,6 +112,9 @@ static const char *scrotselclip[]  = { "/bin/sh", "-c", "maim -s | xclip -select
 static const char *scrotfullfile[] = { "/bin/sh", "-c", "maim \"$HOME/Pictures/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png\"", NULL };
 static const char *scrotselfile[]  = { "/bin/sh", "-c", "maim -s \"$HOME/Pictures/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png\"", NULL };
 
+// Scripts
+static const char *bookmarks[] = { "sh", "-c", "~/.config/bookmarks/bookmarks-dmenu/bookmarks-dmenu.sh", NULL };
+
 /*
  * Xresources preferences to load at startup
  */
@@ -194,6 +197,9 @@ static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){1, {{0, XF86XK_AudioMute}},                   spawn,          {.v = mutevol } }),
     &((Keychord){1, {{MODKEY|ShiftMask, XK_m}},                spawn,          {.v = unmutevol} }),
 
+    /* Scripts */
+    &((Keychord){2, {{MODKEY, XK_o}, {0, XK_b}},               spawn,          {.v = bookmarks} }),
+
     /* Screen lock */
     &((Keychord){1, {{MODKEY|ShiftMask, XK_x}},                spawn,          SHCMD("slock") }),
 
@@ -238,6 +244,7 @@ static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){1, {{0, XK_Print}},                           spawn,          {.v = scrotselclip} }),
     &((Keychord){2, {{MODKEY, XK_s}, {0, XK_Print}},           spawn,          {.v = scrotfullfile} }),
     &((Keychord){2, {{MODKEY, XK_s}, {0, XK_s}},               spawn,          {.v = scrotselfile} }),
+
 
     /* Tag keys */
     TAGKEYS( XK_1, 0) TAGKEYS( XK_2, 1) TAGKEYS( XK_3, 2)
