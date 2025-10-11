@@ -24,12 +24,19 @@ fi
 
 if command -v playerctl >/dev/null; then
   status=$(playerctl status 2>/dev/null)
+  player_name=$(playerctl -p spotify status >/dev/null 2>&1 && echo "spotify" || echo "")
   meta=$(playerctl metadata --format '{{artist}} - {{title}}' 2>/dev/null)
+  
   if [[ -z $meta || $status == "Stopped" ]]; then
     echo ""
   else
     [[ ${#meta} -gt 30 ]] && meta="${meta:0:27}..."
-    [[ $status == "Playing" ]] && echo "▶ $meta $(music_bar)" || echo "⏸ $meta"
+    icon=""
+    [[ $status == "Playing" ]] && icon="" || icon=""
+    
+    [[ $player_name == "spotify" ]] && icon=" $icon"
+    
+    echo "$icon $meta $(music_bar)"
   fi
 elif command -v mpc >/dev/null; then
   cur=$(mpc current)

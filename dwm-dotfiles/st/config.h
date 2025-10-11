@@ -6,7 +6,7 @@
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
 static char *font = "DroidSansM Nerd Font:pixelsize=14:antialias=true:autohint=true";
-static int borderpx = 8;
+static int borderpx = 10;
 
 /* How to align the content in the window when the size of the terminal
  * doesn't perfectly match the size of the window. The values are percentages.

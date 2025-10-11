@@ -7,4 +7,4 @@ if [[ -n "$BLOCK_BUTTON" ]]; then
   exit
 fi
 
-date '+%a, %b %d %I:%M %p'
+date '+%a, %I:%M %p'

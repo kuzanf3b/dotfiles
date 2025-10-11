@@ -1,14 +1,14 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static unsigned int borderpx  = 1;        /* border pixel of windows */
-static unsigned int snap      = 32;       /* snap pixel */
-static int showbar            = 1;        /* 0 means no bar */
-static int topbar             = 1;        /* 0 means bottom bar */
-static const int horizpadbar        = 11;        /* horizontal padding for statusbar */
+static unsigned int borderpx        = 1;        /* border pixel of windows */
+static unsigned int snap            = 32;       /* snap pixel */
+static int showbar                  = 1;        /* 0 means no bar */
+static int topbar                   = 1;        /* 0 means bottom bar */
+static const int horizpadbar        = 8;        /* horizontal padding for statusbar */
 static const int vertpadbar         = 9;        /* vertical padding for statusbar */
-static char font[]            = "monospace:size=10";
-static char dmenufont[]       = "monospace:size=10";
+static char font[]                  = "monospace:size=10";
+static char dmenufont[]             = "monospace:size=10";
 static const char *fonts[]          = { font };
 static char normbgcolor[]           = "#222222";
 static char normbordercolor[]       = "#444444";
@@ -23,10 +23,10 @@ static char *colors[][3] = {
 };
 
 /* gaps (for vanitygaps patch) */
-static int gappih = 8;  /* horiz inner gap between windows */
-static int gappiv = 10;  /* vert inner gap between windows */
-static int gappoh = 8;  /* horiz outer gap between windows and screen edge */
-static int gappov = 12;  /* vert outer gap between windows and screen edge */
+static int gappih    = 8;  /* horiz inner gap between windows */
+static int gappiv    = 10;  /* vert inner gap between windows */
+static int gappoh    = 8;  /* horiz outer gap between windows and screen edge */
+static int gappov    = 12;  /* vert outer gap between windows and screen edge */
 static int smartgaps = 0; /* 1 means no outer gap when there is only one window */
 
 /* tagging */
@@ -40,14 +40,15 @@ static const int ulineall 		= 0;	/* 1 to show underline on all tags, 0 for just 
 static const Rule rules[] = {
     /* class             instance    title       tags mask     isfloating   monitor */
 	{ "Gimp",            NULL,       NULL,       0,            1,           -1 },
-    { "Brave-browser",   NULL,       NULL,       1 << 2,       0,           -1 },
+    { "zen",             NULL,       NULL,       1 << 1,       0,           -1 },
 	{ "firefox",         NULL,       NULL,       1 << 1,       0,           -1 },
-	{ "zen",             NULL,       NULL,       1 << 1,       0,           -1 },
+    { "Brave-browser",   NULL,       NULL,       1 << 2,       0,           -1 },
+    { "kdenlive",        NULL,       NULL,       1 << 2,       0,           -1 },
+    { "Inkscape",        NULL,       NULL,       1 << 2,       0,           -1 },
 	{ "discord",         NULL,       NULL,       1 << 3,       0,           -1 },
 	{ "Code",            NULL,       NULL,       1 << 4,       0,           -1 },
 	{ "Thunar",          NULL,       NULL,       1 << 5,       0,           -1 },
-	{ "kdenlive",        NULL,       NULL,       1 << 2,       0,           -1 },
-	{ "Inkscape",        NULL,       NULL,       1 << 2,       0,           -1 },
+	{ "obs",             NULL,       NULL,       1 << 9,       0,           -1 },
 };
 
 /* layout(s) */

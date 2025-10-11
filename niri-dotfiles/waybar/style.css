@@ -1,0 +1,100 @@
+* {
+    font-family: "DroidSansM Nerd Font", monospace;
+    font-size: 16px;
+}
+
+window#waybar {
+    background-color: #1a1b26;
+    color: #a9b1d6;
+}
+
+#workspaces button {
+  all: unset;
+  padding: 0 6px;
+  color: #9d7cd8;
+  transition: all 0.3s ease;
+}
+
+#workspaces button.default {
+    color: #bb9af7;
+    text-shadow: 0 0 8px #bb9af7;
+}
+
+#workspaces button.empty {
+    color: #3b4261;
+    text-shadow: 0 0 8px #3b4261;
+}
+
+#workspaces button.active {
+    color: #bb9af7;
+    text-shadow: 0 0 5px #bb9af7;
+    animation: pulse 1.2s infinite ease-in-out;
+}
+
+#workspaces button.urgent {
+    color: #f7768e;
+    text-shadow: 0 0 5px #f7768e;
+}
+#clock,
+#mpd,
+#cava,
+#custom-sep,
+#battery,
+#cpu,
+#memory,
+#disk,
+#network,
+#pulseaudio,
+#tray {
+    padding: 0 6px;
+    color: #a9b1d6;
+}
+
+#custom-sep {
+    color: #565f89;
+}
+
+#clock {
+    color: #7aa2f7;
+}
+
+#battery {
+    color: #7dcfff;
+}
+
+#disk {
+    color: #e0af68;
+}
+
+#cava {
+    color: #e0af68;
+}
+
+#mpd {
+    color: #e0af68;
+}
+
+#memory {
+    color: #bb9af7;
+}
+
+#cpu {
+    color: #9ece6a;
+}
+
+#network {
+    color: #7aa2f7;
+}
+
+#pulseaudio {
+    color: #7aa2f7;
+}
+
+#network.disconnected {
+    color: #f7768e;
+}
+
+#tray {
+    color: #7dcfff;
+}
+

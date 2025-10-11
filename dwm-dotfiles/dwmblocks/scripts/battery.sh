@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 LOW_BATTERY=20
+CRITICAL_BATTERY=10
 
 notify() {
   command -v notify-send >/dev/null && notify-send -u critical "$1" "$2" -t 5000
@@ -8,8 +9,9 @@ notify() {
 
 get_battery() {
   if command -v upower >/dev/null; then
-    perc=$(upower -i $(upower -e | grep BAT) | awk -F: '/percentage/ {gsub(/ /, "", $2); print $2; exit}')
-    state=$(upower -i $(upower -e | grep BAT) | awk -F: '/state/ {gsub(/ /, "", $2); print $2; exit}')
+    BAT_PATH=$(upower -e | grep BAT)
+    perc=$(upower -i "$BAT_PATH" | awk -F: '/percentage/ {gsub(/ /, "", $2); print $2; exit}')
+    state=$(upower -i "$BAT_PATH" | awk -F: '/state/ {gsub(/ /, "", $2); print $2; exit}')
   elif command -v acpi >/dev/null; then
     perc=$(acpi -b | awk -F', ' '{print $2; exit}')
     state=$(acpi -b | awk -F', ' '{gsub(/ /,"",$1); print $1; exit}')
@@ -23,7 +25,7 @@ get_battery() {
 if [[ -n "$BLOCK_BUTTON" ]]; then
   get_battery
   if command -v upower >/dev/null; then
-    info=$(upower -i $(upower -e | grep BAT) | grep -E 'state|percentage|time')
+    info=$(upower -i "$BAT_PATH" | grep -E 'state|percentage|time')
   elif command -v acpi >/dev/null; then
     info=$(acpi -b)
   else
@@ -35,12 +37,41 @@ fi
 
 get_battery
 
-if [[ "$perc_num" -le $LOW_BATTERY ]] && [[ "$state" != "charging" ]]; then
-  notify "Battery low" "Plug in!"
+# === Notifikasi ===
+if [[ "$perc_num" -le $CRITICAL_BATTERY ]]; then
+  notify "Battery Critical" "Battery is critically low! Plug in now!"
+elif [[ "$perc_num" -le $LOW_BATTERY ]] && [[ "$state" != "charging" ]]; then
+  notify "Battery Low" "Battery low: $perc"
 fi
 
-if [[ "$perc_num" -le $LOW_BATTERY ]]; then
-  echo "󰁻 $perc" # merah TokyoNight
+# === Icon berdasarkan kondisi ===
+if [[ "$state" == "charging" ]] || [[ "$state" == "fully-charged" ]]; then
+  if   [[ "$perc_num" -le 10 ]]; then icon="󰢜"
+  elif [[ "$perc_num" -le 20 ]]; then icon="󰂆"
+  elif [[ "$perc_num" -le 30 ]]; then icon="󰂇"
+  elif [[ "$perc_num" -le 40 ]]; then icon="󰂈"
+  elif [[ "$perc_num" -le 50 ]]; then icon="󰢝"
+  elif [[ "$perc_num" -le 60 ]]; then icon="󰂉"
+  elif [[ "$perc_num" -le 70 ]]; then icon="󰢞"
+  elif [[ "$perc_num" -le 80 ]]; then icon="󰂊"
+  elif [[ "$perc_num" -le 90 ]]; then icon="󰂋"
+  else icon="󰂅"
+  fi
 else
-  echo "󰂂 $perc" # biru terang TokyoNight
+  if   [[ "$perc_num" -le 5 ]];  then icon="󰂎"
+  elif [[ "$perc_num" -le 10 ]]; then icon="󰁺"
+  elif [[ "$perc_num" -le 20 ]]; then icon="󰁻"
+  elif [[ "$perc_num" -le 30 ]]; then icon="󰁼"
+  elif [[ "$perc_num" -le 40 ]]; then icon="󰁽"
+  elif [[ "$perc_num" -le 50 ]]; then icon="󰁾"
+  elif [[ "$perc_num" -le 60 ]]; then icon="󰁿"
+  elif [[ "$perc_num" -le 70 ]]; then icon="󰂀"
+  elif [[ "$perc_num" -le 80 ]]; then icon="󰂁"
+  elif [[ "$perc_num" -le 90 ]]; then icon="󰂂"
+  else icon="󰁹"
+  fi
 fi
+
+echo "$icon $perc"
+
+echo "$icon $perc"

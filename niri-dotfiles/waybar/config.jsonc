@@ -1,0 +1,142 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 28,
+    "spacing": 2,
+
+    "modules-left": [
+        "niri/workspaces",
+        "custom/sep",
+        "cpu"
+    ],
+
+    "modules-center": [
+        "clock"
+    ],
+
+    "modules-right": [
+        "pulseaudio",
+        "custom/sep",
+        "network",
+        "custom/sep",
+        "battery",
+        "custom/sep",
+        "tray"
+    ],
+
+    "niri/workspaces": {
+      "disable-scroll": true,
+      "all-outputs": true,
+      "warp-on-scroll": false,
+      "format": "{icon}",
+         "format-icons": {
+         "default": "󰄰",
+         "active": "󰺕",
+         "urgent": "󰄰",
+         "empty": "󰄰"
+         }
+    },
+
+    "clock": {
+        "format": "{:%I:%M %p}",
+        "format-alt": "{:%a, %d %b}"
+    },
+
+    "cpu": {
+        "format": " {usage}%",
+        "tooltip": false
+    },
+
+    "mpris": {
+        "player": "firefox,zen,spotify",
+        "format": " {artist} - {title}",
+        "format-paused": " {artist} - {title}",
+        "format-stopped": " No Music",
+        "interval": 2,
+        "on-click": "playerctl play-pause",
+        "on-click-right": "playerctl next",
+        "on-click-middle": "playerctl previous",
+        "tooltip-format": "{player_name}\n{title}\n{artist}"
+    },
+
+    "mpd": {
+        "format": "{stateIcon} {artist} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S}) ",
+        "format-disconnected": "Disconnected ",
+        "format-stopped": " Stopped ",
+        "interval": 10,
+        "state-icons": {
+            "paused": "",
+            "playing": ""
+        },
+        "tooltip-format": "MPD (connected)",
+        "tooltip-format-disconnected": "MPD (disconnected)"
+    },
+
+    "cava": {
+        "cava_config": "$XDG_CONFIG_HOME/cava/cava.conf",
+        "framerate": 30,
+        "autosens": 1,
+        "bars": 14,
+        "lower_cutoff_freq": 50,
+        "higher_cutoff_freq": 10000,
+        "hide_on_silence": false,
+        "method": "pipewire",
+        "source": "auto",
+        "stereo": true,
+        "bar_delimiter": 0,
+        "noise_reduction": 0.77,
+        "input_delay": 2,
+        "format-icons": ["▁", "▂", "▃", "▄", "▅", "▆", "▇", "█" ],
+        "actions": {
+                   "on-click-right": "mode"
+                   }
+    },
+
+    "pulseaudio": {
+    "format": " {icon} {volume}%",
+    "format-bluetooth": "{volume}% {icon}",
+    "format-muted": "",
+    "format-icons": {
+        "headphone": "",
+        "phone": "",
+        "phone-muted": "",
+        "portable": "",
+        "default": ["", ""]
+    },
+    "scroll-step": 1,
+    "on-click": "pavucontrol",
+    "ignored-sinks": ["Easy Effects Sink"]
+    },
+
+    "memory": {
+        "format": "  {used}GiB",
+        "tooltip": false
+    },
+
+    "network": {
+        "format": "󰤨  {signalStrength}%",
+        "format-disconnected": "󰤭  Diconnected"
+    },
+
+    "battery": {
+        "format": "  {capacity}%",
+        "format-plugged": "  {capacity}%",
+        "states": {
+            "good": 90,
+            "normal": 60,
+            "warning": 30,
+            "critical": 15
+        },
+        "format-icons": ["", "", "", "", ""]
+    },
+
+    "custom/sep": {
+        "format": "•",
+        "interval": 0
+    },
+
+    "tray": {
+        "icon-size": 14,
+        "spacing": 8
+    }
+}
