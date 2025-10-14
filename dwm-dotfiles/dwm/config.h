@@ -113,7 +113,9 @@ static const char *scrotfullfile[] = { "/bin/sh", "-c", "maim \"$HOME/Pictures/S
 static const char *scrotselfile[]  = { "/bin/sh", "-c", "maim -s \"$HOME/Pictures/Screenshot_$(date +%Y-%m-%d_%H-%M-%S).png\"", NULL };
 
 // Scripts
-static const char *bookmarks[] = { "sh", "-c", "~/.config/bookmarks/bookmarks-dmenu/bookmarks-dmenu.sh", NULL };
+static const char *bookmarks[] = { "sh", "-c", "~/.config/scripts/bookmarks//bookmarks-dmenu.sh", NULL };
+static const char *wallpapers[] = { "sh", "-c", "~/.config/scripts/wallpapers/wallpapers-dmenu.sh", NULL };
+static const char *session[] = { "sh", "-c", "~/.config/scripts/system-menu/sm-dmenu.sh", NULL };
 
 /*
  * Xresources preferences to load at startup
@@ -199,6 +201,8 @@ static Keychord *keychords[] = { /* Program launcher & system */
 
     /* Scripts */
     &((Keychord){2, {{MODKEY, XK_o}, {0, XK_b}},               spawn,          {.v = bookmarks} }),
+    &((Keychord){2, {{MODKEY, XK_o}, {0, XK_w}},               spawn,          {.v = wallpapers} }),
+    &((Keychord){2, {{MODKEY, XK_o}, {0, XK_s}},               spawn,          {.v = session} }),
 
     /* Screen lock */
     &((Keychord){1, {{MODKEY|ShiftMask, XK_x}},                spawn,          SHCMD("slock") }),

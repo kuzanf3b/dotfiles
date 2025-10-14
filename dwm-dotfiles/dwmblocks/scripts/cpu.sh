@@ -5,6 +5,7 @@ notify() {
 }
 
 statfile="/tmp/dwm_cpu_prev"
+
 read -r _ user nice system idle iowait irq softirq steal _ < <(grep '^cpu ' /proc/stat)
 total=$((user + nice + system + idle + iowait + irq + softirq + steal))
 
@@ -16,21 +17,22 @@ else
 fi
 
 echo "$total $idle" >"$statfile"
+
 totald=$((total - prev_total))
 idled=$((idle - prev_idle))
 usage=$(((1000 * (totald - idled) / totald + 5) / 10))
 
 if ((usage > 75)); then
-  icon="󰈸 "
+  icon="󰈸"
 elif ((usage > 40)); then
   icon="⚡"
 else
-  icon=" "
+  icon=""
 fi
 
 if [[ -n "$BLOCK_BUTTON" ]]; then
-  top1=$(ps -eo comm,pcpu --sort=-pcpu | sed -n '2,4p')
-  notify "CPU ${usage}%" "$top1"
+  top_processes=$(ps -eo comm,pcpu --sort=-pcpu | awk 'NR==2,NR==4 {printf "%s: %s%%\n", $1, $2}')
+  notify "CPU Usage: ${usage}%" "$top_processes"
   exit
 fi
 

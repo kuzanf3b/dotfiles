@@ -12,40 +12,49 @@ music_bar() {
 
 if [[ -n "$BLOCK_BUTTON" ]]; then
   if command -v playerctl >/dev/null; then
-    info=$(playerctl metadata --format "{{artist}} - {{title}}\nAlbum: {{xesam:album}}\nStatus: {{status}}" 2>/dev/null)
+    info=$(playerctl metadata --format "🎧 {{artist}} - {{title}}\n💿 Album: {{xesam:album}}\n⏯ Status: {{status}}" 2>/dev/null)
   elif command -v mpc >/dev/null; then
     info="$(mpc current)\n$(mpc status | head -n2)"
   else
-    info="No player found"
+    info="No active music player"
   fi
-  [[ -n "$info" ]] && notify "Now Playing" "$info"
+  [[ -n "$info" ]] && notify "󰎈 Now Playing" "$info"
   exit
 fi
 
 if command -v playerctl >/dev/null; then
   status=$(playerctl status 2>/dev/null)
-  player_name=$(playerctl -p spotify status >/dev/null 2>&1 && echo "spotify" || echo "")
+  player_name=$(playerctl -l 2>/dev/null | grep -i spotify && echo "spotify")
   meta=$(playerctl metadata --format '{{artist}} - {{title}}' 2>/dev/null)
   
   if [[ -z $meta || $status == "Stopped" ]]; then
     echo ""
-  else
-    [[ ${#meta} -gt 30 ]] && meta="${meta:0:27}..."
-    icon=""
-    [[ $status == "Playing" ]] && icon="" || icon=""
-    
-    [[ $player_name == "spotify" ]] && icon=" $icon"
-    
-    echo "$icon $meta $(music_bar)"
+    exit
   fi
+
+  [[ ${#meta} -gt 30 ]] && meta="${meta:0:27}…"
+
+  if [[ $status == "Playing" ]]; then
+    icon=""
+  elif [[ $status == "Paused" ]]; then
+    icon=""
+  else
+    icon=""
+  fi
+
+  [[ $player_name == "spotify" ]] && icon=" $icon"
+  
+  echo "$icon $meta $(music_bar)"
+
 elif command -v mpc >/dev/null; then
   cur=$(mpc current)
   if [[ -z $cur ]]; then
     echo ""
   else
-    [[ ${#cur} -gt 30 ]] && cur="${cur:0:27}..."
-    echo "♫ $cur $(music_bar)"
+    [[ ${#cur} -gt 30 ]] && cur="${cur:0:27}…"
+    echo " $cur $(music_bar)"
   fi
+
 else
   echo ""
 fi

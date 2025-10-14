@@ -1,17 +1,40 @@
 #!/usr/bin/env bash
 
-notify() { command -v notify-send >/dev/null && notify-send -u low "$1" "$2" -t 5000; }
+notify() {
+  local title=${1:-"󰝚 Audio"}
+  local body=${2:-""}
+  if command -v notify-send >/dev/null; then
+    notify-send \
+      -u low \
+      -t 3500 \
+      -h string:bgcolor:"#393552" \
+      -h string:fgcolor:"#e0def4" \
+      -h string:framecolor:"#3e8fb0" \
+      "$title" "$body"
+  fi
+}
 
 if [[ -n "$BLOCK_BUTTON" ]]; then
   if command -v pactl >/dev/null; then
     sink=$(pactl info | awk -F": " '/Default Sink/ {print $2}')
-    info=$(pactl list sinks | grep -A15 "$sink")
+    vol=$(pactl get-sink-volume "$sink" | awk '{print $5; exit}')
+    mute=$(pactl get-sink-mute "$sink" | awk '{print $2; exit}')
+    if [[ $mute == yes ]]; then
+      notify "󰝟 Muted" "Audio output is muted"
+    else
+      notify "󰕾 Volume" "$vol"
+    fi
   elif command -v amixer >/dev/null; then
-    info=$(amixer get Master)
+    vol=$(amixer get Master | awk -F'[][]' '/%/ {print $2; exit}')
+    mute=$(amixer get Master | grep '\[off\]')
+    if [[ -n $mute ]]; then
+      notify "󰝟 Muted" "Audio output is muted"
+    else
+      notify "󰕾 Volume" "$vol"
+    fi
   else
-    info="Audio not available"
+    notify "󰋋 Audio" "Audio system not available"
   fi
-  notify "Audio" "$info"
   exit
 fi
 
@@ -25,5 +48,5 @@ elif command -v amixer >/dev/null; then
   mute=$(amixer get Master | grep '\[off\]')
   [[ -n $mute ]] && echo "󰝟 mute" || echo "󰕾 $vol"
 else
-  echo "Audio N/A"
+  echo "󰋋 Audio N/A"
 fi
