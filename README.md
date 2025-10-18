@@ -68,12 +68,14 @@ Fonts:
 
 ## 🧬 Structure
 
+```
 dotfiles/
 ├── dwl-dotfiles/
 ├── dwm-dotfiles/
 ├── hyprland-dotfiles/
 ├── niri-dotfiles/
 └── mango-dotfiles/
+```
 
 Each directory contains its own `.config/` ready to symlink or `stow`.
 
