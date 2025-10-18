@@ -56,14 +56,6 @@ Fonts:
 
 ---
 
-## 🖼️ Previews
-
-| dwl | dwm | hyprland | niri | mango |
-|-----|-----|----------|------|-------|
-| ![dwl](dwl-dotfiles/preview.png) | ![dwm](dwm-dotfiles/preview.png) | ![hyprland](hyprland-dotfiles/preview.png) | ![niri](niri-dotfiles/preview.png) | ![mango](mango-dotfiles/preview.png) |
-
----
-
 ## 🧬 Structure
 
 ```
