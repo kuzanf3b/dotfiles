@@ -1,0 +1,119 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 28,
+    "spacing": 2,
+    "modules-left": [
+        "ext/workspaces",
+        "custom/sep",
+        "dwl/window"
+    ],
+    "modules-center": [
+        "mpris"
+    ],
+    "modules-right": [
+        "network",
+        "custom/sep",
+        "pulseaudio",
+        "custom/sep",
+        "battery",
+        "custom/sep",
+        "clock"
+    ],
+    "ext/workspaces": {
+        "format": "{icon}",
+        "ignore-hidden": true,
+        "on-click": "activate",
+        "on-click-right": "deactivate",
+        "sort-by-id": true,
+        "format-icons": {
+            "default": "󰝦",
+            "active": "󰝥",
+            "urgent": "󰝦"
+        }
+    },
+    "dwl/window": {
+        "format": "[{layout}]"
+    },
+    "clock": {
+        "format": "{:%I:%M %p}",
+        "format-alt": "{:%a, %d %b}"
+    },
+    "mpris": {
+        "format": "   {artist} - {title}",
+        "format-paused": "  {artist} - {title}",
+        "interval": 2,
+        "on-click": "playerctl play-pause",
+        "on-click-right": "playerctl next",
+        "on-click-middle": "playerctl previous",
+        "tooltip-format": "{player_name}\n{title}\n{artist}"
+    },
+    "custom/pipewire": {
+        "tooltip": false,
+        "max-length": 6,
+        "exec": "$HOME/.config/waybar/scripts/pipewire.sh",
+        "on-click": "pavucontrol",
+        "on-click-right": "qpwgraph"
+    },
+    "custom/battery": {
+        "tooltip": false,
+        "max-length": 6,
+        "exec": "$HOME/.config/waybar/scripts/battery.sh",
+        "on-click": "pavucontrol",
+        "on-click-right": "qpwgraph"
+    },
+    "network": {
+        "format": "󰤨  {signalStrength}%",
+        "format-disconnected": " Diconnected"
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-bluetooth": "{icon} {volume}%",
+        "format-muted": "",
+        "format-icons": {
+            "headphone": "",
+            "default": [
+                "",
+                ""
+            ]
+        },
+        "scroll-step": 1,
+        "on-click": "pavucontrol",
+        "ignored-sinks": [
+            "Easy Effects Sink"
+        ]
+    },
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "tooltip": false,
+        "menu": "on-click",
+        "menu-file": "~/.config/waybar/scripts/battery_menu.xml",
+        "menu-actions": {
+            "performance": "powerprofilesctl set performance",
+            "balanced": "powerprofilesctl set balanced",
+            "powersaver": "powerprofilesctl set power-saver"
+        },
+        "format-plugged": "",
+        "format-icons": [
+            "󰂎",
+            "󰁻",
+            "󰁽",
+            "󰁿",
+            "󰂁",
+            "󰁹"
+        ]
+    },
+    "custom/sep": {
+        "format": "•",
+        "interval": 0
+    },
+    "tray": {
+        "icon-size": 20,
+        "spacing": 8
+    }
+}

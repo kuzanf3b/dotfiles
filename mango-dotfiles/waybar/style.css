@@ -1,0 +1,113 @@
+* {
+  font-family: "JetBrainsMono Nerd Font", "DroidSansM Nerd Font";
+  font-size: 16px;
+}
+
+window#waybar {
+  background-color: #1a1b26;
+  color: #c8d3f5;
+}
+
+#workspaces button {
+  all: unset;
+  padding: 0 6px;
+  color: #565f89;
+}
+
+#workspaces button.default {
+  color: #565f89;
+  text-shadow: none;
+}
+
+#workspaces button.active {
+  color: #9d82cf;
+  text-shadow: 0 0 6px #c9a9ff80;
+}
+
+#workspaces button.urgent {
+  color: #d17b8f;
+  text-shadow: 0 0 5px #d17b8f70;
+}
+
+#clock,
+#mpd,
+#cava,
+#custom-sep,
+#battery,
+#cpu,
+#memory,
+#disk,
+#network,
+#pulseaudio,
+#tray {
+  padding: 0 6px;
+  color: #c0caf5;
+}
+
+#custom-sep {
+  color: #414868;
+}
+
+#clock {
+  color: #7aa2f7;
+}
+
+#battery {
+  color: #e0af68;
+}
+
+#disk {
+  color: #bb9af7;
+}
+
+#cava {
+  color: #e0af68;
+}
+
+#dwl-window {
+  color: #ff9e64;
+}
+
+#mpd {
+  color: #bb9af7;
+}
+
+#memory {
+  color: #9ece6a;
+}
+
+#cpu {
+  color: #9ece6a;
+}
+
+#network {
+  color: #9ece6a;
+}
+
+#pulseaudio {
+  color: #7dcfff;
+}
+
+#custom-pipewire {
+  color: #7dcfff;
+}
+
+#network.disconnected {
+  color: #f7768e;
+}
+
+#tray {
+  color: #e0af68;
+}
+
+@keyframes pulse {
+  0% {
+    text-shadow: 0 0 5px #7dcfff;
+  }
+  50% {
+    text-shadow: 0 0 15px #7dcfff;
+  }
+  100% {
+    text-shadow: 0 0 5px #7dcfff;
+  }
+}
