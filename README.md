@@ -1,4 +1,3 @@
-```markdown
 # 🌌 Dotfiles Collection
 
 [![Arch Linux](https://img.shields.io/badge/OS-ArchLinux-blue?logo=archlinux)](https://archlinux.org/)  
@@ -99,4 +98,3 @@ Clean, minimal, and functional — every setup has only what’s necessary to wo
 ---
 
 > 🩵 Handcrafted on Arch Linux. Built for productivity, curiosity, and aesthetic enjoyment.
-```
