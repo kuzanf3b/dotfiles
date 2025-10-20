@@ -5,15 +5,8 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "DroidSansM Nerd Font:pixelsize=14:antialias=true:autohint=true";
-static int borderpx = 10;
-
-/* How to align the content in the window when the size of the terminal
- * doesn't perfectly match the size of the window. The values are percentages.
- * 50 means center, 0 means flush left/top, 100 means flush right/bottom.
- */
-static int anysize_halign = 50;
-static int anysize_valign = 50;
+static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
+static int borderpx = 2;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -30,8 +23,7 @@ char *scroll = NULL;
 char *stty_args = "stty raw pass8 nl -echo -iexten -cstopb 38400";
 
 /* identification sequence returned in DA and DECID */
-/* By default, use the same one as kitty. */
-char *vtiden = "\033[?62c";
+char *vtiden = "\033[?6c";
 
 /* Kerning / character bounding-box multipliers */
 static float cwscale = 1.0;
@@ -101,9 +93,6 @@ char *termname = "st-256color";
  */
 unsigned int tabspaces = 8;
 
-/* bg opacity */
-float alpha = 0.83, alphaUnfocused = 0.6;
-
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 	/* 8 normal colors */
@@ -131,7 +120,8 @@ static const char *colorname[] = {
 	/* more colors can be added after 255 to use with DefaultXX */
 	"#cccccc",
 	"#555555",
-	"black",
+	"gray90", /* default foreground colour */
+	"black", /* default background colour */
 };
 
 
@@ -139,11 +129,10 @@ static const char *colorname[] = {
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-unsigned int defaultfg = 7;
-unsigned int defaultbg = 0;
+unsigned int defaultfg = 258;
+unsigned int defaultbg = 259;
 unsigned int defaultcs = 256;
 static unsigned int defaultrcs = 257;
-unsigned int bg = 0, bgUnfocused = 16;
 
 /*
  * Default shape of cursor
@@ -175,55 +164,28 @@ static unsigned int mousebg = 0;
 static unsigned int defaultattr = 11;
 
 /*
- * Graphics configuration
- */
-
-/// The template for the cache directory.
-const char graphics_cache_dir_template[] = "/tmp/st-images-XXXXXX";
-/// The max size of a single image file, in bytes.
-unsigned graphics_max_single_image_file_size = 20 * 1024 * 1024;
-/// The max size of the cache, in bytes.
-unsigned graphics_total_file_cache_size = 300 * 1024 * 1024;
-/// The max ram size of an image or placement, in bytes.
-unsigned graphics_max_single_image_ram_size = 100 * 1024 * 1024;
-/// The max total size of all images loaded into RAM.
-unsigned graphics_max_total_ram_size = 300 * 1024 * 1024;
-/// The max total number of image placements and images.
-unsigned graphics_max_total_placements = 4096;
-/// The ratio by which limits can be exceeded. This is to reduce the frequency
-/// of image removal.
-double graphics_excess_tolerance_ratio = 0.05;
-/// The minimum delay between redraws caused by animations, in milliseconds.
-unsigned graphics_animation_min_delay = 20;
-
-/*
  * Force mouse select/shortcuts while mask is active (when MODE_MOUSE is set).
  * Note that if you want to use ShiftMask with selmasks, set this to an other
  * modifier, set to 0 to not use it.
  */
 static uint forcemousemod = ShiftMask;
 
-/* Internal keyboard shortcuts. */
-#define MODKEY Mod1Mask
-#define TERMMOD (ControlMask|ShiftMask)
-
 /*
  * Internal mouse shortcuts.
  * Beware that overloading Button1 will disable the selection.
  */
-static const unsigned int mousescrollincrement = 3;
 static MouseShortcut mshortcuts[] = {
 	/* mask                 button   function        argument       release */
-    { XK_ANY_MOD,           Button4, kscrollup,      {.i = mousescrollincrement} },
-    { XK_ANY_MOD,           Button5, kscrolldown,    {.i = mousescrollincrement} },
-	{ TERMMOD,              Button3, previewimage,   {.s = "feh"} },
-	{ TERMMOD,              Button2, showimageinfo,  {},            1 },
 	{ XK_ANY_MOD,           Button2, selpaste,       {.i = 0},      1 },
 	{ ShiftMask,            Button4, ttysend,        {.s = "\033[5;2~"} },
 	{ XK_ANY_MOD,           Button4, ttysend,        {.s = "\031"} },
 	{ ShiftMask,            Button5, ttysend,        {.s = "\033[6;2~"} },
 	{ XK_ANY_MOD,           Button5, ttysend,        {.s = "\005"} },
 };
+
+/* Internal keyboard shortcuts. */
+#define MODKEY Mod1Mask
+#define TERMMOD (ControlMask|ShiftMask)
 
 static Shortcut shortcuts[] = {
 	/* mask                 keysym          function        argument */
@@ -239,14 +201,6 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
 	{ ShiftMask,            XK_Insert,      selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
-    { ShiftMask,            XK_Page_Up,     kscrollup,      {.i = -1} },
-    { ShiftMask,            XK_Page_Down,   kscrolldown,    {.i = -1} },
-    { TERMMOD,              XK_F1,          togglegrdebug,  {.i =  0} },
-    { TERMMOD,              XK_F6,          dumpgrstate,    {.i =  0} },
-    { TERMMOD,              XK_F7,          unloadimages,   {.i =  0} },
-    { TERMMOD,              XK_F8,          toggleimages,   {.i =  0} },
-	{ MODKEY,               XK_l,           copyurl,        {.i =  0} },
-	{ MODKEY|ShiftMask,     XK_L,           copyurl,        {.i =  1} },
 };
 
 /*
