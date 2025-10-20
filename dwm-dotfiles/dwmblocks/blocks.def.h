@@ -5,7 +5,7 @@ static const Block blocks[] = {
     /* Icon  | Command                                                        |
        Interval | Signal */
     {"", "/home/zen/Projects/dotfiles/dwm-dotfiles/dwmblocks/scripts/song.sh", 1, 5},
-    {"", "/home/zen/Projects/dotfiles/dwm-dotfiles/dwmblocks/scripts/cpu.sh", 1, 3},
+    {"", "/home/zen/Projects/dotfiles/dwm-dotfiles/dwmblocks/scripts/network.sh", 1, 3},
     {"", "/home/zen/Projects/dotfiles/dwm-dotfiles/dwmblocks/scripts/battery.sh",
     15,
      2},
