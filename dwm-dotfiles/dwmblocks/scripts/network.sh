@@ -1,70 +1,71 @@
 #!/usr/bin/env bash
-# Combined DWM blocks network indicator
+# Dynamic Wi-Fi icon levels
 
-ICON_WIFI=""
+# Icons (requires Nerd Font)
+ICON_WIFI_0=""   # disconnected
+ICON_WIFI_25="󰤟"  # weak
+ICON_WIFI_50="󰤢"  # medium
+ICON_WIFI_75="󰤥"  # strong
+ICON_WIFI_100="󰤨" # full
 ICON_ETH=""
-ICON_DOWN="睊"
 
-# Ethernet Check 
+# Ethernet check
 get_eth() {
-  for if in /sys/class/net/*; do
-    iface=$(basename "$if")
-    [ "$iface" = "lo" ] && continue
-    [ -d "/sys/class/net/$iface/wireless" ] && continue
-    state=$(cat "/sys/class/net/$iface/operstate" 2>/dev/null)
-    [ "$state" = "up" ] && echo "$iface" && return
-  done
+    for if in /sys/class/net/*; do
+        iface=$(basename "$if")
+        [ "$iface" = "lo" ] && continue
+        [ -d "/sys/class/net/$iface/wireless" ] && continue
+        state=$(cat "/sys/class/net/$iface/operstate" 2>/dev/null)
+        [ "$state" = "up" ] && echo "$iface" && return
+    done
 }
 
 ethif=$(get_eth)
 
 if [ -n "$ethif" ]; then
-  # Ethernet aktif
-  # kita kasih power "100" karena koneksi kabel stabil
-  printf "%s 100%%\n" "$ICON_ETH"
-  exit 0
+    printf "%s 100%%\n" "$ICON_ETH"
+    exit 0
 fi
 
-# ===== WiFi Check =====
+# Wi-Fi check
 get_wifi_iface() {
-  for if in /sys/class/net/*; do
-    iface=$(basename "$if")
-    [ -d "/sys/class/net/$iface/wireless" ] || continue
-    state=$(cat "/sys/class/net/$iface/operstate" 2>/dev/null)
-    [ "$state" = "up" ] && echo "$iface" && return
-  done
+    for if in /sys/class/net/*; do
+        iface=$(basename "$if")
+        [ -d "/sys/class/net/$iface/wireless" ] || continue
+        state=$(cat "/sys/class/net/$iface/operstate" 2>/dev/null)
+        [ "$state" = "up" ] && echo "$iface" && return
+    done
 }
 
 wiface=$(get_wifi_iface)
 
 if [ -n "$wiface" ]; then
-  # Dapatkan sinyal WiFi dalam persen
-  if command -v iw >/dev/null 2>&1; then
-    sigdb=$(iw dev "$wiface" link 2>/dev/null | awk '/signal:/ {print $2; exit}')
-    if [[ "$sigdb" =~ ^-?[0-9]+$ ]]; then
-      # konversi dari dBm ke persen
-      p=$(( 2 * (sigdb + 100) ))
-      (( p < 0 )) && p=0
-      (( p > 100 )) && p=100
-      printf "%s %d%%\n" "$ICON_WIFI" "$p"
-      exit 0
+    if command -v iw >/dev/null 2>&1; then
+        sigdb=$(iw dev "$wiface" link 2>/dev/null | awk '/signal:/ {print $2; exit}')
+        if [[ "$sigdb" =~ ^-?[0-9]+$ ]]; then
+            p=$(( 2 * (sigdb + 100) ))
+            (( p < 0 )) && p=0
+            (( p > 100 )) && p=100
+        fi
     fi
-  fi
 
-  # fallback pakai /proc/net/wireless
-  if [ -r /proc/net/wireless ]; then
-    q=$(awk -v IF="$wiface" '$1 ~ IF":" {print int($3)}' /proc/net/wireless)
-    if [ -n "$q" ]; then
-      p=$(( (q * 100) / 70 ))
-      printf "%s %d%%\n" "$ICON_WIFI" "$p"
-      exit 0
+    if [ -z "$p" ] && [ -r /proc/net/wireless ]; then
+        q=$(awk -v IF="$wiface" '$1 ~ IF":" {print int($3)}' /proc/net/wireless)
+        [ -n "$q" ] && p=$(( (q * 100) / 70 ))
     fi
-  fi
 
-  # kalau sinyal gak bisa didapat
-  printf "%s ?%%\n" "$ICON_WIFI"
-  exit 0
+    [ -z "$p" ] && p=0
+
+    if   [ "$p" -ge 100 ]; then icon="$ICON_WIFI_100"
+    elif [ "$p" -ge 75 ];  then icon="$ICON_WIFI_75"
+    elif [ "$p" -ge 50 ];  then icon="$ICON_WIFI_50"
+    elif [ "$p" -ge 25 ];  then icon="$ICON_WIFI_25"
+    else                    icon="$ICON_WIFI_0"
+    fi
+
+    printf "%s %d%%\n" "$icon" "$p"
+    exit 0
 fi
 
-# ===== Tidak ada koneksi =====
-printf "%s 0%%\n" "$ICON_DOWN"
+# Disconnected
+printf "%s Disconnected\n" "$ICON_WIFI_0"
