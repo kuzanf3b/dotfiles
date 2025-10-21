@@ -27,7 +27,7 @@ static int gappih    = 5;  /* horiz inner gap between windows */
 static int gappiv    = 5;  /* vert inner gap between windows */
 static int gappoh    = 8;  /* horiz outer gap between windows and screen edge */
 static int gappov    = 10;  /* vert outer gap between windows and screen edge */
-static int smartgaps = 0; /* 1 means no outer gap when there is only one window */
+static int smartgaps = 1; /* 1 means no outer gap when there is only one window */
 
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
