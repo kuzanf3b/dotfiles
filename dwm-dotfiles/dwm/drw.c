@@ -180,7 +180,7 @@ drw_clr_create(Drw *drw, Clr *dest, const char *clrname)
 
 /* Create color schemes. */
 Clr *
-drw_scm_create(Drw *drw, char *clrnames[], size_t clrcount)
+drw_scm_create(Drw *drw, const char *clrnames[], size_t clrcount)
 {
 	size_t i;
 	Clr *ret;
@@ -215,6 +215,7 @@ drw_scm_free(Drw *drw, Clr *scm, size_t clrcount)
 
 	for (i = 0; i < clrcount; i++)
 		drw_clr_free(drw, &scm[i]);
+	free(scm);
 }
 
 void
