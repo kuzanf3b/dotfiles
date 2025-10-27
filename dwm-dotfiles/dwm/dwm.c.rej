@@ -1,12 +1,10 @@
 --- dwm.c
 +++ dwm.c
-@@ -208,6 +208,9 @@ static void sigchld(int unused);
- static void spawn(const Arg *arg);
- static void tag(const Arg *arg);
- static void tagmon(const Arg *arg);
-+static void tagnextmon(const Arg *arg);
-+static void tagprevmon(const Arg *arg);
-+static void tagothermon(const Arg *arg, int dir);
+@@ -214,6 +217,7 @@ static void tagmon(const Arg *arg);
  static void tile(Monitor *);
  static void togglebar(const Arg *arg);
  static void togglefloating(const Arg *arg);
++static void togglescratch(const Arg *arg);
+ static void toggletag(const Arg *arg);
+ static void toggleview(const Arg *arg);
+ static void unfocus(Client *c, int setfocus);

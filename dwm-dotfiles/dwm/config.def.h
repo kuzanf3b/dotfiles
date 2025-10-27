@@ -20,6 +20,20 @@ static const char *colors[][3]      = {
 	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
 };
 
+typedef struct {
+   const char *name;
+   const void *cmd;
+} Sp;
+const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
+const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "yazi", NULL };
+const char *spcmd3[] = {"keepassxc", NULL };
+static Sp scratchpads[] = {
+   /* name          cmd  */
+   {"spterm",      spcmd1},
+   {"spyazi",    spcmd2},
+   {"keepassxc",   spcmd3},
+};
+
 /* gaps (for vanitygaps patch) */
 static const unsigned int gappih    = 5;       /* horiz inner gap between windows */
 static const unsigned int gappiv    = 5;       /* vert inner gap between windows */
@@ -42,6 +56,9 @@ static const Rule rules[] = {
 	{ "Code",            NULL,       NULL,       1 << 4,       0,           -1 },
 	{ "Thunar",          NULL,       NULL,       1 << 5,       0,           -1 },
 	{ "obs",             NULL,       NULL,       1 << 9,       0,           -1 },
+    { NULL,              "spterm",   NULL,       SPTAG(0),     1,           -1 },
+    { NULL,              "spfm",     NULL,       SPTAG(1),     1,           -1 },
+    { NULL,              "keepassxc",NULL,       SPTAG(2),     0,           -1 },
 };
 
 /* layout(s) */
@@ -175,9 +192,9 @@ static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){2, {{MODKEY, XK_o}, {0, XK_s}},               spawn,          {.v = session} }),
 
     /* Scratchpads */
-    // &((Keychord){2, {{MODKEY, XK_s}, {0, XK_y}},               togglescratch,  {.ui = 0} }),
-    // &((Keychord){2, {{MODKEY, XK_s}, {0, XK_u}},               togglescratch,  {.ui = 1} }),
-    // &((Keychord){2, {{MODKEY, XK_s}, {0, XK_x}},               togglescratch,  {.ui = 2} }),
+    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_y}},               togglescratch,  {.ui = 0} }),
+    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_u}},               togglescratch,  {.ui = 1} }),
+    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_x}},               togglescratch,  {.ui = 2} }),
 
     /* Screen lock */
     &((Keychord){1, {{MODKEY|ShiftMask, XK_x}},                spawn,          SHCMD("slock") }),
@@ -245,7 +262,7 @@ static const Button buttons[] = {
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
-	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
+	{ ClkClientWin,         MODKEY,         Button1,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },
