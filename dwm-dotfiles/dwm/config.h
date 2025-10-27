@@ -140,28 +140,28 @@ static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){1, {{MODKEY|ShiftMask, XK_period}},           tagmon,         {.i = +1 } }),
     
     /* Monitor toggletag */
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_1}},   toggletag,      {.ui = 1 << 0} }),
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_2}},   toggletag,      {.ui = 1 << 1} }),
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_3}},   toggletag,      {.ui = 1 << 2} }),
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_4}},   toggletag,      {.ui = 1 << 3} }),
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_5}},   toggletag,      {.ui = 1 << 4} }),
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_6}},   toggletag,      {.ui = 1 << 5} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_1}},   toggletag,      {.ui = 1 << 0} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_2}},   toggletag,      {.ui = 1 << 1} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_3}},   toggletag,      {.ui = 1 << 2} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_4}},   toggletag,      {.ui = 1 << 3} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_5}},   toggletag,      {.ui = 1 << 4} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_t}, {0, XK_6}},   toggletag,      {.ui = 1 << 5} }),
 
     /* Monitor tagnextmon */
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_1}},   tagnextmon,     {.ui = 1 << 0} }),
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_2}},   tagnextmon,     {.ui = 1 << 1} }),
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_3}},   tagnextmon,     {.ui = 1 << 2} }),
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_4}},   tagnextmon,     {.ui = 1 << 3} }),
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_5}},   tagnextmon,     {.ui = 1 << 4} }),
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_6}},   tagnextmon,     {.ui = 1 << 5} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_1}},   tagnextmon,     {.ui = 1 << 0} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_2}},   tagnextmon,     {.ui = 1 << 1} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_3}},   tagnextmon,     {.ui = 1 << 2} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_4}},   tagnextmon,     {.ui = 1 << 3} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_5}},   tagnextmon,     {.ui = 1 << 4} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_n}, {0, XK_6}},   tagnextmon,     {.ui = 1 << 5} }),
 
     /* Monitor tagprevmon */
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_1}},   tagprevmon,     {.ui = 1 << 0} }),
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_2}},   tagprevmon,     {.ui = 1 << 1} }),
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_3}},   tagprevmon,     {.ui = 1 << 2} }),
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_4}},   tagprevmon,     {.ui = 1 << 3} }),
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_5}},   tagprevmon,     {.ui = 1 << 4} }),
-    // &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_6}},   tagprevmon,     {.ui = 1 << 5} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_1}},   tagprevmon,     {.ui = 1 << 0} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_2}},   tagprevmon,     {.ui = 1 << 1} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_3}},   tagprevmon,     {.ui = 1 << 2} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_4}},   tagprevmon,     {.ui = 1 << 3} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_5}},   tagprevmon,     {.ui = 1 << 4} }),
+    &((Keychord){3, {{MODKEY, XK_t}, {0, XK_p}, {0, XK_6}},   tagprevmon,     {.ui = 1 << 5} }),
 
     /* Volume control */
     &((Keychord){1, {{0, XF86XK_AudioRaiseVolume}},            spawn,          {.v = upvol } }),
