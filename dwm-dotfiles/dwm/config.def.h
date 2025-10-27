@@ -109,6 +109,7 @@ static const Layout layouts[] = {
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, NULL };
 static const char *termcmd[] = { "st", NULL };
+static const char *fmthunar[] = { "thunar", NULL };
 
 /* Volome Control */
 static const char *upvol[]   = { "pamixer", "--increase", "5", NULL };
@@ -130,8 +131,9 @@ static const char *session[] = { "sh", "-c", "~/.config/scripts/system-menu/sm-d
 #include "movestack.c"
 static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){1, {{MODKEY, XK_d}},                          spawn,          {.v = dmenucmd } }),
+    &((Keychord){1, {{MODKEY, XK_e}},                          spawn,          {.v = fmthunar } }),
     &((Keychord){1, {{MODKEY, XK_Return}},                     spawn,          {.v = termcmd } }),
-    &((Keychord){1, {{MODKEY, XK_b}},                          togglebar,      {0} }),
+    &((Keychord){1, {{MODKEY|ShiftMask, XK_b}},                togglebar,      {0} }),
     &((Keychord){1, {{MODKEY, XK_j}},                          focusstack,     {.i = +1 } }),
     &((Keychord){1, {{MODKEY, XK_k}},                          focusstack,     {.i = -1 } }),
     &((Keychord){1, {{MODKEY|ShiftMask, XK_j}},                movestack,      {.i = +1 } }),
