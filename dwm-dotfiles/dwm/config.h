@@ -52,6 +52,7 @@ static const int refreshrate = 120;  /* refresh rate (per second) for client mov
 
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
 #include "vanitygaps.c"
+#include "tatami.c"
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -68,7 +69,7 @@ static const Layout layouts[] = {
 	{ ":::",      gaplessgrid },
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
-    // { "|+|",      tatami },
+    { "|+|",      tatami },
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ NULL,       NULL },
 };
@@ -107,14 +108,15 @@ static const char *bookmarks[] = { "sh", "-c", "~/.config/scripts/bookmarks/book
 static const char *wallpapers[] = { "sh", "-c", "~/.config/scripts/wallpapers/wallpapers-dmenu.sh", NULL };
 static const char *session[] = { "sh", "-c", "~/.config/scripts/system-menu/sm-dmenu.sh", NULL };
 
+#include "movestack.c"
 static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){1, {{MODKEY, XK_d}},                          spawn,          {.v = dmenucmd } }),
     &((Keychord){1, {{MODKEY, XK_Return}},                     spawn,          {.v = termcmd } }),
     &((Keychord){1, {{MODKEY, XK_b}},                          togglebar,      {0} }),
     &((Keychord){1, {{MODKEY, XK_j}},                          focusstack,     {.i = +1 } }),
     &((Keychord){1, {{MODKEY, XK_k}},                          focusstack,     {.i = -1 } }),
-    // &((Keychord){1, {{MODKEY|ShiftMask, XK_j}},                movestack,      {.i = +1 } }),
-    // &((Keychord){1, {{MODKEY|ShiftMask, XK_k}},                movestack,      {.i = -1 } }),
+    &((Keychord){1, {{MODKEY|ShiftMask, XK_j}},                movestack,      {.i = +1 } }),
+    &((Keychord){1, {{MODKEY|ShiftMask, XK_k}},                movestack,      {.i = -1 } }),
     &((Keychord){1, {{MODKEY, XK_c}},                          incnmaster,     {.i = +1 } }),
     &((Keychord){1, {{MODKEY, XK_p}},                          incnmaster,     {.i = -1 } }),
     &((Keychord){1, {{MODKEY, XK_h}},                          setmfact,       {.f = -0.05} }),
