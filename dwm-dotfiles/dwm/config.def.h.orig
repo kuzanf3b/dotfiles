@@ -52,6 +52,7 @@ static const int refreshrate = 120;  /* refresh rate (per second) for client mov
 
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
 #include "vanitygaps.c"
+#include "tatami.c"
 
 static const Layout layouts[] = {
 	/* symbol     arrange function */
@@ -68,7 +69,7 @@ static const Layout layouts[] = {
 	{ ":::",      gaplessgrid },
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
-    // { "|+|",      tatami },
+    { "|+|",      tatami },
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ NULL,       NULL },
 };
