@@ -10,3 +10,4 @@ print_command=true
 layer=overlay
 insensitive=true
 prompt=Search...
+lines=10

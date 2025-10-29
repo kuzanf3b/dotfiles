@@ -7,20 +7,22 @@ screenshot
 effect-blur=6x6
 effect-vignette=0.55:0.9
 
-# === Colors (Tokyo Night) ===
+# === Colors (Catppuccin Mocha) ===
 # Palette:
-# Base: #1a1b26
-# Surface: #24283b
-# Overlay: #414868
-# Text: #c0caf5
-# Love (Error): #f7768e
-# Gold (Warning): #e0af68
-# Rose (Accent): #bb9af7
-# Pine (Info): #7aa2f7
-# Foam (Highlight): #7dcfff
-# Iris (Verify): #9ece6a
+# Base: #1e1e2e
+# Surface: #313244
+# Overlay: #45475a
+# Text: #cdd6f4
+# Love (Error): #f38ba8
+# Gold (Warning): #f9e2af
+# Peach (Accent): #fab387
+# Mauve (Highlight): #cba6f7
+# Blue (Info): #89b4fa
+# Sky (Secondary): #89dceb
+# Teal (Verify): #94e2d5
+# Green (Success): #a6e3a1
 
-color=1a1b26
+color=1e1e2e
 font=JetBrainsMono Nerd Font
 
 # === Indicator ring ===
@@ -29,35 +31,35 @@ indicator-radius=120
 indicator-thickness=16
 
 # Base ring and line colors
-line-color=24283b
-ring-color=24283b
-inside-color=1a1b26
+line-color=313244
+ring-color=313244
+inside-color=1e1e2e
 
 # Highlights (keypress, separator)
-key-hl-color=7aa2f7
+key-hl-color=89b4fa
 separator-color=00000000
 
 # Text colors
-text-color=c0caf5
+text-color=cdd6f4
 text-caps-lock-color=""
 
 # Verifying colors
-line-ver-color=9ece6a
-ring-ver-color=9ece6a
-inside-ver-color=24283b
-text-ver-color=c0caf5
+line-ver-color=94e2d5
+ring-ver-color=94e2d5
+inside-ver-color=313244
+text-ver-color=cdd6f4
 
 # Wrong password colors
-text-wrong-color=1a1b26
-ring-wrong-color=f7768e
-inside-wrong-color=f7768e
-line-wrong-color=f7768e
+text-wrong-color=1e1e2e
+ring-wrong-color=f38ba8
+inside-wrong-color=f38ba8
+line-wrong-color=f38ba8
 
 # Clearing colors
-text-clear-color=c0caf5
-inside-clear-color=7dcfff
-ring-clear-color=7dcfff
-line-clear-color=7dcfff
+text-clear-color=cdd6f4
+inside-clear-color=89dceb
+ring-clear-color=89dceb
+line-clear-color=89dceb
 
 # === Grace period ===
 grace=0.5

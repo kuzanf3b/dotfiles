@@ -5,8 +5,6 @@ static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const int horizpadbar        = 2;        /* horizontal padding for statusbar */
-static const int vertpadbar         = 2;        /* vertical padding for statusbar */
 static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=12" };
 static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=12";
 static const char col_gray1[]       = "#222222";
@@ -14,18 +12,32 @@ static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
+/* TokyoNight Theme */
+static const char col_bg[]          = "#1a1b26";  /* background */
+static const char col_bg2[]         = "#16161e";  /* darker background */
+static const char col_fg[]          = "#c0caf5";  /* foreground */
+static const char col_border[]      = "#1a1b26";  /* normal border */
+static const char col_accent[]      = "#7aa2f7";  /* blue highlight */
+static const char col_warn[]        = "#ff9e64";  /* orange accent */
+static const char col_error[]       = "#f7768e";  /* red accent */
+
+/* color schemes */
 static const char *colors[][3]      = {
 	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
+	[SchemeNorm] = { col_fg,     col_bg,   col_border }, /* unfocused windows */
+	[SchemeSel]  = { col_accent, col_bg2,  col_accent }, /* focused window */
 };
+
+/* color schemes */
+static const int horizpadbar        = 2;        /* horizontal padding for statusbar */
+static const int vertpadbar         = 2;        /* vertical padding for statusbar */
 
 typedef struct {
    const char *name;
    const void *cmd;
 } Sp;
-const char *spcmd1[] = {"st", "-n", "spterm", "-g", "120x34", NULL };
-const char *spcmd2[] = {"st", "-n", "spfm", "-g", "144x41", "-e", "yazi", NULL };
+const char *spcmd1[] = {"alacritty", "--class", "spterm", "--option", "window.dimensions.columns=120", "--option", "window.dimensions.lines=34", NULL};
+const char *spcmd2[] = {"alacritty", "--class", "spfm", "--option", "window.dimensions.columns=144", "--option", "window.dimensions.lines=41", "-e", "yazi", NULL};
 const char *spcmd3[] = {"keepassxc", NULL };
 static Sp scratchpads[] = {
    /* name          cmd  */
@@ -54,7 +66,6 @@ static const Rule rules[] = {
     { "Inkscape",        NULL,       NULL,       1 << 2,       0,           -1 },
 	{ "discord",         NULL,       NULL,       1 << 3,       0,           -1 },
 	{ "Code",            NULL,       NULL,       1 << 4,       0,           -1 },
-	{ "Thunar",          NULL,       NULL,       1 << 5,       0,           -1 },
 	{ "obs",             NULL,       NULL,       1 << 9,       0,           -1 },
     { NULL,              "spterm",   NULL,       SPTAG(0),     1,           -1 },
     { NULL,              "spfm",     NULL,       SPTAG(1),     1,           -1 },
@@ -108,7 +119,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, NULL };
-static const char *termcmd[] = { "st", NULL };
+static const char *termcmd[] = { "alacritty", NULL };
 static const char *fmthunar[] = { "thunar", NULL };
 
 /* Volome Control */
@@ -127,6 +138,7 @@ static const char *scrotselclip[]  = { "sh", "-c", "~/.config/scripts/screenshot
 static const char *bookmarks[] = { "sh", "-c", "~/.config/scripts/bookmarks/bookmarks-dmenu.sh", NULL };
 static const char *wallpapers[] = { "sh", "-c", "~/.config/scripts/wallpapers/wallpapers-dmenu.sh", NULL };
 static const char *session[] = { "sh", "-c", "~/.config/scripts/system-menu/sm-dmenu.sh", NULL };
+static const char *repos[] = { "sh", "-c", "~/.config/scripts/project-repos/pr-dmenu.sh", NULL };
 
 #include "movestack.c"
 static Keychord *keychords[] = { /* Program launcher & system */
@@ -192,6 +204,7 @@ static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){2, {{MODKEY, XK_o}, {0, XK_b}},               spawn,          {.v = bookmarks} }),
     &((Keychord){2, {{MODKEY, XK_o}, {0, XK_w}},               spawn,          {.v = wallpapers} }),
     &((Keychord){2, {{MODKEY, XK_o}, {0, XK_s}},               spawn,          {.v = session} }),
+    &((Keychord){2, {{MODKEY, XK_o}, {0, XK_p}},               spawn,          {.v = repos} }),
 
     /* Scratchpads */
     &((Keychord){2, {{MODKEY, XK_s}, {0, XK_y}},               togglescratch,  {.ui = 0} }),
@@ -264,7 +277,7 @@ static const Button buttons[] = {
 	{ ClkStatusText,        0,              Button2,        spawn,          {.v = termcmd } },
 	{ ClkClientWin,         MODKEY,         Button1,        movemouse,      {0} },
 	{ ClkClientWin,         MODKEY,         Button2,        togglefloating, {0} },
-	{ ClkClientWin,         MODKEY,         Button1,        resizemouse,    {0} },
+	{ ClkClientWin,         MODKEY,         Button3,        resizemouse,    {0} },
 	{ ClkTagBar,            0,              Button1,        view,           {0} },
 	{ ClkTagBar,            0,              Button3,        toggleview,     {0} },
 	{ ClkTagBar,            MODKEY,         Button1,        tag,            {0} },

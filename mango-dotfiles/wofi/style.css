@@ -1,56 +1,49 @@
 window {
-  margin: 0px;
-  background-color: #1a1b26;
-  border-radius: 6px;
-  border: 2px solid #3b4261;
-  color: #c0caf5;
+  margin: 0;
+  background-color: #1e1e2e;
+  border: none;
+  color: #cdd6f4;
   font-family: "JetBrains Mono Nerd Font";
-  font-size: 14px;
+  font-size: 16px;
 }
 
 #input {
-  margin: 6px;
+  margin: 0;
+  padding: 4px 6px;
   border: none;
-  border-radius: 4px;
-  color: #7aa2f7;
-  background-color: #24283b;
+  color: #cdd6f4;
+  background-color: #1e1e2e;
 }
 
 #inner-box {
-  margin: 5px;
+  margin: 0;
   border: none;
-  background-color: #24283b;
-  color: #c0caf5;
-  border-radius: 4px;
+  background-color: #1e1e2e;
 }
 
 #outer-box {
-  margin: 15px;
+  margin: 0;
   border: none;
-  background-color: #1a1b26;
+  background-color: #1e1e2e;
 }
 
 #scroll {
-  margin: 0px;
+  margin: 0;
   border: none;
+  background: none;
 }
 
 #text {
-  margin: 5px;
-  border: none;
-  color: #c0caf5;
+  margin: 2px 6px;
+  color: #cdd6f4;
 }
 
 #entry:selected {
-  background-color: #33467c;
-  color: #c0caf5;
-  border-radius: 4px;
-  outline: none;
+  background-color: #313244;
+  color: #cba6f7;
 }
 
 #entry:selected * {
-  background-color: #33467c;
-  color: #c0caf5;
-  border-radius: 4px;
-  outline: none;
+  background-color: #313244;
+  color: #cba6f7;
 }
