@@ -1,4 +1,4 @@
-style=/home/kuzan/.config/wofi/style.css
+style=/home/zen/.config/wofi/style.css
 show=drun
 width=600
 height=400
@@ -10,3 +10,4 @@ print_command=true
 layer=overlay
 insensitive=true
 prompt=Search...
+lines=10
