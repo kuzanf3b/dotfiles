@@ -1,0 +1,73 @@
+daemonize
+show-failed-attempts
+clock
+screenshot
+
+# === Effects ===
+effect-blur=6x6
+effect-vignette=0.55:0.9
+
+# === Colors (Rose Pine Moon) ===
+# Palette:
+# Base: #232136
+# Surface: #2a273f
+# Overlay: #393552
+# Text: #e0def4
+# Love (Error): #eb6f92
+# Gold (Warning): #f6c177
+# Rose (Accent): #ea9a97
+# Iris (Highlight): #c4a7e7
+# Foam (Info): #9ccfd8
+# Pine (Verify): #31748f
+# Green (Success): #3e8fb0
+
+color=232136
+font=JetBrainsMono Nerd Font
+
+# === Indicator ring ===
+indicator
+indicator-radius=120
+indicator-thickness=16
+
+# Base ring and line colors
+line-color=2a273f
+ring-color=2a273f
+inside-color=232136
+
+# Highlights (keypress, separator)
+key-hl-color=c4a7e7
+separator-color=00000000
+
+# Text colors
+text-color=e0def4
+text-caps-lock-color=""
+
+# Verifying colors
+line-ver-color=31748f
+ring-ver-color=31748f
+inside-ver-color=2a273f
+text-ver-color=e0def4
+
+# Wrong password colors
+text-wrong-color=232136
+ring-wrong-color=eb6f92
+inside-wrong-color=eb6f92
+line-wrong-color=eb6f92
+
+# Clearing colors
+text-clear-color=e0def4
+inside-clear-color=9ccfd8
+ring-clear-color=9ccfd8
+line-clear-color=9ccfd8
+
+# === Grace period ===
+grace=0.5
+grace-no-mouse
+grace-no-touch
+
+# === Date and time ===
+datestr=%a, %B %e
+timestr=%I:%M %p
+
+# === Animations ===
+fade-in=0.15

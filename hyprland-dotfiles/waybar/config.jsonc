@@ -36,7 +36,7 @@
     },
     "clock": {
         "format": "{:%I:%M %p}",
-        "format-alt": "{:%a, %d %b}",
+        "format-alt": "{:%A, %d %b %Y}",
         "tooltip-format": "<tt><small>{calendar}</small></tt>",
         "calendar": {
             "mode": "month",
@@ -107,9 +107,9 @@
         "on-scroll-down": "mpc volume -5"
     },
     "pulseaudio": {
-        "format": "{icon}  {volume}%",
+        "format": "{icon} {volume}%",
         "format-bluetooth": "{icon} {volume}%",
-        "format-muted": "",
+        "format-muted": "󰖁",
         "format-icons": {
             "headphone": "",
             "default": [

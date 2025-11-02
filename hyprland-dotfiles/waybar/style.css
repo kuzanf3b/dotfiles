@@ -4,29 +4,36 @@
 }
 
 window#waybar {
-  background-color: #1a1b26;
-  color: #c0caf5;
+  background-color: #232136;
+  color: #e0def4;
+  transition: background-color 0.3s ease;
 }
 
+/* Workspace button umum */
 #workspaces button {
   all: unset;
-  padding: 0 6px;
-  color: #565f89;
+  padding: 0px 8px;
+  color: #6e6a86;
+  transition: all 0.25s ease-in-out;
 }
 
 #workspaces button.default {
-  color: #565f89;
-  text-shadow: none;
+  color: #6e6a86;
 }
 
 #workspaces button.active {
-  color: #bb9af7;
-  text-shadow: 0 0 6px #bb9af780;
+  color: #c4a7e7;
+  text-shadow: 0 0 6px #c4a7e780;
 }
 
 #workspaces button.urgent {
-  color: #f7768e;
-  text-shadow: 0 0 5px #f7768e70;
+  color: #eb6f92;
+  text-shadow: 0 0 5px #eb6f9270;
+}
+
+#workspaces button:hover {
+  color: #9ccfd8;
+  text-shadow: 0 0 5px #6fc8eb70;
 }
 
 #clock,
@@ -43,81 +50,81 @@ window#waybar {
 #temperature,
 #tray {
   padding: 0 6px;
-  color: #c0caf5;
+  color: #e0def4;
 }
 
 #custom-sep {
-  color: #3b4261;
+  color: #44415a;
 }
 
 #clock {
-  color: #7aa2f7;
+  color: #9ccfd8;
 }
 
 #battery {
-  color: #e0af68;
+  color: #f6c177;
 }
 
 #disk {
-  color: #bb9af7;
+  color: #c4a7e7;
 }
 
 #cava {
-  color: #e0af68;
+  color: #f6c177;
 }
 
 #dwl-window {
-  color: #ff9e64;
+  color: #ebbcba;
 }
 
 #mpd {
-  color: #ff9e64;
+  color: #ebbcba;
 }
 
 #mpris {
-  color: #73daca;
+  color: #9ccfd8;
 }
 
 #memory {
-  color: #9ece6a;
+  color: #3e8fb0;
 }
 
 #temperature {
-  color: #9ece6a;
+  color: #31748f;
 }
 
 #cpu {
-  color: #9ece6a;
+  color: #9ccfd8;
 }
 
 #network {
-  color: #7dcfff;
+  color: #9ccfd8;
 }
 
 #pulseaudio {
-  color: #2ac3de;
+  color: #c4a7e7;
 }
 
 #custom-pipewire {
-  color: #7dcfff;
+  color: #9ccfd8;
 }
 
 #network.disconnected {
-  color: #f7768e;
+  color: #eb6f92;
 }
 
 #tray {
-  color: #e0af68;
+  color: #f6c177;
 }
 
 @keyframes pulse {
   0% {
-    text-shadow: 0 0 5px #7dcfff;
+    text-shadow: 0 0 5px #9ccfd8;
   }
   50% {
-    text-shadow: 0 0 15px #7dcfff;
+    text-shadow: 0 0 15px #9ccfd8;
   }
   100% {
-    text-shadow: 0 0 5px #7dcfff;
+    text-shadow: 0 0 5px #9ccfd8;
   }
 }
