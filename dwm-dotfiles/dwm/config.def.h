@@ -12,6 +12,7 @@ static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
+
 /* TokyoNight Theme */
 static const char col_bg[]          = "#1a1b26";  /* background */
 static const char col_bg2[]         = "#16161e";  /* darker background */

@@ -4,38 +4,39 @@
 }
 
 window#waybar {
-  background-color: #232136;
-  color: #e0def4;
+  background-color: #1f1f28; /* sumiInk1 */
+  color: #dcd7ba; /* fujiWhite */
   transition: background-color 0.3s ease;
 }
 
-/* Workspace button umum */
+/* Workspace buttons */
 #workspaces button {
   all: unset;
   padding: 0px 8px;
-  color: #6e6a86;
+  color: #727169; /* fujiGray */
   transition: all 0.25s ease-in-out;
 }
 
 #workspaces button.default {
-  color: #6e6a86;
+  color: #727169;
 }
 
 #workspaces button.active {
-  color: #c4a7e7;
-  text-shadow: 0 0 6px #c4a7e780;
+  color: #7e9cd8; /* crystalBlue */
+  text-shadow: 0 0 6px #7e9cd880;
 }
 
 #workspaces button.urgent {
-  color: #eb6f92;
-  text-shadow: 0 0 5px #eb6f9270;
+  color: #c34043; /* samuraiRed */
+  text-shadow: 0 0 5px #c3404370;
 }
 
 #workspaces button:hover {
-  color: #9ccfd8;
-  text-shadow: 0 0 5px #6fc8eb70;
+  color: #ffa066; /* surimiOrange */
+  text-shadow: 0 0 5px #ffa06670;
 }
 
+/* Modules shared style */
 #clock,
 #mpd,
 #mpris,
@@ -50,81 +51,82 @@ window#waybar {
 #temperature,
 #tray {
   padding: 0 6px;
-  color: #e0def4;
+  color: #dcd7ba;
 }
 
 #custom-sep {
-  color: #44415a;
+  color: #363646; /* sumiInk3 */
 }
 
 #clock {
-  color: #9ccfd8;
+  color: #7e9cd8; /* crystalBlue */
 }
 
 #battery {
-  color: #f6c177;
+  color: #c0a36e; /* autumnYellow */
 }
 
 #disk {
-  color: #c4a7e7;
+  color: #957fb8; /* oniViolet */
 }
 
 #cava {
-  color: #f6c177;
+  color: #ffa066; /* surimiOrange */
 }
 
 #dwl-window {
-  color: #ebbcba;
+  color: #938aa9; /* old bar style accent */
 }
 
 #mpd {
-  color: #ebbcba;
+  color: #938aa9; /* fujiPurple */
 }
 
 #mpris {
-  color: #9ccfd8;
+  color: #7fb4ca; /* lightBlue */
 }
 
 #memory {
-  color: #3e8fb0;
+  color: #6a9589; /* waveAqua */
 }
 
 #temperature {
-  color: #31748f;
+  color: #76946a; /* springGreen */
 }
 
 #cpu {
-  color: #9ccfd8;
+  color: #7fb4ca; /* lightBlue */
 }
 
 #network {
-  color: #9ccfd8;
+  color: #7e9cd8; /* crystalBlue */
 }
 
 #pulseaudio {
-  color: #c4a7e7;
+  color: #957fb8; /* oniViolet */
 }
 
 #custom-pipewire {
-  color: #9ccfd8;
+  color: #6a9589; /* waveAqua */
 }
 
 #network.disconnected {
-  color: #eb6f92;
+  color: #c34043; /* samuraiRed */
 }
 
 #tray {
-  color: #f6c177;
+  color: #c0a36e; /* autumnYellow */
 }
 
+/* Subtle glowing pulse */
 @keyframes pulse {
   0% {
-    text-shadow: 0 0 5px #9ccfd8;
+    text-shadow: 0 0 5px #7e9cd8;
   }
   50% {
-    text-shadow: 0 0 15px #9ccfd8;
+    text-shadow: 0 0 15px #7e9cd8;
   }
   100% {
-    text-shadow: 0 0 5px #9ccfd8;
+    text-shadow: 0 0 5px #7e9cd8;
   }
 }

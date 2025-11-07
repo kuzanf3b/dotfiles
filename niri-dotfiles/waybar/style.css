@@ -1,0 +1,132 @@
+* {
+  font-family: "JetBrainsMono Nerd Font", "DroidSansM Nerd Font";
+  font-size: 16px;
+}
+
+window#waybar {
+  background-color: #1a1b26;
+  color: #c0caf5;
+  transition: background-color 0.3s ease;
+}
+
+#workspaces button {
+  all: unset;
+  padding: 0px 6px;
+  color: #565f89;
+  transition: all 0.25s ease-in-out;
+}
+
+#workspaces button.default {
+  color: #565f89;
+}
+
+#workspaces button.active {
+  color: #7aa2f7;
+  text-shadow: 0 0 6px #7aa2f780;
+}
+
+#workspaces button.urgent {
+  color: #f7768e;
+  text-shadow: 0 0 5px #f7768e70;
+}
+
+#workspaces button:hover {
+  color: #7dcfff;
+  text-shadow: 0 0 5px #7dcfff70;
+}
+
+/* Module styling */
+#clock,
+#mpd,
+#mpris,
+#cava,
+#custom-sep,
+#battery,
+#cpu,
+#memory,
+#disk,
+#network,
+#pulseaudio,
+#temperature,
+#tray {
+  padding: 0 6px;
+  color: #c0caf5;
+}
+
+/* Separator */
+#custom-sep {
+  color: #24283b;
+}
+
+/* Module-specific accents */
+#clock {
+  color: #7dcfff; /* cyan time */
+}
+
+#battery {
+  color: #e0af68; /* gold */
+}
+
+#disk {
+  color: #bb9af7; /* violet */
+}
+
+#cava {
+  color: #e0af68; /* golden spectrum */
+}
+
+#dwl-window {
+  color: #9ece6a; /* green title */
+}
+
+#mpd {
+  color: #9ece6a;
+}
+
+#mpris {
+  color: #7aa2f7; /* music info blue */
+}
+
+#memory {
+  color: #73daca; /* teal */
+}
+
+#temperature {
+  color: #9ece6a; /* cool cyan */
+}
+
+#cpu {
+  color: #7aa2f7;
+}
+
+#network {
+  color: #7dcfff;
+}
+
+#pulseaudio {
+  color: #bb9af7; /* magenta for volume */
+}
+
+#custom-pipewire {
+  color: #7dcfff;
+}
+
+#network.disconnected {
+  color: #f7768e; /* red if offline */
+}
+
+#tray {
+  color: #e0af68;
+}
+
+@keyframes pulse {
+  0% {
+    text-shadow: 0 0 5px #7aa2f7;
+  }
+  50% {
+    text-shadow: 0 0 15px #7aa2f7;
+  }
+  100% {
+    text-shadow: 0 0 5px #7aa2f7;
+  }
+}

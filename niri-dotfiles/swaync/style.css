@@ -1,0 +1,193 @@
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-size: 14px;
+  font-weight: 700;
+  border-radius: 6px;
+  color: #c0caf5;
+  box-shadow: none;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.blank-window {
+  background: rgba(26, 27, 38, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+.control-center {
+  background: rgba(26, 27, 38, 0.6);
+  color: #c0caf5;
+  border-radius: 4px;
+  border: 1px solid #292e42;
+  backdrop-filter: blur(18px);
+}
+.control-center .notification-row:focus,
+.control-center .notification-row:hover {
+  opacity: 1;
+  background: rgba(36, 40, 59, 0.6);
+  backdrop-filter: blur(12px);
+}
+
+.control-center-list {
+  background: transparent;
+}
+.control-center-list-placeholder {
+  opacity: 0.5;
+}
+
+.notification {
+  background: rgba(36, 40, 59, 0.6);
+  border-radius: 6px;
+  margin: 4px;
+  border: 1px solid #7aa2f7;
+  padding: 6px;
+  backdrop-filter: blur(14px);
+}
+.notification-content {
+  background: rgba(36, 40, 59, 0.5);
+  margin: 6px;
+  backdrop-filter: blur(10px);
+}
+.notification-row {
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+.notification-default-action {
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+.notification-action {
+  border-radius: 6px;
+  transition: background 0.2s ease;
+}
+.notification-default-action:hover,
+.notification-action:hover {
+  color: #c0caf5;
+  background: rgba(41, 46, 66, 0.7);
+  backdrop-filter: blur(8px);
+}
+.notification-default-action:not(:only-child) {
+  border-bottom-left-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
+.notification-action:first-child,
+.notification-action:last-child {
+  background: rgba(36, 40, 59, 0.4);
+}
+
+.notification-group-close-all-button,
+.notification-group-collapse-button {
+  border-radius: 6px;
+  padding: 0.1em;
+  margin: 2px;
+  min-width: 10px;
+  min-height: 10px;
+  backdrop-filter: blur(6px);
+}
+
+.image {
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+.summary {
+  font-size: 14px;
+  font-weight: 700;
+  color: #c0caf5;
+  background: transparent;
+}
+.time {
+  font-size: 12px;
+  font-weight: 600;
+  color: #565f89;
+  margin-right: 5px;
+}
+.body {
+  font-size: 14px;
+  font-weight: 400;
+  color: #c0caf5;
+  background: transparent;
+}
+.close-button {
+  background: rgba(36, 40, 59, 0.7);
+  min-width: 10px;
+  min-height: 10px;
+  border-radius: 6px;
+  box-shadow: 0px 0px 0.8em rgba(0, 0, 0, 0.15);
+  transition: all 0.15s ease-in-out;
+  backdrop-filter: blur(6px);
+}
+.close-button:hover {
+  background: rgba(41, 46, 66, 0.8);
+  box-shadow: none;
+}
+
+.floating-notifications {
+  background: transparent;
+  backdrop-filter: blur(10px);
+}
+
+.widget-title {
+  background: rgba(26, 27, 38, 0.6);
+  padding: 4px 8px;
+  margin: 8px 8px 4px 8px;
+  font-size: 1.5rem;
+  border-radius: 6px;
+  backdrop-filter: blur(10px);
+}
+.widget-title > button {
+  background: rgba(36, 40, 59, 0.6);
+  min-width: 22px;
+  min-height: 22px;
+  border-radius: 6px;
+  backdrop-filter: blur(6px);
+}
+.widget-title > button:hover {
+  background: rgba(41, 46, 66, 0.7);
+}
+
+.widget-dnd {
+  background: rgba(26, 27, 38, 0.6);
+  padding: 4px 8px;
+  margin: 8px 8px 4px 8px;
+  font-size: 1.5rem;
+  border-radius: 6px;
+  backdrop-filter: blur(10px);
+}
+.widget-dnd > switch {
+  background: rgba(36, 40, 59, 0.6);
+}
+.widget-dnd > switch:checked {
+  background: #bb9af7;
+}
+.widget-dnd > switch slider,
+.widget-dnd > switch:checked slider {
+  background: #c0caf5;
+  min-width: 22px;
+  min-height: 22px;
+  border-radius: 6px;
+}
+
+.widget-label {
+  margin: 8px;
+}
+.widget-label > label {
+  font-size: 1.1rem;
+  color: #c0caf5;
+}
+
+.widget-mpris {
+  padding: 8px 0 0 0;
+  margin: 8px;
+  margin-bottom: 0;
+  border-radius: 6px;
+  backdrop-filter: blur(12px);
+}
+.widget-mpris-player {
+  padding: 15px;
+  margin: 5px 8px;
+  background-color: rgba(36, 40, 59, 0.55);
+  border-radius: 6px;
+  backdrop-filter: blur(14px);
+}

@@ -4,7 +4,7 @@
     "height": 28,
     "spacing": 2,
     "modules-left": [
-        "hyprland/workspaces",
+        "niri/workspaces",
         "custom/sep",
         "temperature"
     ],
@@ -22,8 +22,8 @@
         "custom/sep",
         "clock"
     ],
-    "hyprland/workspaces": {
-        "format": "{name}",
+    "niri/workspaces": {
+        "format": "{icon}",
         "ignore-hidden": true,
         "on-click": "activate",
         "on-click-right": "deactivate",
@@ -119,10 +119,11 @@
     "pulseaudio": {
         "format": "{icon} {volume}%",
         "format-bluetooth": "{icon} {volume}%",
-        "format-muted": "󰖁",
+        "format-muted": "  MUTED",
         "format-icons": {
             "headphone": "",
             "default": [
+                "",
                 "",
                 ""
             ]

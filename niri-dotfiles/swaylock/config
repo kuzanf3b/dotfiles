@@ -1,0 +1,73 @@
+daemonize
+show-failed-attempts
+clock
+screenshot
+
+# === Effects ===
+effect-blur=6x6
+effect-vignette=0.55:0.9
+
+# === Colors (TokyoNight Night) ===
+# Palette:
+# Base:        #1a1b26
+# Surface:     #24283b
+# Overlay:     #292e42
+# Text:        #c0caf5
+# Error:       #f7768e
+# Warning:     #e0af68
+# Accent:      #7aa2f7
+# Highlight:   #bb9af7
+# Info:        #7dcfff
+# Verify:      #9ece6a
+# Success:     #73daca
+
+color=1a1b26
+font=JetBrainsMono Nerd Font
+
+# === Indicator ring ===
+indicator
+indicator-radius=120
+indicator-thickness=16
+
+# Base ring and line colors
+line-color=24283b
+ring-color=24283b
+inside-color=1a1b26
+
+# Highlights (keypress, separator)
+key-hl-color=7aa2f7
+separator-color=00000000
+
+# Text colors
+text-color=c0caf5
+text-caps-lock-color=""
+
+# Verifying colors
+line-ver-color=9ece6a
+ring-ver-color=9ece6a
+inside-ver-color=24283b
+text-ver-color=c0caf5
+
+# Wrong password colors
+text-wrong-color=1a1b26
+ring-wrong-color=f7768e
+inside-wrong-color=f7768e
+line-wrong-color=f7768e
+
+# Clearing colors
+text-clear-color=c0caf5
+inside-clear-color=7dcfff
+ring-clear-color=7dcfff
+line-clear-color=7dcfff
+
+# === Grace period ===
+grace=0.5
+grace-no-mouse
+grace-no-touch
+
+# === Date and time ===
+datestr=%a, %B %e
+timestr=%I:%M %p
+
+# === Animations ===
+fade-in=0.15

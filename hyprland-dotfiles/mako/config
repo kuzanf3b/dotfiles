@@ -1,7 +1,7 @@
 font=JetBrainsMono Nerd Font 12
-background-color=#1a1b26
-text-color=#c0caf5
-border-color=#414868
+background-color=#1f1f28
+text-color=#dcd7ba
+border-color=#2a2a37
 border-size=2
 border-radius=8
 padding=8,12
@@ -27,17 +27,28 @@ on-button-left=invoke-default-action
 on-button-right=dismiss
 on-touch=dismiss
 
+# === Kanagawa Wave Palet ===
+# Base: #1f1f28
+# Surface: #2a2a37
+# Overlay: #223249
+# Text: #dcd7ba
+# Accent Blue: #7e9cd8
+# Accent Purple: #957fb8
+# Info/Success: #98bb6c
+# Warning: #c0a36e
+# Error: #c34043
+
 [urgency=low]
-background-color=#24283b
-border-color=#414868
-text-color=#565f89
+background-color=#2a2a37
+border-color=#223249
+text-color=#7e9cd8
 
 [urgency=normal]
-background-color=#24283b
-border-color=#414868
-text-color=#c0caf5
+background-color=#2a2a37
+border-color=#7e9cd8
+text-color=#dcd7ba
 
 [urgency=critical]
-background-color=#24283b
-border-color=#f7768e
-text-color=#f7768e
+background-color=#2a2a37
+border-color=#c34043
+text-color=#c34043

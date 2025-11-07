@@ -7,21 +7,21 @@ screenshot
 effect-blur=6x6
 effect-vignette=0.55:0.9
 
-# === Colors (Rose Pine Moon) ===
+# === Colors (Kanagawa Wave) ===
 # Palette:
-# Base: #232136
-# Surface: #2a273f
-# Overlay: #393552
-# Text: #e0def4
-# Love (Error): #eb6f92
-# Gold (Warning): #f6c177
-# Rose (Accent): #ea9a97
-# Iris (Highlight): #c4a7e7
-# Foam (Info): #9ccfd8
-# Pine (Verify): #31748f
-# Green (Success): #3e8fb0
+# Base:        #1f1f28
+# Surface:     #2a2a37
+# Overlay:     #223249
+# Text:        #dcd7ba
+# Error:       #c34043
+# Warning:     #c0a36e
+# Accent:      #7e9cd8
+# Highlight:   #957fb8
+# Info:        #7fb4ca
+# Verify:      #6a9589
+# Success:     #98bb6c
 
-color=232136
+color=1f1f28
 font=JetBrainsMono Nerd Font
 
 # === Indicator ring ===
@@ -30,35 +30,35 @@ indicator-radius=120
 indicator-thickness=16
 
 # Base ring and line colors
-line-color=2a273f
-ring-color=2a273f
-inside-color=232136
+line-color=2a2a37
+ring-color=2a2a37
+inside-color=1f1f28
 
 # Highlights (keypress, separator)
-key-hl-color=c4a7e7
+key-hl-color=7e9cd8
 separator-color=00000000
 
 # Text colors
-text-color=e0def4
+text-color=dcd7ba
 text-caps-lock-color=""
 
 # Verifying colors
-line-ver-color=31748f
-ring-ver-color=31748f
-inside-ver-color=2a273f
-text-ver-color=e0def4
+line-ver-color=6a9589
+ring-ver-color=6a9589
+inside-ver-color=2a2a37
+text-ver-color=dcd7ba
 
 # Wrong password colors
-text-wrong-color=232136
-ring-wrong-color=eb6f92
-inside-wrong-color=eb6f92
-line-wrong-color=eb6f92
+text-wrong-color=1f1f28
+ring-wrong-color=c34043
+inside-wrong-color=c34043
+line-wrong-color=c34043
 
 # Clearing colors
-text-clear-color=e0def4
-inside-clear-color=9ccfd8
-ring-clear-color=9ccfd8
-line-clear-color=9ccfd8
+text-clear-color=dcd7ba
+inside-clear-color=7fb4ca
+ring-clear-color=7fb4ca
+line-clear-color=7fb4ca
 
 # === Grace period ===
 grace=0.5

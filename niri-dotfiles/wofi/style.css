@@ -1,8 +1,8 @@
 window {
   margin: 0;
-  background-color: #1f1f28; /* sumiInk1 */
+  background-color: #1a1b26; /* base */
   border: none;
-  color: #dcd7ba; /* fujiWhite */
+  color: #c0caf5; /* foreground */
   font-family: "JetBrains Mono Nerd Font";
   font-size: 16px;
 }
@@ -11,15 +11,15 @@ window {
   margin: 0;
   padding: 6px 8px;
   border: none;
-  color: #dcd7ba; /* fujiWhite */
-  background-color: #2a2a37; /* sumiInk2 */
+  color: #c0caf5; /* text */
+  background-color: #24283b; /* surface */
 }
 
 #inner-box,
 #outer-box {
   margin: 0;
   border: none;
-  background-color: #1f1f28; /* sumiInk1 */
+  background-color: #1a1b26; /* base */
 }
 
 #scroll {
@@ -30,22 +30,22 @@ window {
 
 #text {
   margin: 4px 8px;
-  color: #dcd7ba; /* fujiWhite */
+  color: #c0caf5; /* foreground */
 }
 
 #entry:selected {
-  background-color: #363646; /* sumiInk3 */
-  color: #7e9cd8; /* crystalBlue */
+  background-color: #292e42; /* slightly lighter surface */
+  color: #7aa2f7; /* blue accent */
 }
 
 #entry:selected * {
-  background-color: #363646;
-  color: #7e9cd8;
+  background-color: #292e42;
+  color: #7aa2f7;
 }
 
 #entry:hover:not(:selected) {
-  background-color: #2a2a37; /* sumiInk2 */
-  color: #ffa066; /* surimiOrange */
+  background-color: #24283b; /* surface hover */
+  color: #bb9af7; /* purple highlight */
   transition:
     background-color 0.15s ease,
     color 0.15s ease;

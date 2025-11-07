@@ -1,0 +1,55 @@
+font=JetBrainsMono Nerd Font 12
+background-color=#1a1b26       
+text-color=#c0caf5             
+border-color=#24283b           
+border-size=2
+border-radius=8
+padding=8,12
+margin=6
+outer-margin=20
+width=360
+height=120
+anchor=top-right
+layer=overlay
+
+icons=1
+max-icon-size=48
+icon-location=left
+icon-border-radius=6
+
+default-timeout=6000
+ignore-timeout=0
+max-visible=5
+max-history=10
+sort=-time
+
+on-button-left=invoke-default-action
+on-button-right=dismiss
+on-touch=dismiss
+
+# === TokyoNight Night Palette ===
+# Base: #1a1b26
+# Surface: #24283b
+# Overlay: #292e42
+# Text: #c0caf5
+# Accent Blue: #7aa2f7
+# Accent Purple: #bb9af7
+# Accent Cyan: #7dcfff
+# Info/Success: #9ece6a
+# Warning: #e0af68
+# Error: #f7768e
+
+[urgency=low]
+background-color=#24283b
+border-color=#7dcfff
+text-color=#7aa2f7
+
+[urgency=normal]
+background-color=#24283b
+border-color=#7aa2f7
+text-color=#c0caf5
+
+[urgency=critical]
+background-color=#24283b
+border-color=#f7768e
+text-color=#f7768e
