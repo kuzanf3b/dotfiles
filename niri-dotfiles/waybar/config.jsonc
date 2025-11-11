@@ -57,9 +57,16 @@
     },
     "temperature": {
         "critical-threshold": 80,
-        "format": " {temperatureC}°C",
+        "format": "{icon} {temperatureC}°C",
         "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
-        "interval": 1
+        "interval": 1,
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
     },
     "mpris": {
         "format": "   {artist} - {title}",

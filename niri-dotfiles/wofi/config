@@ -29,8 +29,8 @@ prompt=
 term=foot
 
 # keybinds (vim-ish)
-key_up=Ctrl-k
-key_down=Ctrl-j
+key_up=Ctrl-p
+key_down=Ctrl-n
 key_left=Ctrl-h
 key_right=Ctrl-l
 key_submit=Return
