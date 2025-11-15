@@ -1,0 +1,39 @@
+# Load custom colors
+source "$HOME/.config/betterlockscreen/schemes/kanagawa.sh"
+
+# default options
+display_on=0
+span_image=false
+lock_timeout=300
+fx_list=(dim blur dimblur pixel dimpixel color)
+dim_level=40
+blur_level=1
+pixel_scale=10,1000
+solid_color=333333
+wallpaper_cmd="feh --bg-fill"
+quiet=false
+
+# Theme
+loginbox=00000066
+loginshadow=00000000
+locktext="Type password..."
+font="JetBrainsMono Nerd Font"
+ringcolor=$RING
+insidecolor=$INSIDE
+separatorcolor=00000000
+ringvercolor=$RING_VER
+insidevercolor=$INSIDE_VER
+ringwrongcolor=$RING_WRONG
+insidewrongcolor=$INSIDE_WRONG
+timecolor=$TIME
+time_format="%H:%M %p"
+greetercolor=$FG
+layoutcolor=$FG
+keyhlcolor=$KEYHL
+bshlcolor=$BSHL
+veriftext="Verifying..."
+verifcolor=$FG
+wrongtext="Failure!"
+wrongcolor=$INSIDE_WRONG
+modifcolor=$KEYHL
+bgcolor=$BG
