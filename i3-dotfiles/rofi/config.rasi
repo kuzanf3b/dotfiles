@@ -1,0 +1,20 @@
+configuration {
+    modi: "drun,run,window";
+    font: "JetBrainsMono Nerd Font 12";
+    show-icons: true;
+    location: 0;                 
+    fullscreen: false;
+    fixed-num-lines: true;
+    display-drun: " ";
+    drun-display-format: "{name}";
+    disable-history: false;
+    sorting-method: "fzf";
+    matching: "fuzzy";
+    cycle: true;
+    case-sensitive: false;
+    scroll-method: 0;             
+    kb-accept-entry: "Return";
+    kb-remove-to-eol: "Control+Shift+e";
+}
+
+@theme "schemes/rose-pine"
