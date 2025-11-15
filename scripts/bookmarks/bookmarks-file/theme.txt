@@ -1,0 +1,16 @@
+TokyoNight :: https://wixdaq.github.io/Tokyo-Night-Website/index.html
+Rosepine :: https://rosepinetheme.com/
+Nord :: https://www.nordtheme.com/
+Solarized :: https://ethanschoonover.com/solarized/
+Catppuccin :: https://catppuccin.com/
+Dracula :: https://draculatheme.com/
+Everforest :: https://everforest.vercel.app/
+Materialize :: https://materializecss.com/
+Moonlight :: https://moonlight.gg/
+Moonlight Pro :: https://moonlightpro.dev/
+Gruvbox :: https://gruvboxcommunity.github.io/gruvbox-web/
+Kanagawa :: https://kanagawatheme.com/
+Monokai Pro:: https://monokai.pro/
+Monokai Classic :: https://monokai.io/
+Onedark :: https://onedark.dev/
+Onedark Pro :: https://onedarkpro.com/

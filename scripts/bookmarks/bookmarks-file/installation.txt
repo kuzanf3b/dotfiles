@@ -1,0 +1,7 @@
+Arch Manual :: https://wiki.archlinux.org/title/Installation_guide
+Void Linux Handbook :: https://docs.voidlinux.org/handbook/installation/
+NixOS Manual :: https://nixos.org/manual/nixos/stable/#sec-installation
+Alpine Linux Installation :: https://alpinelinux.org/docs/installation/
+Artix Linux Installation :: https://wiki.artixlinux.org/Main/Installation
+Fedora Installation Guide :: https://docs.fedoraproject.org/en-US/fedora/f36/install-guide/
+OpenSUSE Installation Guide :: https://en.opensuse.org/SDB:Installation

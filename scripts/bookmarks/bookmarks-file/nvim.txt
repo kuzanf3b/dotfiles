@@ -1,0 +1,6 @@
+Neovim Official Wiki :: https://neovim.io/wiki
+Neovim Awesome Plugins :: https://github.com/rockerBOO/awesome-neovim
+Lazyvim Wiki :: https://www.lazyvim.org
+Nvchad Wiki :: https://nvchad.com
+AstroNvim Wiki :: https://astronvim.com
+Lunarvim Wiki :: https://www.lunarvim.org

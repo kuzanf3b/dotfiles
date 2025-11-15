@@ -1,0 +1,7 @@
+Google :: https://google.com
+YouTube :: https://youtube.com
+Spotify :: https://open.spotify.com
+Whatsapp :: https://web.whatsapp.com/
+Instagram :: https://www.instagram.com/
+Facebook :: https://web.facebook.com
+Pinterest :: https://id.pinterest.com

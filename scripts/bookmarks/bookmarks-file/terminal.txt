@@ -1,0 +1,6 @@
+St :: https://st.suckless.org/
+Alacritty :: https://alacritty.org/
+Kitty :: https://sw.kovidgoyal.net/kitty/
+Foot :: https://codeberg.org/dnkl/foot
+Wezterm :: https://wezfurlong.org/wezterm/
+Ghostty :: https://ghostty.org/
