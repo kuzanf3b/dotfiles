@@ -5,13 +5,14 @@ static const unsigned int borderpx  = 0;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const int showbar            = 1;        /* 0 means no bar */
 static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=12" };
-static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=12";
+static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=11" };
+static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=11";
 static const char col_gray1[]       = "#222222";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
+
 /* TokyoNight Theme */
 static const char col_bg[]          = "#1a1b26";  /* background */
 static const char col_bg2[]         = "#16161e";  /* darker background */
@@ -28,7 +29,7 @@ static const char *colors[][3]      = {
 	[SchemeSel]  = { col_accent, col_bg2,  col_accent }, /* focused window */
 };
 
-/* color schemes */
+/* status padding */
 static const int horizpadbar        = 2;        /* horizontal padding for statusbar */
 static const int vertpadbar         = 2;        /* vertical padding for statusbar */
 
@@ -38,12 +39,10 @@ typedef struct {
 } Sp;
 const char *spcmd1[] = {"alacritty", "--class", "spterm", "--option", "window.dimensions.columns=120", "--option", "window.dimensions.lines=34", NULL};
 const char *spcmd2[] = {"alacritty", "--class", "spfm", "--option", "window.dimensions.columns=144", "--option", "window.dimensions.lines=41", "-e", "yazi", NULL};
-const char *spcmd3[] = {"keepassxc", NULL };
 static Sp scratchpads[] = {
-   /* name          cmd  */
-   {"spterm",      spcmd1},
+   /* name       cmd  */
+   {"spterm",    spcmd1},
    {"spyazi",    spcmd2},
-   {"keepassxc",   spcmd3},
 };
 
 /* gaps (for vanitygaps patch) */
@@ -58,18 +57,18 @@ static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
 static const Rule rules[] = {
     /* class             instance    title       tags mask     isfloating   monitor */
-	{ "Gimp",            NULL,       NULL,       0,            1,           -1 },
-    { "zen",             NULL,       NULL,       1 << 1,       0,           -1 },
+  { "zen",             NULL,       NULL,       1 << 1,       0,           -1 },
 	{ "firefox",         NULL,       NULL,       1 << 1,       0,           -1 },
-    { "Brave-browser",   NULL,       NULL,       1 << 2,       0,           -1 },
-    { "kdenlive",        NULL,       NULL,       1 << 2,       0,           -1 },
-    { "Inkscape",        NULL,       NULL,       1 << 2,       0,           -1 },
-	{ "discord",         NULL,       NULL,       1 << 3,       0,           -1 },
-	{ "Code",            NULL,       NULL,       1 << 4,       0,           -1 },
-	{ "obs",             NULL,       NULL,       1 << 9,       0,           -1 },
-    { NULL,              "spterm",   NULL,       SPTAG(0),     1,           -1 },
-    { NULL,              "spfm",     NULL,       SPTAG(1),     1,           -1 },
-    { NULL,              "keepassxc",NULL,       SPTAG(2),     0,           -1 },
+  { "Brave-browser",   NULL,       NULL,       1 << 1,       0,           -1 },
+  { "Code",            NULL,       NULL,       1 << 2,       0,           -1 },
+  { "discord",         NULL,       NULL,       1 << 3,       0,           -1 },
+  { "Gimp",            NULL,       NULL,       1 << 5,       0,           -1 },
+  { "Inkscape",        NULL,       NULL,       1 << 5,       0,           -1 },
+  { "kdenlive",        NULL,       NULL,       1 << 6,       0,           -1 },
+	{ "obs",             NULL,       NULL,       1 << 8,       0,           -1 },
+  { NULL,              "spterm",   NULL,       SPTAG(0),     1,           -1 },
+  { NULL,              "spfm",     NULL,       SPTAG(1),     1,           -1 },
+  { NULL,              "keepassxc",NULL,       SPTAG(2),     0,           -1 },
 };
 
 /* layout(s) */
@@ -131,6 +130,7 @@ static const char *unmutevol[] = { "pamixer", "--unmute", NULL };
 /* Screenshot commands (POSIX sh compatible) */
 static const char *scrotfullclip[] = { "sh", "-c", "~/.config/scripts/screenshots/scrotfullclip.sh", NULL };
 static const char *scrotselclip[]  = { "sh", "-c", "~/.config/scripts/screenshots/scrotselclip.sh", NULL };
+static const char *scrotwinclip[]  = { "sh", "-c", "~/.config/scripts/screenshots/scrotwinclip.sh", NULL };
 // static const char *scrotfullfile[] = { "sh", "-c", "~/.config/scripts/screenshots/scrotfullfile.sh", NULL };
 // static const char *scrotselfile[]  = { "sh", "-c", "~/.config/scripts/screenshots/scrotselfile.sh", NULL };
 
@@ -207,12 +207,18 @@ static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){2, {{MODKEY, XK_o}, {0, XK_p}},               spawn,          {.v = repos} }),
 
     /* Scratchpads */
-    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_y}},               togglescratch,  {.ui = 0} }),
-    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_u}},               togglescratch,  {.ui = 1} }),
-    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_x}},               togglescratch,  {.ui = 2} }),
+    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_t}},               togglescratch,  {.ui = 0} }),
+    &((Keychord){2, {{MODKEY, XK_s}, {0, XK_y}},               togglescratch,  {.ui = 1} }),
 
     /* Screen lock */
-    &((Keychord){1, {{MODKEY|ShiftMask, XK_x}},                spawn,          SHCMD("slock") }),
+    &((Keychord){1, {{MODKEY|ShiftMask, XK_x}},                spawn,          SHCMD("betterlockscreen -l dimblur") }),
+
+    /* Screenshot */
+    &((Keychord){1, {{0, XK_Print}},                           spawn,          {.v = scrotselclip} }),
+    &((Keychord){1, {{MODKEY, XK_Print}},                      spawn,          {.v = scrotfullclip} }),
+    &((Keychord){1, {{ControlMask, XK_Print}},                 spawn,          {.v = scrotwinclip} }),
+    // &((Keychord){2, {{MODKEY, XK_s}, {0, XK_Print}},           spawn,          {.v = scrotfullfile} }),
+    // &((Keychord){2, {{MODKEY, XK_s}, {0, XK_s}},               spawn,          {.v = scrotselfile} }),
 
     // Quit dwm
     &((Keychord){1, {{MODKEY|ShiftMask, XK_q}},                quit,           {0} }),
@@ -253,13 +259,6 @@ static Keychord *keychords[] = { /* Program launcher & system */
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_a}},               setlayout,      {.v = &layouts[13]} }), /* |+| tatami */
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_i}},               setlayout,      {.v = &layouts[14]} }), /* <>> floating */
     &((Keychord){2, {{MODKEY, XK_a}, {0, XK_space}},           setlayout,      {0} }),                 /* toggle last/floating */
-
-    /* Screenshot */
-    &((Keychord){1, {{MODKEY, XK_Print}},                      spawn,          {.v = scrotfullclip} }),
-    &((Keychord){1, {{0, XK_Print}},                           spawn,          {.v = scrotselclip} }),
-    // &((Keychord){2, {{MODKEY, XK_s}, {0, XK_Print}},           spawn,          {.v = scrotfullfile} }),
-    // &((Keychord){2, {{MODKEY, XK_s}, {0, XK_s}},               spawn,          {.v = scrotselfile} }),
-
 
     /* Tag keys */
     TAGKEYS( XK_1, 0) TAGKEYS( XK_2, 1) TAGKEYS( XK_3, 2)

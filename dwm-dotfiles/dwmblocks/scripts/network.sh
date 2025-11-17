@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
-# Dynamic Wi-Fi icon levels
 
-# Icons (requires Nerd Font)
-ICON_WIFI_0=""   # disconnected
-ICON_WIFI_25="󰤟"  # weak
-ICON_WIFI_50="󰤢"  # medium
-ICON_WIFI_75="󰤥"  # strong
-ICON_WIFI_100="󰤨" # full
+# Icons (Nerd Font)
+ICON_WIFI_0=""
+ICON_WIFI_25="󰤟"
+ICON_WIFI_50="󰤢"
+ICON_WIFI_75="󰤥"
+ICON_WIFI_100="󰤨"
 ICON_ETH=""
 
-# Ethernet check
+# Detect ethernet interface (non-wireless)
 get_eth() {
     for if in /sys/class/net/*; do
         iface=$(basename "$if")
@@ -20,14 +19,7 @@ get_eth() {
     done
 }
 
-ethif=$(get_eth)
-
-if [ -n "$ethif" ]; then
-    printf "%s 100%%\n" "$ICON_ETH"
-    exit 0
-fi
-
-# Wi-Fi check
+# Detect wifi interface (wireless + up)
 get_wifi_iface() {
     for if in /sys/class/net/*; do
         iface=$(basename "$if")
@@ -37,24 +29,29 @@ get_wifi_iface() {
     done
 }
 
+ethif=$(get_eth)
 wiface=$(get_wifi_iface)
 
+# --- Ethernet: prioritas tertinggi ---
+if [ -n "$ethif" ]; then
+    printf "%s %s\n" "$ICON_ETH" "$ethif"
+    exit 0
+fi
+
+# --- WiFi ---
 if [ -n "$wiface" ]; then
-    if command -v iw >/dev/null 2>&1; then
-        sigdb=$(iw dev "$wiface" link 2>/dev/null | awk '/signal:/ {print $2; exit}')
-        if [[ "$sigdb" =~ ^-?[0-9]+$ ]]; then
-            p=$(( 2 * (sigdb + 100) ))
-            (( p < 0 )) && p=0
-            (( p > 100 )) && p=100
-        fi
-    fi
+    ssid=$(iw dev "$wiface" link 2>/dev/null | awk -F': ' '/SSID/ {print $2}')
 
-    if [ -z "$p" ] && [ -r /proc/net/wireless ]; then
-        q=$(awk -v IF="$wiface" '$1 ~ IF":" {print int($3)}' /proc/net/wireless)
-        [ -n "$q" ] && p=$(( (q * 100) / 70 ))
-    fi
+    # Sinyal
+    sig=$(iw dev "$wiface" link | awk '/signal:/ {print $2}')
 
-    [ -z "$p" ] && p=0
+    if [[ "$sig" =~ ^-?[0-9]+$ ]]; then
+        p=$(( 2 * (sig + 100) ))
+        (( p < 0 )) && p=0
+        (( p > 100 )) && p=100
+    else
+        p=0
+    fi
 
     if   [ "$p" -ge 100 ]; then icon="$ICON_WIFI_100"
     elif [ "$p" -ge 75 ];  then icon="$ICON_WIFI_75"
@@ -63,9 +60,9 @@ if [ -n "$wiface" ]; then
     else                    icon="$ICON_WIFI_0"
     fi
 
-    printf "%s %d%%\n" "$icon" "$p"
+    printf "%s %s\n" "$icon" "${ssid:-Unknown}"
     exit 0
 fi
 
-# Disconnected
-printf "%s Disconnected\n" "$ICON_WIFI_0"
+# --- Offline ---
+printf "%s Offline\n" "$ICON_WIFI_0"
