@@ -1,32 +1,23 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static const unsigned int borderpx  = 0;        /* border pixel of windows */
-static const unsigned int snap      = 32;       /* snap pixel */
-static const int showbar            = 1;        /* 0 means no bar */
-static const int topbar             = 1;        /* 0 means bottom bar */
-static const char *fonts[]          = { "JetBrainsMono Nerd Font:size=11" };
-static const char dmenufont[]       = "JetBrainsMono Nerd Font:size=11";
-static const char col_gray1[]       = "#222222";
-static const char col_gray2[]       = "#444444";
-static const char col_gray3[]       = "#bbbbbb";
-static const char col_gray4[]       = "#eeeeee";
-static const char col_cyan[]        = "#005577";
-
-/* TokyoNight Theme */
-static const char col_bg[]          = "#1a1b26";  /* background */
-static const char col_bg2[]         = "#16161e";  /* darker background */
-static const char col_fg[]          = "#c0caf5";  /* foreground */
-static const char col_border[]      = "#1a1b26";  /* normal border */
-static const char col_accent[]      = "#7aa2f7";  /* blue highlight */
-static const char col_warn[]        = "#ff9e64";  /* orange accent */
-static const char col_error[]       = "#f7768e";  /* red accent */
-
-/* color schemes */
-static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_fg,     col_bg,   col_border }, /* unfocused windows */
-	[SchemeSel]  = { col_accent, col_bg2,  col_accent }, /* focused window */
+static unsigned int borderpx        = 1;        /* border pixel of windows */
+static unsigned int snap            = 32;       /* snap pixel */
+static int showbar                  = 1;        /* 0 means no bar */
+static int topbar                   = 1;        /* 0 means bottom bar */
+static char font[]                  = "monospace:size=10";
+static char dmenufont[]             = "monospace:size=10";
+static const char *fonts[]          = { font };
+static char normbgcolor[]           = "#222222";
+static char normbordercolor[]       = "#444444";
+static char normfgcolor[]           = "#bbbbbb";
+static char selfgcolor[]            = "#eeeeee";
+static char selbordercolor[]        = "#005577";
+static char selbgcolor[]            = "#005577";
+static char *colors[][3] = {
+       /*               fg           bg           border   */
+       [SchemeNorm] = { normfgcolor, normbgcolor, normbordercolor },
+       [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
 };
 
 /* status padding */
@@ -55,6 +46,11 @@ static       int smartgaps          = 1;        /* 1 means no outer gap when the
 /* tagging */
 static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
 
+static const unsigned int ulinepad	= 5;	/* horizontal padding between the underline and tag */
+static const unsigned int ulinestroke	= 2;	/* thickness / height of the underline */
+static const unsigned int ulinevoffset	= 0;	/* how far above the bottom of the bar the line should appear */
+static const int ulineall 		= 0;	/* 1 to show underline on all tags, 0 for just the active ones */
+
 static const Rule rules[] = {
     /* class             instance    title       tags mask     isfloating   monitor */
   { "zen",             NULL,       NULL,       1 << 1,       0,           -1 },
@@ -72,9 +68,9 @@ static const Rule rules[] = {
 };
 
 /* layout(s) */
-static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
-static const int nmaster     = 1;    /* number of clients in master area */
-static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
+static float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
+static int nmaster     = 1;    /* number of clients in master area */
+static int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 static const int attachbelow = 1;    /* 1 means attach after the currently active window */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
 static const int refreshrate = 120;  /* refresh rate (per second) for client move/resize */
@@ -139,6 +135,27 @@ static const char *bookmarks[] = { "sh", "-c", "~/.config/scripts/bookmarks/book
 static const char *wallpapers[] = { "sh", "-c", "~/.config/scripts/wallpapers/wallpapers-dmenu.sh", NULL };
 static const char *session[] = { "sh", "-c", "~/.config/scripts/system-menu/sm-dmenu.sh", NULL };
 static const char *repos[] = { "sh", "-c", "~/.config/scripts/project-repos/pr-dmenu.sh", NULL };
+
+/*
+ * Xresources preferences to load at startup
+ */
+ResourcePref resources[] = {
+               { "font",               STRING,  &font },
+               { "dmenufont",          STRING,  &dmenufont },
+               { "normbgcolor",        STRING,  &normbgcolor },
+               { "normbordercolor",    STRING,  &normbordercolor },
+               { "normfgcolor",        STRING,  &normfgcolor },
+               { "selbgcolor",         STRING,  &selbgcolor },
+               { "selbordercolor",     STRING,  &selbordercolor },
+               { "selfgcolor",         STRING,  &selfgcolor },
+               { "borderpx",           INTEGER, &borderpx },
+               { "snap",               INTEGER, &snap },
+               { "showbar",            INTEGER, &showbar },
+               { "topbar",             INTEGER, &topbar },
+               { "nmaster",            INTEGER, &nmaster },
+               { "resizehints",        INTEGER, &resizehints },
+               { "mfact",              FLOAT,   &mfact },
+};
 
 #include "movestack.c"
 static Keychord *keychords[] = { /* Program launcher & system */
