@@ -24,15 +24,8 @@ fi
 
 if command -v playerctl >/dev/null; then
     status=$(playerctl status 2>/dev/null)
-
-    if playerctl -l 2>/dev/null | grep -iq spotify; then
-        player_name="spotify"
-    else
-        player_name=""
-    fi
-
-    meta=$(playerctl metadata --format '{{xesam:artist}} - {{xesam:title}}' 2>/dev/null)
-    [[ -z $meta ]] && meta=$(playerctl metadata --format '{{title}}' 2>/dev/null)
+    player_name=$(playerctl -l 2>/dev/null | grep -i spotify && echo "spotify")
+    meta=$(playerctl metadata --format '{{artist}} - {{title}}' 2>/dev/null)
 
     if [[ -z $meta || $status == "Stopped" ]]; then
         echo ""
@@ -41,11 +34,13 @@ if command -v playerctl >/dev/null; then
 
     [[ ${#meta} -gt 30 ]] && meta="${meta:0:27}…"
 
-    case $status in
-        Playing) icon="" ;;
-        Paused)  icon="" ;;
-        *)       icon="" ;;
-    esac
+    if [[ $status == "Playing" ]]; then
+        icon=""
+    elif [[ $status == "Paused" ]]; then
+        icon=""
+    else
+        icon=""
+    fi
 
     [[ $player_name == "spotify" ]] && icon=" $icon"
 
