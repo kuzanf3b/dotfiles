@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-# === Directory ===
+# === Setup Directories ===
 BOOKMARK_DIR="$HOME/.config/scripts/bookmarks/bookmarks-file"
 mkdir -p "$BOOKMARK_DIR"
 
@@ -9,130 +9,132 @@ mkdir -p "$BOOKMARK_DIR"
 ZEN_BROWSER="$(command -v zen-browser 2>/dev/null || true)"
 FIREFOX="$(command -v firefox 2>/dev/null || true)"
 BRAVE="$(command -v brave 2>/dev/null || command -v brave-browser 2>/dev/null || true)"
+FLOORP="$(command -v floorp 2>/dev/null || true)"
+VIVALDI="$(command -v vivaldi 2>/dev/null || true)"
+QUTE="$(command -v qutebrowser 2>/dev/null || true)"
 
-# === dmenu setup ===
-DMENU="dmenu -i -l 10 -p"
+# === dmenu Setup ===
+DMENU="dmenu -i"
 
 # === Nerd Font Icons ===
 ICON_DEFAULT="󰈙"
 ICON_ZEN="󰤄"
 ICON_FIREFOX="󰈹"
 ICON_BRAVE="󰄛"
+ICON_FLOORP="󰓅"
+ICON_VIVALDI=""
+ICON_QUTE="󰆍"
 NEW_OPTION="󰐕  Add New Bookmark"
 
-# === Icon mapping by filename ===
 icon_for() {
     case "$1" in
-        personal) echo "󰀄" ;;
+        personal) echo "" ;;
         work) echo "󱃐" ;;
         theme) echo "󰏘" ;;
-        appearance) echo "󰸱" ;;
+        appearance) echo "" ;;
         cinema) echo "󰎁" ;;
         terminal) echo "" ;;
         installation) echo "" ;;
-        nvim) echo "" ;;
+        nvim) echo "" ;;
         wm-compositor) echo "" ;;
         *) echo "$ICON_DEFAULT" ;;
     esac
 }
 
-# === Capitalize case (Title Case) ===
 capitalize_case() {
-    echo "$1" | tr '-' ' ' | tr '_' ' ' |
-    awk '{for (i=1; i<=NF; i++) {$i = toupper(substr($i,1,1)) tolower(substr($i,2))} print $0}'
+    echo "$1" | sed 's/[-_]/ /g' | awk '{for (i=1;i<=NF;i++){$i=toupper(substr($i,1,1))tolower(substr($i,2))}print}'
 }
 
-# === Emit bookmarks from file ===
 emit() {
     file="$1"; icon="$2"
-    [ -f "$file" ] || return 0
     grep -vE '^\s*(#|$)' "$file" | while IFS= read -r line; do
-        name="${line%%::*}"
-        url="${line#*::}"
-        [ "$name" = "$url" ] && url="$name"
-        name="$(printf '%s' "$name" | sed 's/[[:space:]]*$//')"
-        url="$(printf '%s' "$url" | sed 's/^[[:space:]]*//')"
-        printf '%s  %-25s :: %s\n' "$icon" "$name" "$url"
+        case "$line" in
+            *"::"*)
+                name="${line%%::*}"
+                url="${line#*::}"
+                printf '%s [%s] :: %s\n' "$icon" "$(echo "$name" | xargs)" "$(echo "$url" | xargs)"
+                ;;
+            *)
+                printf '%s [%s] :: %s\n' "$icon" "$line" "$line"
+                ;;
+        esac
     done
 }
 
-# === Step 1: Choose category (auto-detect .txt files) ===
+# === Step 1: Choose Category ===
 category_list=""
+found_file=false
 for file in "$BOOKMARK_DIR"/*.txt; do
     [ -f "$file" ] || continue
+    found_file=true
     name="$(basename "$file" .txt)"
-    display_name="$(capitalize_case "$name")"
     icon="$(icon_for "$name")"
+    display_name="$(capitalize_case "$name")"
     category_list="${category_list}${icon} ${display_name}\n"
 done
 
-[ -n "$category_list" ] || {
-    dunstify -a "Bookmarks" " No bookmark files found" "$BOOKMARK_DIR"
+if [ "$found_file" = false ]; then
+    notify-send "No bookmark files found in $BOOKMARK_DIR"
     exit 0
-}
+fi
 
-category_choice="$(printf "%b" "$category_list" | sort | $DMENU 'Select category:')"
-[ -n "$category_choice" ] || exit 0
+category_choice="$(printf "%b" "$category_list" | $DMENU -p "Category:" || true)"
+[ -n "${category_choice:-}" ] || exit 0
 
-# Convert choice back to filename
 CATEGORY="$(printf '%s' "$category_choice" | cut -d' ' -f2- | tr '[:upper:]' '[:lower:]' | tr ' ' '-')"
 FILE="$BOOKMARK_DIR/$CATEGORY.txt"
 ICON="$(icon_for "$CATEGORY")"
 
-# === Step 2: Choose bookmark ===
-menu_items="$(emit "$FILE" "$ICON")"
-menu_items="${menu_items}${menu_items:+\n}${NEW_OPTION}"
+# === Step 2: Choose Bookmark ===
+bookmarks_sorted="$(emit "$FILE" "$ICON" | sort)"
 
-bookmark_choice="$(printf "%s" "$menu_items" | sort | $DMENU 'Select bookmark:')"
-[ -n "$bookmark_choice" ] || exit 0
+menu_items="${NEW_OPTION}
+${bookmarks_sorted}"
 
-# === Step 3: Add new bookmark ===
+bookmark_choice="$(printf "%s" "$menu_items" | $DMENU -p "Bookmark:" || true)"
+[ -n "${bookmark_choice:-}" ] || exit 0
+
+# === Step 3: Add New Bookmark ===
 if printf '%s' "$bookmark_choice" | grep -q "$NEW_OPTION"; then
-    name="$(printf '' | $DMENU 'Name of site:')"
-    [ -z "$name" ] && exit 0
-    url="$(printf '' | $DMENU 'URL:')"
-    [ -z "$url" ] && exit 0
-    printf '%s :: %s\n' "$name" "$url" >> "$FILE"
-    dunstify -a "Bookmarks" " Bookmark Added" "$name → $url" \
-        -h string:x-canonical-private-synchronous:bookmarks
+    name="$($DMENU -p "Name:" || true)"
+    [ -z "${name:-}" ] && exit 0
+    url="$($DMENU -p "URL:" || true)"
+    [ -z "${url:-}" ] && exit 0
+    printf "%s :: %s\n" "$name" "$url" >>"$FILE"
+    notify-send "Bookmark Added" "$name → $url"
     exit 0
 fi
 
-# === Step 4: Parse selection ===
+# === Step 4: Parse selected bookmark ===
 url="${bookmark_choice##* :: }"
-url="$(printf '%s' "$url" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+url="$(printf '%s' "$url" | xargs)"
 
 case "$url" in
     http://*|https://*|file://*|about:*|chrome:*) ;;
     *) url="https://$url" ;;
 esac
 
-# === Step 5: Choose browser ===
+# === Step 5: Choose Browser ===
 available_browsers=""
-[ -n "$ZEN_BROWSER" ]   && available_browsers="$available_browsers\n$ICON_ZEN  Zen"
-[ -n "$FIREFOX" ]       && available_browsers="$available_browsers\n$ICON_FIREFOX  Firefox"
-[ -n "$BRAVE" ]         && available_browsers="$available_browsers\n$ICON_BRAVE  Brave"
+[ -n "$ZEN_BROWSER" ] && available_browsers="${available_browsers}󰤄 Zen\n"
+[ -n "$FIREFOX" ] && available_browsers="${available_browsers}󰈹 Firefox\n"
+[ -n "$BRAVE" ] && available_browsers="${available_browsers}󰄛 Brave\n"
+[ -n "$FLOORP" ] && available_browsers="${available_browsers}󰓅 Floorp\n"
+[ -n "$VIVALDI" ] && available_browsers="${available_browsers} Vivaldi\n"
+[ -n "$QUTE" ] && available_browsers="${available_browsers}󰆍 Qutebrowser\n"
 
-if [ -z "$available_browsers" ]; then
-    dunstify -a "Bookmarks" "❌ No Browser Found" "No available browser installed."
-    exit 1
-fi
+browser_choice="$(printf "%b" "$available_browsers" | $DMENU -p "Browser:" || true)"
+[ -n "${browser_choice:-}" ] || exit 0
 
-BROWSER_CHOICE="$(printf '%b' "$available_browsers" | sed '/^$/d' | $DMENU 'Open with:')"
-[ -z "$BROWSER_CHOICE" ] && exit 0
-
-# === Step 6: Open selected browser ===
-open_with() {
-    cmd="$1"
-    [ -n "$cmd" ] && nohup "$cmd" "$url" >/dev/null 2>&1 &
-}
-
-case "$BROWSER_CHOICE" in
-    *Zen*)      open_with "$ZEN_BROWSER" ;;
-    *Firefox*)  open_with "$FIREFOX" ;;
-    *Brave*)    open_with "$BRAVE" ;;
+case "$browser_choice" in
+    *Zen) cmd="$ZEN_BROWSER" ;;
+    *Firefox) cmd="$FIREFOX" ;;
+    *Brave) cmd="$BRAVE" ;;
+    *Floorp) cmd="$FLOORP" ;;
+    *Vivaldi) cmd="$VIVALDI" ;;
+    *Qutebrowser) cmd="$QUTE" ;;
+    *) exit 0 ;;
 esac
 
-# === Step 7: Notify ===
-dunstify -a "Bookmarks" " Opening Bookmark" "$url" \
-    -h string:x-canonical-private-synchronous:bookmarks
+nohup "$cmd" "$url" >/dev/null 2>&1 &
+notify-send "Opening" "$url"

@@ -10,7 +10,7 @@ gaps outer 4
 smart_gaps on
 
 # Launch apps
-set $term ghostty
+set $term alacritty
 bindsym $mod+Return exec $term
 bindsym $mod+E exec thunar
 bindsym $mod+D exec rofi -show drun
@@ -59,6 +59,7 @@ bindsym $mod+Shift+V split v
 bindsym $mod+T split toggle
 
 # Fullscreen / floating
+popup_during_fullscreen smart
 bindsym $mod+Shift+F fullscreen toggle
 bindsym $mod+F floating toggle
 
@@ -104,13 +105,13 @@ bindsym XF86AudioLowerVolume exec "pamixer -d 3 && pamixer --get-volume > /tmp/x
 bindsym XF86AudioMute exec "amixer sset Master toggle"
 
 # Autostart
-exec_always --no-startup-id xset r rate 200 35
-exec_always --no-startup-id bash -c "sleep 1 && ~/.config/polybar/launch.sh"
+exec_always --no-startup-id bash -c "xset r rate 200 35"
+exec_always --no-startup-id ~/.config/polybar/launch.sh
 exec_always --no-startup-id ~/.config/autostart/xidlehook.sh
 
 exec --no-startup-id dunst
 exec --no-startup-id picom
 exec --no-startup-id redshift
-exec --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/ac-boat-island.png
+exec --no-startup-id feh --bg-fill ~/Pictures/Wallpapers/dark-tree.png
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 

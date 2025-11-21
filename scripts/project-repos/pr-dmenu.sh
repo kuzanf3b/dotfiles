@@ -1,96 +1,78 @@
 #!/bin/sh
 set -eu
 
-# CONFIGURATION
-
-# Terminal/app choices
-apps="  st
-  alacritty
-󰽒  foot
-  vscode"
-
-# Categories
-categories="  Repos
-  Config
-  All Projects"
-
-# Dmenu setup
-DMENU="dmenu -i -l 10 -p"
-
-# Paths
-repos_dir="$HOME/Repos"
+# === PATHS ===
+repos_dir="$HOME/Repository"
+learn_dir="$HOME/Learning"
+proj_dir="$HOME/Project"
 config_dir="$HOME/.config"
 
-# Step 1: Choose application
-chosen_app=$(printf "%b\n" "$apps" | $DMENU 'Open with:' | awk '{print $2}')
-[ -n "$chosen_app" ] || exit 0
+# === dmenu wrapper ===
+DMENU="dmenu -i -p"
 
-# Step 2: Choose category
-chosen_category=$(printf "%b\n" "$categories" | $DMENU 'Category:' | awk '{print $2}')
-[ -n "$chosen_category" ] || exit 0
+# === Check installed apps ===
+apps=""
+command -v st >/dev/null 2>&1 && apps="${apps}  st\n"
+command -v alacritty >/dev/null 2>&1 && apps="${apps}  alacritty\n"
+command -v ghostty >/dev/null 2>&1 && apps="${apps}󰊠  ghostty\n"
+command -v code >/dev/null 2>&1 && apps="${apps}  vscode\n"
 
-# Step 3: Determine base directory
+[ -n "$apps" ] || {
+    notify-send " No Terminal Apps Found" "Install a terminal emulator like st, alacritty, or vscode." -i dialog-warning
+    exit 1
+}
+
+# === Categories ===
+categories="  Repositories
+  Configuration
+  Learning
+  Projects"
+
+# === Choose App ===
+chosen_app_line=$(printf "%b" "$apps" | $DMENU "Open with:")
+[ -n "$chosen_app_line" ] || exit 0
+
+# ambil kata terakhir (nama aplikasinya)
+chosen_app="${chosen_app_line##* }"
+
+# === Choose Category ===
+chosen_category_line=$(printf "%b" "$categories" | $DMENU "Category:")
+[ -n "$chosen_category_line" ] || exit 0
+
+chosen_category="${chosen_category_line##* }"
+
+# === Determine Base Directory ===
 case "$chosen_category" in
-    Repos)
-        base_dirs="$repos_dir"
-        ;;
-    Config)
-        base_dirs="$config_dir"
-        ;;
-    All|All\ Projects)
-        base_dirs="$repos_dir $config_dir"
-        ;;
-    *)
-        dunstify -a "Projects" " No Projects Found in Category" "Empty directory in '$chosen_category'."
-        exit 1
-        ;;
+    Repositories) base_dir="$repos_dir" ;;
+    Configuration) base_dir="$config_dir" ;;
+    Learning) base_dir="$learn_dir" ;;
+    Projects) base_dir="$proj_dir" ;;
 esac
 
-# Step 4: Collect all project directories
-projects=""
-for dir in $base_dirs; do
-    if [ -d "$dir" ]; then
-        for p in "$dir"/*/; do
-            [ -d "$p" ] || continue
-            name="$(basename "$p")"
-            parent="$(basename "$dir")"
-            projects="${projects}  [$parent] $name\n"
-        done
-    fi
-done
+# === Gather Projects Fast ===
+projects=$(find "$base_dir" -maxdepth 1 -mindepth 1 -type d -printf "  %f\n" | sort)
 
 [ -n "$projects" ] || {
-    dunstify -a "Projects" " No Projects Found in Category" "Empty directory in '$chosen_category'."
+    notify-send "No Projects Found" "Empty directory in '$chosen_category'." -i dialog-information
     exit 0
 }
 
-# Step 5: Choose project
-chosen_entry=$(printf "%b" "$projects" | $DMENU 'Projects:')
-[ -n "$chosen_entry" ] || exit 0
+# === Choose Project ===
+chosen_project_line=$(printf "%b" "$projects" | $DMENU "Projects:")
+[ -n "$chosen_project_line" ] || exit 0
 
-# Step 6: Extract parent and project name
-chosen_parent=$(printf "%s" "$chosen_entry" | sed -E 's/.*\[(.*)\].*/\1/')
-chosen_project=$(printf "%s" "$chosen_entry" | sed -E 's/.*\] (.*)/\1/')
+# hapus ikon
+chosen_project="${chosen_project_line#  }"
 
-# Step 7: Construct path
-dir="$HOME/$chosen_parent/$chosen_project"
+dir="$base_dir/$chosen_project"
 
-# Step 8: Run chosen app
+# === Open Project ===
 case "$chosen_app" in
-    st)
-        exec st -e tmux new-session -As "$chosen_project" -c "$dir"
-        ;;
-    alacritty)
-        exec alacritty -e tmux new-session -As "$chosen_project" -c "$dir"
-        ;;
-    foot)
-        exec foot -e tmux new-session -As "$chosen_project" -c "$dir"
+    st|alacritty|ghostty)
+        sess=$(printf "%s" "$chosen_project" | tr '/.' '_')
+        exec "$chosen_app" -e tmux new-session -As "$sess" -c "$dir"
         ;;
     vscode)
         exec code "$dir"
-        ;;
-    *)
-        dunstify -a "Projects" " Unknown App" "Unknown application: '$chosen_app'."
-        exit 1
         ;;
 esac

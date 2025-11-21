@@ -7,3 +7,4 @@ I3wm Wiki :: https://i3wm.org/docs/
 Herbstluftwm Wiki :: https://herbstluftwm.org/documentation/
 Bspwm Wiki :: https://github.com/baskerville/bspwm/wiki
 Qtile Wiki :: https://docs.qtile.org/en/latest/
+Awesomewm Wiki :: https://awesomewm.org

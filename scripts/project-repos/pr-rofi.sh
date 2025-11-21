@@ -11,12 +11,11 @@ config_dir="$HOME/.config"
 apps=""
 command -v st >/dev/null 2>&1 && apps="${apps}  st\n"
 command -v alacritty >/dev/null 2>&1 && apps="${apps}  alacritty\n"
-command -v foot >/dev/null 2>&1 && apps="${apps}󰽒  foot\n"
 command -v ghostty >/dev/null 2>&1 && apps="${apps}󰊠  ghostty\n"
 command -v code >/dev/null 2>&1 && apps="${apps}  vscode\n"
 
 [ -n "$apps" ] || {
-    notify-send " No Terminal Apps Found" "Install a terminal emulator like st, foot, alacritty, or vscode." -i dialog-warning
+    notify-send " No Terminal Apps Found" "Install a terminal emulator like st, alacritty, or vscode." -i dialog-warning
     exit 1
 }
 
@@ -61,7 +60,7 @@ dir="$base_dir/$chosen_project"
 
 # === Open Project Super Fast ===
 case "$chosen_app" in
-    st|alacritty|foot|ghostty)
+    st|alacritty|ghostty)
         # session name aman
         sess=$(printf "%s" "$chosen_project" | tr '/.' '_')
         exec "$chosen_app" -e tmux new-session -As "$sess" -c "$dir"
