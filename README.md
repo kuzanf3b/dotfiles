@@ -35,8 +35,6 @@ paru -S i3-wm i3status i3lock polybar alacritty thunar thunar-volman tumbler tum
 
 - Nix/Home Manager support  
 - Unified theme switcher (Tokyo Night ↔ Rosé Pine ↔ Kanagawa ↔ Vague)  
-- Auto-install scripts for Arch-based systems  
-- Improved Waybar animations  
 - Complete preview gallery  
 
 > 🩵 Handcrafted on Arch Linux. Built for productivity, curiosity, and enjoyment.
