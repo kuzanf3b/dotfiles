@@ -1,93 +1,73 @@
 #!/bin/sh
 set -eu
 
-# CONFIGURATION
-
-# terminal choices
-apps="  st
-  alacritty
-󰽒  foot
-  vscode"
-
-# categories
-categories="  Repositories
-  Configuration
-  All Projects"
-
-# Wofi styling
-wofi_common="--insensitive --dmenu --prompt"
-
-chosen_app=$(printf "%b\n" "$apps" | wofi $wofi_common 'Open with:' | awk '{print $2}')
-[ -n "$chosen_app" ] || exit 0
-
-chosen_category=$(printf "%b\n" "$categories" | wofi $wofi_common 'Category:' | awk '{print $2}')
-[ -n "$chosen_category" ] || exit 0
-
-# path
-repos_dir="$HOME/Repos"
+# === PATHS ===
+repos_dir="$HOME/Repository"
+learn_dir="$HOME/Documents/Learning"
+proj_dir="$HOME/Documents/Projects"
 config_dir="$HOME/.config"
 
+# === Wofi wrapper ===
+menu() {
+    local prompt="$1"
+    WOFI_PROMPT="$prompt" wofi --dmenu --allow-markup --hide-scroll
+}
+
+# === Check installed apps ===
+apps=""
+command -v st >/dev/null 2>&1 && apps="${apps}  st\n"
+command -v alacritty >/dev/null 2>&1 && apps="${apps}  alacritty\n"
+command -v ghostty >/dev/null 2>&1 && apps="${apps}󰊠  ghostty\n"
+command -v code >/dev/null 2>&1 && apps="${apps}  vscode\n"
+
+[ -n "$apps" ] || {
+    notify-send " No Terminal Apps Found" "Install st, alacritty, ghostty, or vscode." -i dialog-warning
+    exit 1
+}
+
+# === Categories ===
+categories="  Repositories
+  Configuration
+  Learning
+  Projects"
+
+# === Choose App ===
+chosen_app=$(printf "%b" "$apps" | menu "Open with:" | awk '{print $2}')
+[ -n "$chosen_app" ] || exit 0
+
+# === Choose Category ===
+chosen_category=$(printf "%b" "$categories" | menu "Category:" | awk '{print $2}')
+[ -n "$chosen_category" ] || exit 0
+
+# === Determine Base Directory ===
 case "$chosen_category" in
-    Repositories)
-        base_dirs="$repos_dir"
-        ;;
-    Configuration)
-        base_dirs="$config_dir"
-        ;;
-    All|All\ Projects)
-        base_dirs="$repos_dir $config_dir"
-        ;;
-    *)
-        notify-send " No Projects Found in Category" "Empty directory in categories '$chosen_category'." -i dialog-information
-        exit 1
-        ;;
+    Repositories) base_dir="$repos_dir" ;;
+    Configuration) base_dir="$config_dir" ;;
+    Learning) base_dir="$learn_dir" ;;
+    Projects) base_dir="$proj_dir" ;;
 esac
 
-# all projects
-projects=""
-for dir in $base_dirs; do
-    if [ -d "$dir" ]; then
-        for p in "$dir"/*/; do
-            [ -d "$p" ] || continue
-            name="$(basename "$p")"
-            parent="$(basename "$dir")"
-            projects="${projects}  [$parent] $name\n"
-        done
-    fi
-done
+# === Gather Projects ===
+projects=$(find "$base_dir" -maxdepth 1 -mindepth 1 -type d -printf "  %f\n" | sort)
 
 [ -n "$projects" ] || {
-    notify-send " No Projects Found in Category" "Empty directory in categories '$chosen_category'." -i dialog-information
+    notify-send "No Projects Found" "Empty directory in '$chosen_category'." -i dialog-information
     exit 0
 }
 
-# choose project
-chosen_entry=$(printf "%b" "$projects" | wofi $wofi_common 'Projects:')
-[ -n "$chosen_entry" ] || exit 0
+# === Choose Project ===
+chosen_project=$(printf "%b" "$projects" | menu "Projects:" | sed 's/^  //')
+[ -n "$chosen_project" ] || exit 0
 
-# taken apart chosen entry
-chosen_parent=$(printf "%s" "$chosen_entry" | sed -E 's/.*\[(.*)\].*/\1/')
-chosen_project=$(printf "%s" "$chosen_entry" | sed -E 's/.*\] (.*)/\1/')
+dir="$base_dir/$chosen_project"
 
-# directory path
-dir="$HOME/$chosen_parent/$chosen_project"
-
-# run chosen app
+# === Open Project ===
 case "$chosen_app" in
-    st)
-        exec st -e tmux new-session -As "$chosen_project" -c "$dir"
-        ;;
-    alacritty)
-        exec alacritty -e tmux new-session -As "$chosen_project" -c "$dir"
-        ;;
-    foot)
-        exec foot -e tmux new-session -As "$chosen_project" -c "$dir"
+    st|alacritty|ghostty)
+        sess=$(printf "%s" "$chosen_project" | tr '/.' '_')
+        exec "$chosen_app" -e tmux new-session -As "$sess" -c "$dir"
         ;;
     vscode)
         exec code "$dir"
-        ;;
-    *)
-        notify-send " Unknown App" "Unknown '$chosen_app' application." -i dialog-warning
-        exit 1
         ;;
 esac
