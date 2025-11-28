@@ -3,44 +3,64 @@
   font-size: 16px;
 }
 
+/* ───────────────────────────────────────────────
+   Vague core palette (by mood, not strict branding)
+   bg      = #0e0e12
+   fg      = #e4e1ec
+   accent1 = #6fa4a8  (teal)
+   accent2 = #b47faa  (magenta)
+   dim     = #32323a
+   warn    = #e27878
+──────────────────────────────────────────────── */
+
 window#waybar {
-  background-color: #1a1b26;
-  color: #c0caf5;
-  transition: background-color 0.3s ease;
+  color: #e4e1ec;
+  margin: 6px 10px;
+  transition: background-color 0.25s ease;
 }
 
+/* Workspaces */
 #workspaces button {
   all: unset;
   padding: 0px 6px;
-  color: #565f89;
+  color: #6c6a75;
   transition: all 0.25s ease-in-out;
 }
 
 #workspaces button.default {
-  color: #565f89;
+  color: #6c6a75;
 }
 
 #workspaces button.active {
-  color: #7aa2f7;
-  text-shadow: 0 0 6px #7aa2f780;
+  color: #6fa4a8;
+  text-shadow: 0 0 6px #6fa4a840;
 }
 
 #workspaces button.urgent {
-  color: #f7768e;
-  text-shadow: 0 0 5px #f7768e70;
+  color: #e27878;
+  text-shadow: 0 0 5px #e2787840;
 }
 
 #workspaces button:hover {
-  color: #7dcfff;
-  text-shadow: 0 0 5px #7dcfff70;
+  color: #b47faa;
+  text-shadow: 0 0 5px #b47faa40;
 }
 
-/* Module styling */
+/* Exit button */
+#custom-exit {
+  background-color: #e27878;
+  font-size: 14px;
+  font-weight: 800;
+  color: #0e0e12;
+  padding: 0px 6px;
+  margin: 2px 2px 2px 0;
+}
+
+/* Default for all modules */
 #clock,
 #mpd,
 #mpris,
 #cava,
-#custom-sep,
 #battery,
 #cpu,
 #memory,
@@ -49,84 +69,63 @@ window#waybar {
 #pulseaudio,
 #temperature,
 #tray {
-  padding: 0 6px;
-  color: #c0caf5;
+  padding: 0 15px;
+  color: #e4e1ec;
 }
 
 /* Separator */
 #custom-sep {
-  color: #24283b;
+  color: #32323a;
+  padding: 0;
 }
 
-/* Module-specific accents */
+/* Subtle accents (tidak semua modul beda warna) */
 #clock {
-  color: #7dcfff; /* cyan time */
+  color: #6fa4a8;
 }
 
 #battery {
-  color: #e0af68; /* gold */
+  color: #b47faa;
 }
 
 #disk {
-  color: #bb9af7; /* violet */
+  color: #6fa4a8;
 }
 
-#cava {
-  color: #e0af68; /* golden spectrum */
-}
-
-#dwl-window {
-  color: #9ece6a; /* green title */
-}
-
-#mpd {
-  color: #9ece6a;
-}
-
-#mpris {
-  color: #7aa2f7; /* music info blue */
-}
-
+#cpu,
 #memory {
-  color: #73daca; /* teal */
+  color: #6fa4a8;
 }
 
 #temperature {
-  color: #9ece6a; /* cool cyan */
-}
-
-#cpu {
-  color: #7aa2f7;
+  color: #b47faa;
 }
 
 #network {
-  color: #7dcfff;
-}
-
-#pulseaudio {
-  color: #bb9af7; /* magenta for volume */
-}
-
-#custom-pipewire {
-  color: #7dcfff;
+  color: #6fa4a8;
 }
 
 #network.disconnected {
-  color: #f7768e; /* red if offline */
+  color: #e27878;
+}
+
+#pulseaudio {
+  color: #b47faa;
 }
 
 #tray {
-  color: #e0af68;
+  color: #6fa4a8;
 }
 
+/* Minimal glow (lebih lembut dari Kanagawa) */
 @keyframes pulse {
   0% {
-    text-shadow: 0 0 5px #7aa2f7;
+    text-shadow: 0 0 4px #6fa4a8;
   }
   50% {
-    text-shadow: 0 0 15px #7aa2f7;
+    text-shadow: 0 0 9px #6fa4a8;
   }
   100% {
-    text-shadow: 0 0 5px #7aa2f7;
+    text-shadow: 0 0 4px #6fa4a8;
   }
 }
