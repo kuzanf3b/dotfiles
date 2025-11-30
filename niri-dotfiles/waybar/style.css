@@ -1,23 +1,20 @@
 * {
+  border: none;
+  border-radius: 0;
   font-family: "JetBrainsMono Nerd Font", "DroidSansM Nerd Font";
   font-size: 16px;
+  padding: 0;
+  margin: 0;
 }
-
-/* ───────────────────────────────────────────────
-   Vague core palette (by mood, not strict branding)
-   bg      = #0e0e12
-   fg      = #e4e1ec
-   accent1 = #6fa4a8  (teal)
-   accent2 = #b47faa  (magenta)
-   dim     = #32323a
-   warn    = #e27878
-──────────────────────────────────────────────── */
 
 window#waybar {
-  color: #e4e1ec;
-  margin: 6px 10px;
-  transition: background-color 0.25s ease;
+  background-color: rgba(14, 14, 18, 0.85);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.22);
 }
+
+/* ─────────────────────────────────────────────
+   Workspaces
+   ───────────────────────────────────────────── */
 
 /* Workspaces */
 #workspaces button {
@@ -46,86 +43,117 @@ window#waybar {
   text-shadow: 0 0 5px #b47faa40;
 }
 
-/* Exit button */
+/* ─────────────────────────────────────────────
+   Custom stuff
+   ───────────────────────────────────────────── */
+
 #custom-exit {
-  background-color: #e27878;
-  font-size: 14px;
+  color: #e27878;
+  font-size: 18px;
   font-weight: 800;
-  color: #0e0e12;
-  padding: 0px 6px;
-  margin: 2px 2px 2px 0;
 }
 
-/* Default for all modules */
-#clock,
-#mpd,
-#mpris,
-#cava,
-#battery,
-#cpu,
-#memory,
-#disk,
-#network,
-#pulseaudio,
-#temperature,
-#tray {
-  padding: 0 15px;
+#custom-cava {
   color: #e4e1ec;
+  padding: 0 6px;
+  min-width: 100px;
+  margin: 3px 3px;
+  border-radius: 12px;
 }
 
-/* Separator */
 #custom-sep {
-  color: #32323a;
+  color: #4a4a55;
+  margin-left: 5px;
+  font-size: 20px;
+}
+
+/* ─────────────────────────────────────────────
+   Modules
+   ───────────────────────────────────────────── */
+
+#battery,
+#network,
+#backlight,
+#tray,
+#pulseaudio {
+  margin: 0 10px;
+  font-size: 18px;
+  border-radius: 5px;
+}
+
+#pulseaudio-slider {
+  margin: 0 15px;
   padding: 0;
 }
 
-/* Subtle accents (tidak semua modul beda warna) */
+#pulseaudio-slider slider {
+  border-radius: 9999px;
+  min-height: 10px;
+}
+
+#pulseaudio-slider trough {
+  border-radius: 9999px;
+  min-width: 150px;
+}
+
+#pulseaudio-slider highlight {
+  border-radius: 9999px;
+  background: #d5c88f;
+}
+
+#backlight-slider {
+  margin: 0 15px;
+  padding: 0;
+}
+
+#backlight-slider slider {
+  border-radius: 9999px;
+  min-height: 10px;
+}
+
+#backlight-slider trough {
+  border-radius: 9999px;
+  min-width: 150px;
+}
+
+#backlight-slider highlight {
+  border-radius: 9999px;
+  background: #c28a6b;
+}
+
+.misc-modules {
+  font-size: 15px;
+}
+
 #clock {
-  color: #6fa4a8;
+  color: #7a8ec6;
+  font-family: "JetBrainsMono Nerd Font Mono";
+  font-weight: 600;
+  margin-left: 15px;
 }
 
-#battery {
-  color: #b47faa;
+#backlight {
+  color: #c28a6b;
 }
 
-#disk {
-  color: #6fa4a8;
-}
-
-#cpu,
-#memory {
-  color: #6fa4a8;
-}
-
-#temperature {
-  color: #b47faa;
-}
-
-#network {
-  color: #6fa4a8;
-}
-
-#network.disconnected {
-  color: #e27878;
+#power-profiles-daemon {
+  color: #c28a6b;
+  margin-left: 10px;
 }
 
 #pulseaudio {
-  color: #b47faa;
+  color: #d5c88f;
 }
 
-#tray {
-  color: #6fa4a8;
+#network {
+  color: #a48ac9;
 }
 
-/* Minimal glow (lebih lembut dari Kanagawa) */
-@keyframes pulse {
-  0% {
-    text-shadow: 0 0 4px #6fa4a8;
-  }
-  50% {
-    text-shadow: 0 0 9px #6fa4a8;
-  }
-  100% {
-    text-shadow: 0 0 4px #6fa4a8;
-  }
+#battery {
+  color: #6fa48d;
+  margin-right: 20px;
+}
+
+tooltip {
+  border: 1px solid #3b3b45;
 }

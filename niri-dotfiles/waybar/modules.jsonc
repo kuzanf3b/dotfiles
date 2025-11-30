@@ -11,6 +11,58 @@
       "urgent": "󰝦",
     },
   },
+
+  "group/volume": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 500,
+      "transition-left-to-right": true,
+    },
+    "modules": ["pulseaudio", "pulseaudio/slider"],
+  },
+
+  "group/brightness": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 500,
+      "transition-left-to-right": true,
+    },
+    "modules": ["backlight", "backlight/slider"],
+  },
+
+  "backlight": {
+    "device": "intel_backlight",
+    "format": "{icon}",
+    "format-icons": ["󰃞", "󰃝", "󰃠"],
+    "tooltip": false,
+  },
+
+  "backlight/slider": {
+    "min": 0,
+    "max": 100,
+    "orientation": "horizontal",
+    "device": "intel_backlight",
+  },
+
+  "pulseaudio": {
+    "format": "{icon}",
+    "format-bluetooth": "",
+    "format-muted": "",
+    "format-icons": {
+      "headphone": "",
+    },
+    "tooltip": false,
+    "scroll-step": 1,
+    "on-click": "pavucontrol",
+    "ignored-sinks": ["Easy Effects Sink"],
+  },
+
+  "pulseaudio/slider": {
+    "min": 0,
+    "max": 100,
+    "orientation": "horizontal",
+  },
+
   "clock": {
     "format": "{:%I:%M %p}",
     "format-alt": "{:%A, %d %b %Y}",
@@ -32,6 +84,7 @@
       "on-scroll-down": "shift_down",
     },
   },
+
   "temperature": {
     "critical-threshold": 80,
     "format": "{icon} {temperatureC}°C",
@@ -39,6 +92,12 @@
     "interval": 1,
     "format-icons": ["", "", "", "", ""],
   },
+
+  "custom/cava": {
+    "format": "󰎇 {}",
+    "exec": "~/.config/waybar/scripts/cava.sh",
+  },
+
   "mpris": {
     "format": "   {artist} - {title}",
     "format-paused": "  {artist} - {title}",
@@ -48,29 +107,17 @@
     "on-click-middle": "playerctl previous",
     "tooltip-format": "{player_name}\n{title}\n{artist}",
   },
-  "custom/pipewire": {
-    "tooltip": false,
-    "max-length": 6,
-    "exec": "$HOME/.config/waybar/scripts/pipewire.sh",
-    "on-click": "pavucontrol",
-    "on-click-right": "qpwgraph",
-  },
-  "custom/battery": {
-    "tooltip": false,
-    "max-length": 6,
-    "exec": "$HOME/.config/waybar/scripts/battery.sh",
-    "on-click": "pavucontrol",
-    "on-click-right": "qpwgraph",
-  },
+
   "network": {
-    "format-wifi": "{icon} {signalStrength}%",
-    "format-ethernet": " {ifname}",
-    "tooltip-format-wifi": "{essid} | Signal: {signalStrength}% | Download: {bandwidthDownBits}, Upload: {bandwidthUpBits}",
-    "tooltip-format-ethernet": "{ifname} | IP: {ipaddr} | Download: {bandwidthDownBits}, Upload: {bandwidthUpBits}",
-    "format-disconnected": " Offline",
+    "format-wifi": "{icon}",
+    "format-ethernet": "",
+    "tooltip-format-wifi": "{essid} - Signal: {signalStrength}%",
+    "tooltip-format-ethernet": "{ifname} - IP: {ipaddr}",
+    "format-disconnected": "",
     "interval": 1,
     "format-icons": ["󰤯", "󰤟", "󰤢", "󰤥", "󰤨"],
   },
+
   "mpd": {
     "format": "   {artist} - {title}",
     "format-disconnected": "",
@@ -88,26 +135,16 @@
     "on-scroll-up": "mpc volume +5",
     "on-scroll-down": "mpc volume -5",
   },
-  "pulseaudio": {
-    "format": "{icon} {volume}%",
-    "format-bluetooth": "{icon} {volume}%",
-    "format-muted": "  MUTED",
-    "format-icons": {
-      "headphone": "",
-      "default": ["", "", ""],
-    },
-    "scroll-step": 1,
-    "on-click": "pavucontrol",
-    "ignored-sinks": ["Easy Effects Sink"],
-  },
+
   "battery": {
     "states": {
       "good": 95,
       "warning": 30,
       "critical": 15,
     },
-    "format": "{icon} {capacity}%",
-    "tooltip": false,
+    "format": "{icon}",
+    "tooltip-format": "{capacity}% available",
+    "tooltip": true,
     "menu": "on-click",
     "menu-file": "~/.config/waybar/scripts/battery_menu.xml",
     "menu-actions": {
@@ -116,12 +153,20 @@
       "powersaver": "powerprofilesctl set power-saver",
     },
     "format-plugged": "",
-    "format-icons": ["󰂎", "󰁻", "󰁽", "󰁿", "󰂁", "󰁹"],
+    "format-icons": ["", "", "", "", ""],
   },
+
+  "custom/exit": {
+    "format": "󰐥 ",
+    "on-click": "wlogout",
+    "tooltip-format": "Power Menu",
+  },
+
   "custom/sep": {
-    "format": "•",
-    "interval": 0,
+    "format": "|",
+    "tooltip": false,
   },
+
   "tray": {
     "icon-size": 20,
     "spacing": 8,

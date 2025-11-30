@@ -9,8 +9,8 @@
 spawn-at-startup "hypridle"
 spawn-at-startup "mako"
 spawn-at-startup "waybar"
-spawn-sh-at-startup "/usr/lib/polkit-kde-authentication-agent-1 &"
 spawn-sh-at-startup "swww-daemon" 
+spawn-sh-at-startup "/usr/lib/polkit-kde-authentication-agent-1 &"
 spawn-sh-at-startup "swww img ~/Pictures/Wallpapers/aurora-night.png" 
 
 // ╻┏┓╻┏━┓╻ ╻╺┳╸┏━┓
@@ -64,9 +64,9 @@ output "eDP-1" {
 // ┗━╸╹ ╹ ╹ ┗━┛┗━┛ ╹ 
 
 layout {
-    gaps 6
+    gaps 8
     center-focused-column "never"
-    default-column-width { proportion 0.50; } // If empty, windows will decide themselves
+    default-column-width { proportion 0.60; } // If empty, windows will decide themselves
     background-color "transparent"
 
     preset-column-widths {
