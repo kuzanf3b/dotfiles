@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+# Pilih file dengan FZF
+file="$(find . -type f 2>/dev/null | fzf)"
+
+# Kalau user tidak memilih apapun, keluar
+[ -z "$file" ] && exit 0
+
+# Buka file dengan neovim
+exec nvim "$file"
