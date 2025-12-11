@@ -19,9 +19,10 @@ command -v st >/dev/null 2>&1 && apps="${apps}  st\n"
 command -v alacritty >/dev/null 2>&1 && apps="${apps}  alacritty\n"
 command -v ghostty >/dev/null 2>&1 && apps="${apps}󰊠  ghostty\n"
 command -v code >/dev/null 2>&1 && apps="${apps}  vscode\n"
+command -v zed >/dev/null 2>&1 && apps="${apps}󰺕  zed\n"
 
 [ -n "$apps" ] || {
-    notify-send " No Terminal Apps Found" "Install st, alacritty, ghostty, or vscode." -i dialog-warning
+    notify-send " No Terminal Apps Found" "Install st, alacritty, ghostty, vscode or zed." -i dialog-warning
     exit 1
 }
 
@@ -48,7 +49,7 @@ case "$chosen_category" in
 esac
 
 # === Gather Projects ===
-projects=$(find "$base_dir" -maxdepth 1 -mindepth 1 -type d -printf "  %f\n" | sort)
+projects=$(find -L "$base_dir" -maxdepth 1 -mindepth 1 -type d -printf "  %f\n" | sort)
 
 [ -n "$projects" ] || {
     notify-send "No Projects Found" "Empty directory in '$chosen_category'." -i dialog-information
@@ -61,6 +62,15 @@ chosen_project=$(printf "%b" "$projects" | menu "Projects:" | sed 's/^  //')
 
 dir="$base_dir/$chosen_project"
 
+# Special logic for GNU Stow repository layout:
+# If the selected project contains .config/<project>, use that instead.
+if [ "$chosen_category" = "Repositories" ]; then
+    stow_path="$dir/.config/$chosen_project"
+    if [ -d "$stow_path" ]; then
+        dir="$stow_path"
+    fi
+fi
+
 # === Open Project ===
 case "$chosen_app" in
     st|alacritty|ghostty)
@@ -69,5 +79,8 @@ case "$chosen_app" in
         ;;
     vscode)
         exec code "$dir"
+        ;;
+    zed)
+        exec zed "$dir"
         ;;
 esac
