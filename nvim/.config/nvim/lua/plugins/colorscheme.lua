@@ -4,7 +4,6 @@ function MyCrayon(color)
 
 	vim.api.nvim_set_hl(0, "Normal", { bg = "NONE" })
 	vim.api.nvim_set_hl(0, "NormalFloat", { bg = "NONE" })
-	vim.api.nvim_set_hl(0, "Statusline", { bg = "NONE" })
 end
 
 return {
@@ -54,17 +53,6 @@ return {
 	},
 
 	{
-		"vague-theme/vague.nvim",
-		name = "vague",
-		lazy = false,
-		config = function()
-			require("vague").setup({
-				transparent = true,
-			})
-		end,
-	},
-
-	{
 		"folke/tokyonight.nvim",
 		name = "tokyonight",
 		lazy = false,
@@ -78,18 +66,5 @@ return {
 				floats = "transparent",
 			},
 		},
-	},
-
-	{
-		"Mofiqul/vscode.nvim",
-		name = "vscode",
-		lazy = false,
-		config = function()
-			require("vscode").setup({
-				transparent = true,
-				italic_comments = true,
-				disable_nvimtree_bg = true,
-			})
-		end,
 	},
 }
