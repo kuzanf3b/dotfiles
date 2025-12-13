@@ -6,9 +6,9 @@
     "on-click-right": "deactivate",
     "sort-by-id": true,
     "format-icons": {
-      "default": "󰝦",
-      "active": "󰺕",
-      "urgent": "󰝦",
+      "default": "",
+      "active": "",
+      "urgent": "",
     },
   },
 
@@ -174,7 +174,8 @@
     "format-plugged": "",
     "format-icons": {
       "full": ["󰂄"],
-      "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
+      "charging": [""],
+      // "charging": ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"],
       "default": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"],
     },
   },

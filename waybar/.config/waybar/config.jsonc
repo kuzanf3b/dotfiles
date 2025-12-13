@@ -6,7 +6,7 @@
 
   "include": ["~/.config/waybar/modules.jsonc"],
 
-  "modules-left": ["clock", "group/misc"],
-  "modules-center": ["niri/workspaces"],
+  "modules-left": ["niri/workspaces", "group/misc"],
+  "modules-center": ["clock"],
   "modules-right": ["group/brightness", "group/volume", "network", "battery"],
 }

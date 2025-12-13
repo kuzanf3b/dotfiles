@@ -16,6 +16,10 @@ window#waybar {
    Workspaces
    ───────────────────────────────────────────── */
 
+#workspaces {
+  margin-left: 5px;
+}
+
 #workspaces button {
   all: unset;
   padding: 0px 6px;
