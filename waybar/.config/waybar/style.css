@@ -7,9 +7,14 @@
   margin: 0;
 }
 
+#window {
+  color: #e0def4;
+  margin-left: 5px;
+}
+
 window#waybar {
-  background-color: rgba(26, 27, 38, 0.9); /* Tokyonight bg */
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.32);
+  background-color: rgba(25, 23, 36, 0.92);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
 }
 
 /* ─────────────────────────────────────────────
@@ -23,27 +28,27 @@ window#waybar {
 #workspaces button {
   all: unset;
   padding: 0px 6px;
-  color: #565f89; /* muted blue-gray */
+  color: #6e6a86;
   transition: all 0.25s ease-in-out;
 }
 
 #workspaces button.default {
-  color: #565f89;
+  color: #6e6a86;
 }
 
 #workspaces button.active {
-  color: #7aa2f7; /* TN blue */
-  text-shadow: 0 0 6px #7aa2f740;
+  color: #c4a7e7;
+  text-shadow: 0 0 6px #c4a7e740;
 }
 
 #workspaces button.urgent {
-  color: #f7768e; /* TN red */
-  text-shadow: 0 0 5px #f7768e40;
+  color: #eb6f92;
+  text-shadow: 0 0 5px #eb6f9240;
 }
 
 #workspaces button:hover {
-  color: #bb9af7; /* TN purple */
-  text-shadow: 0 0 5px #bb9af740;
+  color: #ebbcba;
+  text-shadow: 0 0 5px #ebbcba40;
 }
 
 /* ─────────────────────────────────────────────
@@ -51,7 +56,7 @@ window#waybar {
    ───────────────────────────────────────────── */
 
 #custom-exit {
-  color: #f7768e; /* TN red */
+  color: #eb6f92;
   font-size: 18px;
   font-weight: 800;
   margin: 0 10px;
@@ -59,7 +64,7 @@ window#waybar {
 }
 
 #custom-cava {
-  color: #c0caf5;
+  color: #e0def4;
   padding: 0 6px;
   min-width: 100px;
   margin: 3px 3px;
@@ -67,13 +72,13 @@ window#waybar {
 }
 
 #custom-sep {
-  color: #414868;
+  color: #6e6a86;
   margin-left: 5px;
   font-size: 20px;
 }
 
 #custom-pacman {
-  color: #7dcfff; /* TN cyan */
+  color: #9ccfd8;
   margin: 0 10px;
   border-radius: 5px;
 }
@@ -93,8 +98,6 @@ window#waybar {
   border-radius: 5px;
 }
 
-/* Sliders preserved but recolored */
-
 #pulseaudio-slider {
   margin: 0 15px;
   padding: 0;
@@ -112,7 +115,7 @@ window#waybar {
 
 #pulseaudio-slider highlight {
   border-radius: 9999px;
-  background: #e0af68;
+  background: #f6c177;
 }
 
 #backlight-slider {
@@ -132,7 +135,7 @@ window#waybar {
 
 #backlight-slider highlight {
   border-radius: 9999px;
-  background: #bb9af7; /* TN purple */
+  background: #c4a7e7;
 }
 
 .misc-modules {
@@ -140,45 +143,49 @@ window#waybar {
 }
 
 #clock {
-  color: #7aa2f7; /* TN blue */
+  color: #c4a7e7;
   font-family: "JetBrainsMono Nerd Font Mono";
   font-weight: 600;
   margin-left: 15px;
 }
 
 #backlight {
-  color: #bb9af7;
+  color: #ebbcba;
 }
 
 #bluetooth {
-  color: #2ac3de; /* TN teal */
+  color: #9ccfd8;
 }
 
 #power-profiles-daemon {
-  color: #e0af68;
+  color: #f6c177;
   margin-left: 10px;
 }
 
 #pulseaudio {
-  color: #e0af68;
+  color: #f6c177;
 }
 
 #network {
-  color: #7dcfff;
+  color: #31748f;
 }
 
 #battery {
-  color: #9ece6a; /* TN green */
+  color: #9ccfd8;
   margin-right: 20px;
 }
 
+/* ─────────────────────────────────────────────
+   Tooltip
+   ───────────────────────────────────────────── */
+
 tooltip {
-  border: 1px solid #414868;
-  background: #1a1b26;
+  border: 1px solid #6e6a86;
+  background: #1f1d2e;
   border-radius: 5px;
 }
 
 tooltip label {
-  color: #c0caf5;
+  color: #e0def4;
   padding: 4px;
 }

@@ -1,5 +1,5 @@
 {
-  "niri/workspaces": {
+  "ext/workspaces": {
     "format": "{icon}",
     "ignore-hidden": true,
     "on-click": "activate",
@@ -10,6 +10,10 @@
       "active": "",
       "urgent": "",
     },
+  },
+
+  "dwl/window": {
+    "format": "[{layout}]",
   },
 
   "group/volume": {
