@@ -15,7 +15,7 @@ mako &
 # Wallpaper daemon
 pkill swww-daemon
 swww-daemon &
-swww img ~/Pictures/Wallpapers/windows10.jpg
+swww img ~/Pictures/Wallpapers/road-light.png
 
 # Idle & lock
 swayidle -w \
@@ -27,3 +27,6 @@ swayidle -w \
 
 # Portal
 /usr/lib/xdg-desktop-portal-wlr &
+
+# dbus
+dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=wlroots
