@@ -1,5 +1,5 @@
 {
-  "ext/workspaces": {
+  "niri/workspaces": {
     "format": "{icon}",
     "ignore-hidden": true,
     "on-click": "activate",

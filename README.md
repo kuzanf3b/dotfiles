@@ -48,22 +48,25 @@ cd dotfiles
 > - Package names are written for Arch Linux.
 > - Some packages are in the AUR (so `paru -S` is used).
 
+#### DWM (GOAT) 🐐
+See the [`DWM Configuration`](https://github.com/kuzanf3b/dotfiles/tree/main/suckless/dwm) — Dwm v6.6 maybe update soon
+
 #### Hyprland
 
 ```bash
-paru -S hyprland wlroots wayland wayland-protocols xdg-desktop-portal-hyprland xdg-desktop-portal qt5-wayland qt6-wayland polkit ghostty thunar thunar-volman tumbler tumbler-plugins-extra gvfs gvfs-mtp gvfs-gphoto2 gvfs-smb wofi swayidle swaylock-effects xdg-user-dirs pipewire pipewire-pulse wireplumber brightnessctl playerctl network-manager-applet bluez bluez-utils blueman pavucontrol grim slurp wl-clipboard hyprpaper hyprlock hypridle
+paru -S hyprland wlroots wayland xorg-xwayland wayland-protocols xdg-desktop-portal-hyprland xdg-desktop-portal qt5-wayland qt6-wayland polkit ghostty thunar thunar-volman tumbler tumbler-plugins-extra gvfs gvfs-mtp gvfs-gphoto2 gvfs-smb wofi swayidle swaylock-effects xdg-user-dirs pipewire pipewire-pulse wireplumber brightnessctl playerctl network-manager-applet bluez bluez-utils blueman pavucontrol grim slurp wl-clipboard hyprpaper hyprlock hypridle
 ```
 
 #### Niri
 
 ```bash
-paru -S niri wayland wayland-protocols xdg-desktop-portal xdg-desktop-portal-gtk polkit ghostty thunar thunar-volman tumbler tumbler-plugins-extra gvfs gvfs-mtp gvfs-gphoto2 gvfs-smb wofi swayidle swaylock-effects xdg-user-dirs pipewire pipewire-pulse wireplumber brightnessctl playerctl network-manager-applet bluez bluez-utils blueman pavucontrol grim slurp wl-clipboard
+paru -S niri wayland xorg-xwayland xwayland-satellite wayland-protocols xdg-desktop-portal xdg-desktop-portal-gtk polkit ghostty thunar thunar-volman tumbler tumbler-plugins-extra gvfs gvfs-mtp gvfs-gphoto2 gvfs-smb wofi swayidle swaylock-effects xdg-user-dirs pipewire pipewire-pulse wireplumber brightnessctl playerctl network-manager-applet bluez bluez-utils blueman pavucontrol grim slurp wl-clipboard
 ```
 
 #### MangoWM
 
 ```bash
-paru -S mangowm wlroots wayland wayland-protocols xdg-desktop-portal xdg-desktop-portal-wlr polkit ghostty thunar thunar-volman tumbler tumbler-plugins-extra gvfs gvfs-mtp gvfs-gphoto2 gvfs-smb wofi swayidle swaylock-effects xdg-user-dirs pipewire pipewire-pulse wireplumber brightnessctl playerctl network-manager-applet bluez bluez-utils blueman pavucontrol grim slurp wl-clipboard
+paru -S mangowm wlroots xorg-xwayland wayland wayland-protocols xdg-desktop-portal xdg-desktop-portal-wlr polkit ghostty thunar thunar-volman tumbler tumbler-plugins-extra gvfs gvfs-mtp gvfs-gphoto2 gvfs-smb wofi swayidle swaylock-effects xdg-user-dirs pipewire pipewire-pulse wireplumber brightnessctl playerctl network-manager-applet bluez bluez-utils blueman pavucontrol grim slurp wl-clipboard
 ```
 
 #### i3 (X11)

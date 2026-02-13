@@ -11,7 +11,7 @@ spawn-at-startup "mako"
 spawn-at-startup "waybar"
 spawn-sh-at-startup "swww-daemon" 
 spawn-sh-at-startup "/usr/lib/polkit-kde-authentication-agent-1 &"
-spawn-sh-at-startup "swww img ~/Pictures/Wallpapers/aurora-night.png" 
+spawn-sh-at-startup "swww img ~/Downloads/wall.jpg" 
 
 // ╻┏┓╻┏━┓╻ ╻╺┳╸┏━┓
 // ┃┃┗┫┣━┛┃ ┃ ┃ ┗━┓
