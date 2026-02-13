@@ -49,7 +49,7 @@ cd dotfiles
 > - Some packages are in the AUR (so `paru -S` is used).
 
 #### DWM (GOAT) 🐐
-See the [`DWM Configuration`](https://github.com/kuzanf3b/dotfiles/tree/main/suckless/dwm) — Dwm v6.6 maybe update soon
+See the [`DWM Configuration`](https://github.com/kuzanf3b/dotfiles/tree/main/suckless/dwm) — This dwm v6.6 configuration, maybe update soon to the latest
 
 #### Hyprland
 
