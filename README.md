@@ -6,11 +6,12 @@ This repository contains multiple desktop setups focused on speed, minimalism, a
 
 ## What’s Inside
 
+- **DWM** (X11) ⭐
 - **Hyprland** (Wayland)
 - **Niri** (Wayland)
 - **MangoWM** (Wayland)
 - **i3** (X11)
-- Additional configs/tools (e.g. Neovim, suckless utilities)
+- Additional configs/tools (e.g. Neovim, shell stuff, scripts utilities)
 
 ## Requirements
 
