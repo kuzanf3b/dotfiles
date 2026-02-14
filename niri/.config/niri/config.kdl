@@ -240,7 +240,7 @@ binds {
     Mod+D                                              { spawn "wofi" "--show" "drun"; }
     Mod+Shift+Slash                                    { show-hotkey-overlay; }
     Mod+Shift+Q                                        { quit; }
-    Mod+R hotkey-overlay-title="Reload Waybar"         { spawn-sh "pkill waybar; waybar &"; }
+    Mod+R hotkey-overlay-title="Reload Config"         { spawn-sh "$HOME/.config/niri/launch.sh"; }
     Alt+Tab         repeat=false                       { toggle-overview; }
     Mod+Q           repeat=false                       { close-window; }
 

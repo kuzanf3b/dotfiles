@@ -1,5 +1,5 @@
 # Default: Reload config with Shift + Cmd + ,
-config-file = schemes/rose-pine
+config-file = schemes/tokyonight
 
 background = #000000
 background-opacity = 0.90

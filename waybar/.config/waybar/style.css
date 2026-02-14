@@ -83,6 +83,12 @@ window#waybar {
   border-radius: 5px;
 }
 
+#custom-notification {
+  color: #ebbcba;
+  margin: 0 10px;
+  border-radius: 5px;
+}
+
 /* ─────────────────────────────────────────────
    Modules
    ───────────────────────────────────────────── */

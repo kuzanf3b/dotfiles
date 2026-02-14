@@ -40,7 +40,12 @@
       "transition-duration": 500,
       "transition-left-to-right": true,
     },
-    "modules": ["custom/sep", "custom/exit", "custom/pacman"],
+    "modules": [
+      "custom/sep",
+      "custom/exit",
+      "custom/notification",
+      "custom/pacman",
+    ],
   },
 
   "backlight": {
@@ -198,6 +203,27 @@
     "on-click": "ghostty --command=\"sh -c 'paru -Syu; echo Done - Press enter to exit; read'\"; pkill -SIGRTMIN+8 waybar",
     "signal": 8,
     "tooltip": false,
+  },
+
+  "custom/notification": {
+    "tooltip": true,
+    "format": "{icon}",
+    "format-icons": {
+      "notification": "󱅫",
+      "none": "󰂜",
+      "dnd-notification": "󰂠",
+      "dnd-none": "󰪓",
+      "inhibited-notification": "󰂛",
+      "inhibited-none": "󰪑",
+      "dnd-inhibited-notification": "󰂛",
+      "dnd-inhibited-none": "󰪑",
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true,
   },
 
   "custom/sep": {
