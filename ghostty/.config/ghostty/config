@@ -2,7 +2,7 @@
 config-file = schemes/tokyonight
 
 background = #000000
-background-opacity = 0.90
+background-opacity = 0.95
 background-blur-radius = 23
 
 font-family = JetBrainsMono Nerd Font

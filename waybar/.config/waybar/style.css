@@ -1,3 +1,5 @@
+@import "./schemes/tokyonight.css";
+
 * {
   border: none;
   border-radius: 0;
@@ -8,47 +10,43 @@
 }
 
 #window {
-  color: #e0def4;
+  color: @text;
   margin-left: 5px;
 }
 
 window#waybar {
-  background-color: rgba(25, 23, 36, 0.92);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  background-color: alpha(@base, 0.92);
+  box-shadow: 0 10px 24px alpha(black, 0.35);
 }
 
 /* ─────────────────────────────────────────────
    Workspaces
    ───────────────────────────────────────────── */
 
-#workspaces {
-  margin-left: 5px;
-}
-
 #workspaces button {
   all: unset;
   padding: 0px 6px;
-  color: #6e6a86;
+  color: @magenta;
   transition: all 0.25s ease-in-out;
 }
 
 #workspaces button.default {
-  color: #6e6a86;
+  color: @magenta;
 }
 
 #workspaces button.active {
-  color: #c4a7e7;
-  text-shadow: 0 0 6px #c4a7e740;
+  color: @purple;
+  text-shadow: 0 0 6px alpha(@accent, 0.25);
 }
 
 #workspaces button.urgent {
-  color: #eb6f92;
-  text-shadow: 0 0 5px #eb6f9240;
+  color: @red;
+  text-shadow: 0 0 5px alpha(@red, 0.25);
 }
 
 #workspaces button:hover {
-  color: #ebbcba;
-  text-shadow: 0 0 5px #ebbcba40;
+  color: @magenta;
+  text-shadow: 0 0 5px alpha(@magenta, 0.25);
 }
 
 /* ─────────────────────────────────────────────
@@ -56,7 +54,7 @@ window#waybar {
    ───────────────────────────────────────────── */
 
 #custom-exit {
-  color: #eb6f92;
+  color: @red;
   font-size: 18px;
   font-weight: 800;
   margin: 0 10px;
@@ -64,7 +62,7 @@ window#waybar {
 }
 
 #custom-cava {
-  color: #e0def4;
+  color: @text;
   padding: 0 6px;
   min-width: 100px;
   margin: 3px 3px;
@@ -72,19 +70,19 @@ window#waybar {
 }
 
 #custom-sep {
-  color: #6e6a86;
+  color: @muted;
   margin-left: 5px;
   font-size: 20px;
 }
 
 #custom-pacman {
-  color: #9ccfd8;
+  color: @teal;
   margin: 0 10px;
   border-radius: 5px;
 }
 
 #custom-notification {
-  color: #ebbcba;
+  color: @magenta;
   margin: 0 10px;
   border-radius: 5px;
 }
@@ -117,11 +115,12 @@ window#waybar {
 #pulseaudio-slider trough {
   border-radius: 9999px;
   min-width: 150px;
+  background: @text;
 }
 
 #pulseaudio-slider highlight {
   border-radius: 9999px;
-  background: #f6c177;
+  background: @orange;
 }
 
 #backlight-slider {
@@ -137,11 +136,12 @@ window#waybar {
 #backlight-slider trough {
   border-radius: 9999px;
   min-width: 150px;
+  background: @text;
 }
 
 #backlight-slider highlight {
   border-radius: 9999px;
-  background: #c4a7e7;
+  background: @magenta;
 }
 
 .misc-modules {
@@ -149,35 +149,35 @@ window#waybar {
 }
 
 #clock {
-  color: #c4a7e7;
+  color: @accent;
   font-family: "JetBrainsMono Nerd Font Mono";
   font-weight: 600;
   margin-left: 15px;
 }
 
 #backlight {
-  color: #ebbcba;
+  color: @magenta;
 }
 
 #bluetooth {
-  color: #9ccfd8;
+  color: @cyan;
 }
 
 #power-profiles-daemon {
-  color: #f6c177;
+  color: @orange;
   margin-left: 10px;
 }
 
 #pulseaudio {
-  color: #f6c177;
+  color: @orange;
 }
 
 #network {
-  color: #31748f;
+  color: @green;
 }
 
 #battery {
-  color: #9ccfd8;
+  color: @cyan;
   margin-right: 20px;
 }
 
@@ -186,12 +186,11 @@ window#waybar {
    ───────────────────────────────────────────── */
 
 tooltip {
-  border: 1px solid #6e6a86;
-  background: #1f1d2e;
+  border: 1px solid @cyan;
+  background: alpha(@base, 0.98);
   border-radius: 5px;
 }
 
 tooltip label {
-  color: #e0def4;
-  padding: 4px;
+  color: @text;
 }
