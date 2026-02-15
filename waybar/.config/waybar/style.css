@@ -1,196 +1,204 @@
-@import "./schemes/tokyonight.css";
+/* Tokyo night dark enhanced color theme */
+
+@define-color module-bg rgba(8, 8, 11, 0.9);
+@define-color tooltip-bg rgba(8, 8, 11, 0.9);
+@define-color inactive #787c99;
+@define-color fg #acb0d0;
+@define-color workspace-fg @fg;
+
+@define-color red #f7768e;
+@define-color blue #7aa2f7;
+@define-color yellow #e0af68;
+@define-color green #41a6b5;
 
 * {
+  font-family: "JetBrainsMono Font";
   border: none;
   border-radius: 0;
-  font-family: "JetBrainsMono Nerd Font", "DroidSansM Nerd Font";
-  font-size: 16px;
-  padding: 0;
+  min-height: 0;
   margin: 0;
+  padding: 0;
+  text-shadow: none;
 }
 
-#window {
-  color: @text;
-  margin-left: 5px;
+#waybar {
+  font-weight: 700;
+  background: transparent;
+  font-size: 14px;
+  color: @fg;
 }
 
-window#waybar {
-  background-color: alpha(@base, 0.92);
-  box-shadow: 0 10px 24px alpha(black, 0.35);
-}
-
-/* ─────────────────────────────────────────────
-   Workspaces
-   ───────────────────────────────────────────── */
-
-#workspaces button {
-  all: unset;
-  padding: 0px 6px;
-  color: @magenta;
-  transition: all 0.25s ease-in-out;
-}
-
-#workspaces button.default {
-  color: @magenta;
-}
-
-#workspaces button.active {
-  color: @purple;
-  text-shadow: 0 0 6px alpha(@accent, 0.25);
-}
-
-#workspaces button.urgent {
-  color: @red;
-  text-shadow: 0 0 5px alpha(@red, 0.25);
-}
-
-#workspaces button:hover {
-  color: @magenta;
-  text-shadow: 0 0 5px alpha(@magenta, 0.25);
-}
-
-/* ─────────────────────────────────────────────
-   Custom modules
-   ───────────────────────────────────────────── */
-
-#custom-exit {
-  color: @red;
-  font-size: 18px;
-  font-weight: 800;
-  margin: 0 10px;
-  border-radius: 5px;
-}
-
-#custom-cava {
-  color: @text;
-  padding: 0 6px;
-  min-width: 100px;
-  margin: 3px 3px;
-  border-radius: 12px;
-}
-
-#custom-sep {
-  color: @muted;
-  margin-left: 5px;
-  font-size: 20px;
-}
-
-#custom-pacman {
-  color: @teal;
-  margin: 0 10px;
-  border-radius: 5px;
-}
-
-#custom-notification {
-  color: @magenta;
-  margin: 0 10px;
-  border-radius: 5px;
-}
-
-/* ─────────────────────────────────────────────
-   Modules
-   ───────────────────────────────────────────── */
-
-#battery,
-#network,
-#backlight,
-#tray,
+/* global paddings */
+#temperature,
 #bluetooth,
+#battery,
+#memory,
+#mpris,
+#window,
+#cpu,
+#load {
+  padding: 1px 7px;
+}
+
+#network,
+#tray {
+  padding: 1px 6px;
+}
+
+#backlight,
 #pulseaudio {
-  margin: 0 10px;
-  font-size: 18px;
-  border-radius: 5px;
+  padding: 1px 8px;
 }
 
+#pulseaudio {
+  padding-left: 4px;
+}
+
+#backlight-slider,
 #pulseaudio-slider {
-  margin: 0 15px;
-  padding: 0;
+  padding: 0 7px 0 2px;
 }
 
-#pulseaudio-slider slider {
-  border-radius: 9999px;
-  min-height: 10px;
+#workspaces,
+#bluetooth,
+#battery,
+#memory,
+#temperature,
+#cpu,
+#mpris,
+#window,
+#load {
+  margin: 0 3px;
 }
 
-#pulseaudio-slider trough {
-  border-radius: 9999px;
-  min-width: 150px;
-  background: @text;
+#right,
+#left,
+#right-hidden-top,
+#left-hidden-top {
+  padding: 2px 10px;
+  border-radius: 15px;
+  background: @module-bg;
 }
 
-#pulseaudio-slider highlight {
-  border-radius: 9999px;
-  background: @orange;
+#right-hidden-top,
+#left-hidden-top {
+  padding: 0 12px;
 }
 
-#backlight-slider {
-  margin: 0 15px;
-  padding: 0;
-}
-
-#backlight-slider slider {
-  border-radius: 9999px;
-  min-height: 10px;
-}
-
-#backlight-slider trough {
-  border-radius: 9999px;
-  min-width: 150px;
-  background: @text;
-}
-
-#backlight-slider highlight {
-  border-radius: 9999px;
-  background: @magenta;
-}
-
-.misc-modules {
-  font-size: 15px;
+#right,
+#left {
+  margin: 0 8px;
 }
 
 #clock {
-  color: @accent;
-  font-family: "JetBrainsMono Nerd Font Mono";
-  font-weight: 600;
-  margin-left: 15px;
+  background: @module-bg;
+  padding: 1px 18px;
+  border-radius: 15px;
 }
 
-#backlight {
-  color: @magenta;
+#custom-ctlcenter {
+  margin-left: 7px;
 }
 
-#bluetooth {
-  color: @cyan;
+#power-profiles-daemon,
+#custom-start {
+  margin-right: 7px;
 }
 
-#power-profiles-daemon {
-  color: @orange;
-  margin-left: 10px;
+#cpu.critical,
+#memory.critical,
+#battery.critical,
+#network.disabled,
+#temperature.critical,
+#network.disconnected,
+#power-profiles-daemon.performance {
+  color: @red;
 }
 
-#pulseaudio {
-  color: @orange;
+#cpu.warning,
+#memory.warning,
+#battery.warning,
+#temperature.warning {
+  color: @yellow;
+  background: unset;
 }
 
-#network {
+#power-profiles-daemon.power-saver {
   color: @green;
 }
 
-#battery {
-  color: @cyan;
-  margin-right: 20px;
+#custom-start,
+#custom-ctlcenter {
+  color: @blue;
 }
 
-/* ─────────────────────────────────────────────
-   Tooltip
-   ───────────────────────────────────────────── */
+#workspaces button {
+  color: @workspace-fg;
+  font-size: 14px;
+  border-radius: 100%;
+  padding: 0 2px;
+  margin: 0 3px;
+}
 
+#workspaces button:hover {
+  background: transparent;
+}
+
+#mpris.paused {
+  color: @inactive;
+}
+
+/* ---<==== Misc ====>--- */
 tooltip {
-  border: 1px solid @cyan;
-  background: alpha(@base, 0.98);
-  border-radius: 5px;
+  border-radius: 15px;
+  background: @tooltip-bg;
 }
 
 tooltip label {
-  color: @text;
+  padding: 3px 10px;
+  color: @fg;
+  font-weight: 700;
+}
+
+.popup * {
+  box-shadow: none;
+  outline: none;
+}
+
+menu,
+menu {
+  border-radius: 10px;
+  font-weight: 700;
+  color: @fg;
+  background: @tooltip-bg;
+}
+
+menu > *,
+menu > * {
+  padding: 3px 0px;
+}
+
+menu > *:hover,
+menu > *:hover {
+  border-radius: 10px;
+  background-color: @inactive;
+}
+
+#backlight-slider slider,
+#pulseaudio-slider slider {
+  opacity: 0;
+}
+
+#backlight-slider trough,
+#pulseaudio-slider trough {
+  min-width: 50px;
+  min-height: 5px;
+  border-radius: 8px;
+  background: @inactive;
+}
+
+#backlight-slider highlight,
+#pulseaudio-slider highlight {
+  border-radius: 8px;
+  background-color: @fg;
 }
