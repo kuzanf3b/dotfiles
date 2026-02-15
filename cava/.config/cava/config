@@ -234,14 +234,14 @@ method = noncurses
 background = 'default'          # background utama (dark, lembut)
 gradient = 1
 gradient_count = 8
-gradient_color_1 = '#7e9cd8'    # blue – calm, untuk transisi awal
-gradient_color_2 = '#957fb8'    # purple – elegant
-gradient_color_3 = '#938aa9'    # mauve – soft transition
-gradient_color_4 = '#76946a'    # green – natural tone
-gradient_color_5 = '#c0a36e'    # gold – warm middle
-gradient_color_6 = '#e6c384'    # sand – glowing transition
-gradient_color_7 = '#e46876'    # red – accent
-gradient_color_8 = '#d27e99'    # pink – soft finish
+gradient_color_1 = '#7aa2f7'    # blue
+gradient_color_2 = '#bb9af7'    # purple
+gradient_color_3 = '#9d7cd8'    # deeper violet
+gradient_color_4 = '#73daca'    # cyan/teal
+gradient_color_5 = '#e0af68'    # yellow/gold
+gradient_color_6 = '#ff9e64'    # orange
+gradient_color_7 = '#f7768e'    # red
+gradient_color_8 = '#c0caf5'    # light lavender finish
 
 
 # If both vertical and horizontal gradient is enabled, vertical will be blended in this direction.

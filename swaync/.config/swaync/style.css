@@ -1,7 +1,7 @@
 @import url("./schemes/tokyonight.css");
 :root {
-  --hover-transition: var(--hover-tranistion);
-  --group-collapse-transition: var(--group-collapse-tranistion);
+  --hover-transition: 0.2s ease;
+  --group-collapse-transition: 0.25s ease;
 }
 
 * {
@@ -30,7 +30,7 @@
 .close-button:hover {
   box-shadow: none;
   background: @red;
-  transition: var(--hover-tranistion);
+  transition: var(--hover-transition);
   border: none;
 }
 
@@ -51,21 +51,25 @@
   /* The actual notification */
   border-radius: 12px;
   border: 2px solid @accent;
-  padding: 12px;
-  transition: var(--hover-tranistion);
+  padding: 3px 15px;
+  transition: var(--hover-transition);
   background: @surface2;
 }
 
 .notification-row .notification-background .notification.low {
   /* Low Priority Notification */
+  border-color: alpha(@blue, 0.4);
 }
 
 .notification-row .notification-background .notification.normal {
   /* Normal Priority Notification */
+  border-color: alpha(@accent, 0.5);
 }
 
 .notification-row .notification-background .notification.critical {
   /* Critical Priority Notification */
+  border-color: @red;
+  box-shadow: 0 0 15px alpha(@red, 0.3);
 }
 
 .notification-row
@@ -79,7 +83,7 @@
   background: none;
   border: none;
   color: @text;
-  transition: var(--hover-tranistion);
+  transition: var(--hover-transition);
   border-radius: 12px;
 }
 
@@ -321,7 +325,7 @@
 
 .notification-group .notification-group-close-button .close-button:hover {
   background-color: @red;
-  transition: var(--hover-tranistion);
+  transition: var(--hover-transition);
 }
 
 .notification-group .notification-group-buttons,
@@ -354,7 +358,7 @@
   .notification-group-buttons
   .notification-group-collapse-button:hover {
   background-color: @accent;
-  transition: var(--hover-tranistion);
+  transition: var(--hover-transition);
 }
 
 .notification-group
@@ -362,7 +366,7 @@
   .notification-group-collapse-button:hover
   image {
   color: @base;
-  transition: var(--hover-tranistion);
+  transition: var(--hover-transition);
 }
 
 .notification-group
@@ -370,7 +374,7 @@
   .notification-group-close-all-button:hover {
   /* Notification Group Close Button */
   background-color: @red;
-  transition: var(--hover-tranistion);
+  transition: var(--hover-transition);
 }
 
 .notification-group.collapsed {
@@ -415,7 +419,7 @@
   background: alpha(@base, 0.9);
   color: @text;
   border-radius: 12px;
-  /*  border: 2px solid @accent; */
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
 }
 
 .control-center .control-center-list-placeholder {
@@ -439,7 +443,7 @@
 
 .control-center .control-center-list .notification .notification-default-action,
 .control-center .control-center-list .notification .notification-action {
-  transition: var(--group-collapse-tranistion), var(--hover-tranistion);
+  transition: var(--group-collapse-tranistion), var(--hover-transition);
 }
 
 .control-center
@@ -541,8 +545,8 @@ tooltip {
 :root {
   --mpris-album-art-overlay: rgba(0, 0, 0, 0.55);
   --mpris-button-hover: @accent;
-  --mpris-album-art-icon-size: 96px;
-  --mpris-album-art-shadow: none;
+  --mpris-album-art-icon-size: 140px;
+  --mpris-album-art-shadow: 0 15px 35px rgba(0, 0, 0, 0.6);
 }
 
 .widget-mpris {
@@ -550,14 +554,14 @@ tooltip {
 }
 
 .widget-mpris .widget-mpris-player {
-  margin: 8px 20px;
+  margin: 4px 16px;
   border-radius: var(--border-radius);
   border: 2px solid @red;
   box-shadow: var(--mpris-album-art-shadow);
 }
 
 .widget-mpris .widget-mpris-player .mpris-background {
-  filter: blur(10px);
+  filter: blur(8px);
 }
 
 .widget-mpris .widget-mpris-player .mpris-overlay {
@@ -632,6 +636,11 @@ tooltip {
 
 .widget-volume > box > button.toggle:checked label {
   color: @base;
+}
+
+.widget-volume > box > button.toggle:hover,
+.widget-buttons-grid > flowbox > flowboxchild > button:hover {
+  box-shadow: 0 0 12px alpha(@accent, 0.25);
 }
 
 .per-app-volume {

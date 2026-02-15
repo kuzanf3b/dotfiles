@@ -43,4 +43,4 @@ swww init 2>/dev/null || true
 swww img "$chosen" --transition-type grow --transition-step 80 --transition-fps 60
 
 echo "$chosen" > "$cache_file"
-notify-send "Wallpaper changed" "$(basename "$chosen")"
+notify-send -i "$chosen" "Wallpaper changed" "$(basename "$chosen")"

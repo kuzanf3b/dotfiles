@@ -52,8 +52,8 @@
       "vexpand": false
     },
     "mpris": {
-      "image-size": 50,
-      "image-radius": 0
+      "image-size": 100,
+      "image-radius": 2
     },
     "volume": {
       "label": " 󰕾 ",
