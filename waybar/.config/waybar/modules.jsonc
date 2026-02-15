@@ -191,8 +191,8 @@
 
   "custom/exit": {
     "format": "󰐥",
-    "on-click": "wlogout",
-    "tooltip-format": "Power Menu",
+    "exec": "echo ; echo 󰟡 power // blur",
+    "on-click": "~/.config/wlogout/scripts/flex.sh",
   },
 
   "custom/pacman": {
