@@ -15,6 +15,7 @@ QUTE="$(command -v qutebrowser 2>/dev/null || true)"
 
 # === Rofi Setup ===
 ROFI_CMD="rofi -dmenu -i -p '' -no-show-icons"
+ROFI_THEME="$HOME/.config/rofi/bookmark.rasi"
 LINES_CATEGORY=10
 LINES_BOOKMARK=12
 
