@@ -132,7 +132,7 @@
     "format-full": "",
     "format": "{icon} {capacity}%",
     "format-time": "{H}:{M:02}",
-    "format-charging": " {capacity}% ({time})",
+    "format-charging": "  {capacity}% ({time})",
     "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂂", "󰁹"],
     "states": {
       "warning": 30,
@@ -213,13 +213,13 @@
   },
 
   "custom/arrow-left": {
-    "format": " ",
+    "format": "  ",
     "tooltip": false,
     "cursor": true,
   },
 
   "custom/arrow-right": {
-    "format": " ",
+    "format": "  ",
     "tooltip": false,
     "cursor": true,
   },
