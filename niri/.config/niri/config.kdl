@@ -12,6 +12,8 @@ spawn-at-startup "waybar"
 spawn-sh-at-startup "swww-daemon" 
 spawn-sh-at-startup "/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &"
 spawn-sh-at-startup "swww img ~/Downloads/wall.jpg" 
+spawn-sh-at-startup "wl-paste --type text --watch cliphist store"
+spawn-sh-at-startup "wl-paste --type image --watch cliphist store"
 
 // ╻┏┓╻┏━┓╻ ╻╺┳╸┏━┓
 // ┃┃┗┫┣━┛┃ ┃ ┃ ┗━┓
@@ -212,7 +214,7 @@ window-rule {
     open-maximized false
     focus-ring {
         on
-        width 1.3
+        width 1
         active-color "#bb9af7"
         inactive-color "#565f89" 
     }
@@ -237,7 +239,7 @@ binds {
     // Essentials
     Mod+Return                                         { spawn "ghostty"; }
     Mod+E                                              { spawn "thunar"; }
-    Mod+D                                              { spawn "wofi" "--show" "drun"; }
+    Mod+D                                              { spawn-sh "$HOME/.config/rofi/scripts/launchs.sh"; }
     Mod+Shift+Slash                                    { show-hotkey-overlay; }
     Mod+Shift+Q                                        { quit; }
     Mod+R hotkey-overlay-title="Reload Config"         { spawn-sh "$HOME/.config/niri/launch.sh"; }
@@ -254,6 +256,7 @@ binds {
     Mod+Alt+P hotkey-overlay-title="Project Repos"     { spawn-sh "$HOME/.config/scripts/project-repos/pr-wofi.sh"; } 
     Mod+Alt+S hotkey-overlay-title="System Menu"       { spawn-sh "$HOME/.config/scripts/system-menu/sm-wofi.sh"; }  
     Mod+Alt+W hotkey-overlay-title="Wall Switcher"     { spawn-sh "$HOME/.config/scripts/wallpapers/wallpapers-wofi.sh"; }   
+    Mod+Alt+C hotkey-overlay-title="Clip Hist"         { spawn-sh "$HOME/.config/rofi/scripts/clip.sh"; }   
 
     // Navigation
     Mod+H                                              { focus-column-left; }
@@ -273,8 +276,8 @@ binds {
     Mod+Ctrl+J                                         { set-window-height "-10%"; }
     Mod+Ctrl+K                                         { set-window-height "+10%"; }
     Mod+C                                              { switch-preset-column-width; }
-    Mod+Alt+C                                          { switch-preset-window-height; }
-    Mod+Ctrl+C                                         { reset-window-height; }
+    Mod+Alt+R                                          { switch-preset-window-height; }
+    Mod+Ctrl+R                                         { reset-window-height; }
     Mod+F                                              { maximize-column; }
     Mod+Shift+F                                        { fullscreen-window; }
 

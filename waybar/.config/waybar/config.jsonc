@@ -1,12 +1,1 @@
-{
-  "layer": "top",
-  "position": "top",
-  "height": 30,
-  "spacing": 2,
-
-  "include": ["~/.config/waybar/modules.jsonc"],
-
-  "modules-left": ["niri/workspaces", "group/misc"],
-  "modules-center": ["clock"],
-  "modules-right": ["group/brightness", "group/volume", "network", "battery"],
-}
+{ "include": ["~/.config/waybar/layouts/with-music.jsonc"] }
