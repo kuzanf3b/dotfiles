@@ -9,8 +9,9 @@
 }
 
 window {
-    location: center;
+    location: west;
     width: 750px;
+    height: 100%;
     border-radius: 15px;
     background-color: @background;
 }
@@ -39,9 +40,9 @@ textbox {
 }
 
 listview {
-    margin: 15px 0;
+    margin: 5px 0;
     lines: 4;  
-    columns: 6;  
+    columns: 3;  
     fixed-height: true;  
 }
 
@@ -50,14 +51,15 @@ element {
     border-radius: 18px;  
     margin: 2px;
     cursor: pointer;
+    orientation: vertical;
 }
 
 element-text {
-    padding: 35px 15px;  
+    enabled: false;  
 }
 
 element-icon {
-    size: 5em;  
+    size: 8em;  
     cursor: pointer;
 }
 

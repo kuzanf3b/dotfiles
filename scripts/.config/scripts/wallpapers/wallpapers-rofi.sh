@@ -1,71 +1,34 @@
-#!/bin/sh
+#!/usr/bin/env bash
 set -eu
 
 wall_dir="$HOME/Pictures/Wallpapers"
-cache_file="$HOME/.cache/last_wallpaper"
+cache_dir="$HOME/.cache/wallthumbs"
 rofi_theme="$HOME/.config/rofi/wall.rasi"
 
-# === Check directory ===
-[ ! -d "$wall_dir" ] && notify-send "Wallpaper Error" "Directory $wall_dir not found." && exit 1
+mkdir -p "$cache_dir"
 
-# === Collect images ===
-mapfile -t files < <(
-    find "$wall_dir" -type f \( -iname "*.png" -o -iname "*.jpg" -o -iname "*.jpeg" \) | sort
-)
+# Generate thumbnails
+for img in "$wall_dir"/*.{jpg,jpeg,png,webp}; do
+    [ -f "$img" ] || continue
+    name=$(basename "$img")
+    if [ ! -f "$cache_dir/$name" ]; then
+        magick "$img" -strip -thumbnail 400x225^ -gravity center -extent 400x225 "$cache_dir/$name"
+    fi
+done
 
-[ ${#files[@]} -eq 0 ] && notify-send "Wallpaper Error" "No images found." && exit 1
+# Build rofi entries
+selected=$(find "$wall_dir" -maxdepth 1 -type f \
+    \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) \
+    -exec basename {} \; | sort | while read -r file; do
+        printf "%s\0icon\x1f%s/%s\n" "$file" "$cache_dir" "$file"
+    done | rofi -dmenu -theme "$rofi_theme" -show-icons)
 
-# === Rofi Base Command (theme applied) ===
-ROFI_CMD="rofi -dmenu -i -theme $rofi_theme"
+[ -z "$selected" ] && exit 0
 
-# === Main Options (no hardcoded icons) ===
-main_options="Random\nChoose manually"
+# ensure daemon
+pgrep -x swww-daemon >/dev/null || swww-daemon &
 
-choice=$(printf "%b" "$main_options" | $ROFI_CMD -p "Wallpaper" -l 4)
-[ -z "$choice" ] && exit 0
-
-# === Handle choice ===
-case "$choice" in
-    "Random")
-        chosen="${files[$RANDOM % ${#files[@]}]}"
-        ;;
-    "Choose manually")
-        names=""
-        for f in "${files[@]}"; do
-            names="${names}$(basename "$f")\n"
-        done
-
-        chosen_name=$(printf "%b" "$names" | $ROFI_CMD -p "Choose wallpaper" -l 12)
-        [ -z "$chosen_name" ] && exit 0
-
-        for f in "${files[@]}"; do
-            if [ "$(basename "$f")" = "$chosen_name" ]; then
-                chosen="$f"
-                break
-            fi
-        done
-        ;;
-    *)
-        notify-send "Wallpaper Error" "Invalid choice." && exit 1
-        ;;
-esac
-
-# === Ensure swww daemon running ===
-if ! pgrep -x swww-daemon >/dev/null 2>&1; then
-    swww-daemon &
-    sleep 0.3
-fi
-
-# === Apply wallpaper with swww ===
-[ -z "${chosen:-}" ] && notify-send "Wallpaper Error" "No wallpaper selected." && exit 1
-
-swww img "$chosen" \
+swww img "$wall_dir/$selected" \
     --transition-type grow \
     --transition-step 80 \
     --transition-fps 60
-
-# Save to cache
-echo "$chosen" > "$cache_file"
-
-# Notify user
-notify-send "Wallpaper Changed" "$(basename "$chosen")"
