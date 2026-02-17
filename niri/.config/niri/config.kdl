@@ -252,10 +252,10 @@ binds {
     Ctrl+Print                                         { screenshot-window; }
 
     // Scripts
-    Mod+Alt+B hotkey-overlay-title="Browser Bookmarks" { spawn-sh "$HOME/.config/scripts/bookmarks/bookmarks-wofi.sh"; }
-    Mod+Alt+P hotkey-overlay-title="Project Repos"     { spawn-sh "$HOME/.config/scripts/project-repos/pr-wofi.sh"; } 
-    Mod+Alt+S hotkey-overlay-title="System Menu"       { spawn-sh "$HOME/.config/scripts/system-menu/sm-wofi.sh"; }  
-    Mod+Alt+W hotkey-overlay-title="Wall Switcher"     { spawn-sh "$HOME/.config/scripts/wallpapers/wallpapers-wofi.sh"; }   
+    Mod+Alt+B hotkey-overlay-title="Browser Bookmarks" { spawn-sh "$HOME/.config/scripts/bookmarks/bookmarks-rofi.sh"; }
+    Mod+Alt+P hotkey-overlay-title="Project Repos"     { spawn-sh "$HOME/.config/scripts/project-repos/pr-rofi.sh"; } 
+    Mod+Alt+S hotkey-overlay-title="System Menu"       { spawn-sh "$HOME/.config/scripts/system-menu/sm-rofi.sh"; }  
+    Mod+Alt+W hotkey-overlay-title="Wall Switcher"     { spawn-sh "$HOME/.config/scripts/wallpapers/wallpapers-rofi.sh"; }   
     Mod+Alt+C hotkey-overlay-title="Clip Hist"         { spawn-sh "$HOME/.config/rofi/scripts/clip.sh"; }   
 
     // Navigation

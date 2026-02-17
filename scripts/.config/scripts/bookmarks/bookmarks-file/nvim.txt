@@ -1,4 +1,4 @@
-Neovim Official Wiki :: https://neovim.io/wiki
+Neovim Official Wiki :: https://neovim.io
 Neovim Awesome Plugins :: https://github.com/rockerBOO/awesome-neovim
 Lazyvim Wiki :: https://www.lazyvim.org
 Nvchad Wiki :: https://nvchad.com

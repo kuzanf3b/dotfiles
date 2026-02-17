@@ -1,11 +1,25 @@
 #!/bin/sh
 set -eu
 
-# === Setup Directories ===
+# =============================
+# Config
+# =============================
 BOOKMARK_DIR="$HOME/.config/scripts/bookmarks/bookmarks-file"
+ROFI_THEME="$HOME/.config/rofi/bookmark.rasi"
+
 mkdir -p "$BOOKMARK_DIR"
 
-# === Browsers ===
+rofi_run() {
+    rofi -dmenu -i -no-config -theme "$ROFI_THEME" "$@"
+}
+
+LINES_CATEGORY=10
+LINES_BOOKMARK=12
+NEW_OPTION="Add New Bookmark"
+
+# =============================
+# Browsers
+# =============================
 ZEN_BROWSER="$(command -v zen-browser 2>/dev/null || true)"
 FIREFOX="$(command -v firefox 2>/dev/null || true)"
 BRAVE="$(command -v brave 2>/dev/null || command -v brave-browser 2>/dev/null || true)"
@@ -13,105 +27,82 @@ FLOORP="$(command -v floorp 2>/dev/null || true)"
 VIVALDI="$(command -v vivaldi 2>/dev/null || true)"
 QUTE="$(command -v qutebrowser 2>/dev/null || true)"
 
-# === Rofi Setup ===
-ROFI_CMD="rofi -dmenu -i -p '' -no-show-icons"
-LINES_CATEGORY=10
-LINES_BOOKMARK=12
-
-# === Nerd Font Icons ===
-ICON_DEFAULT="󰈙"
-ICON_ZEN="󰤄"
-ICON_FIREFOX="󰈹"
-ICON_BRAVE="󰄛"
-ICON_FLOORP="󰓅"
-ICON_VIVALDI=""
-ICON_QUTE="󰆍"
-NEW_OPTION="󰐕  Add New Bookmark"
-
-# === Icon Map (by file name) ===
-icon_for() {
-    case "$1" in
-        personal) echo "" ;;
-        work) echo "󱃐" ;;
-        theme) echo "󰏘" ;;
-        appearance) echo "" ;;
-        cinema) echo "󰎁" ;;
-        terminal) echo "" ;;
-        installation) echo "" ;;
-        nvim) echo "" ;;
-        wm-compositor) echo "" ;;
-        *) echo "$ICON_DEFAULT" ;;
-    esac
-}
-
-# === Capitalize Case Function ===
+# =============================
+# Helpers
+# =============================
 capitalize_case() {
-    echo "$1" | sed 's/[-_]/ /g' | awk '{for (i=1;i<=NF;i++){$i=toupper(substr($i,1,1))tolower(substr($i,2))}print}'
+    echo "$1" | sed 's/[-_]/ /g' | awk '{for (i=1;i<=NF;i++){ $i=toupper(substr($i,1,1))tolower(substr($i,2)) } print}'
 }
 
-# === Emit bookmarks from file ===
 emit() {
-    file="$1"; icon="$2"
+    file="$1"
+
     grep -vE '^\s*(#|$)' "$file" | while IFS= read -r line; do
         case "$line" in
             *"::"*)
                 name="${line%%::*}"
                 url="${line#*::}"
-                printf '%s [%s] :: %s\n' "$icon" "$(echo "$name" | xargs)" "$(echo "$url" | xargs)"
+                printf '%s :: %s\n' "$(echo "$name" | xargs)" "$(echo "$url" | xargs)"
                 ;;
             *)
-                printf '%s [%s] :: %s\n' "$icon" "$line" "$line"
+                printf '%s :: %s\n' "$line" "$line"
                 ;;
         esac
     done
 }
 
-# === Step 1: Choose Category ===
+# =============================
+# Step 1: Category
+# =============================
 category_list=""
-found_file=false
+found=false
+
 for file in "$BOOKMARK_DIR"/*.txt; do
     [ -f "$file" ] || continue
-    found_file=true
+    found=true
     name="$(basename "$file" .txt)"
-    display_name="$(capitalize_case "$name")"
-    icon="$(icon_for "$name")"
-    category_list="${category_list}${icon} ${display_name}\n"
+    category_list="${category_list}$(capitalize_case "$name")\n"
 done
 
-if [ "$found_file" = false ]; then
-    notify-send "No bookmark files found in $BOOKMARK_DIR"
-    exit 0
-fi
+[ "$found" = false ] && exit 0
 
-category_choice="$(printf "%b" "$category_list" | $ROFI_CMD "Select category:" -l "$LINES_CATEGORY" || true)"
-[ -n "${category_choice:-}" ] || exit 0
+category_choice="$(printf "%b" "$category_list" | rofi_run -p "Select category:" -l "$LINES_CATEGORY" || true)"
+[ -z "${category_choice:-}" ] && exit 0
 
-CATEGORY="$(printf '%s' "$category_choice" | cut -d' ' -f2- | tr '[:upper:]' '[:lower:]' | tr ' ' '-')"
+CATEGORY="$(printf '%s' "$category_choice" | tr '[:upper:]' '[:lower:]' | tr ' ' '-')"
 FILE="$BOOKMARK_DIR/$CATEGORY.txt"
-ICON="$(icon_for "$CATEGORY")"
 
-# === Step 2: Choose Bookmark ===
-# Sort hanya bookmark, bukan opsi Add Bookmarks.
-bookmarks_sorted="$(emit "$FILE" "$ICON" | sort)"
+[ -f "$FILE" ] || exit 0
+
+# =============================
+# Step 2: Bookmark
+# =============================
+bookmarks_sorted="$(emit "$FILE" | sort)"
 
 menu_items="${NEW_OPTION}
 ${bookmarks_sorted}"
 
-bookmark_choice="$(printf "%s" "$menu_items" | $ROFI_CMD "Select bookmark:" -l "$LINES_BOOKMARK" || true)"
-[ -n "${bookmark_choice:-}" ] || exit 0
+bookmark_choice="$(printf "%s" "$menu_items" | rofi_run -p "Select bookmark:" -l "$LINES_BOOKMARK" || true)"
+[ -z "${bookmark_choice:-}" ] && exit 0
 
-# === Step 3: Add New Bookmark ===
-if printf '%s' "$bookmark_choice" | grep -q "$NEW_OPTION"; then
-    name="$($ROFI_CMD 'Name of site:' || true)"
+# =============================
+# Step 3: Add New
+# =============================
+if [ "$bookmark_choice" = "$NEW_OPTION" ]; then
+    name="$(rofi_run -p "Name:")"
     [ -z "${name:-}" ] && exit 0
-    url="$($ROFI_CMD 'URL:' || true)"
+
+    url="$(rofi_run -p "URL:")"
     [ -z "${url:-}" ] && exit 0
-    printf "%s :: %s\n" "$name" "$url" >>"$FILE"
-    notify-send "Bookmark Added" "$name → $url" -a "Bookmarks"
+
+    printf "%s :: %s\n" "$name" "$url" >> "$FILE"
+    notify-send "Bookmark added" "$name → $url"
     exit 0
 fi
 
-# === Step 4: Parse selected bookmark ===
+# =============================
+# Step 4: Parse URL
+# =============================
 url="${bookmark_choice##* :: }"
 url="$(printf '%s' "$url" | xargs)"
 
@@ -120,27 +111,30 @@ case "$url" in
     *) url="https://$url" ;;
 esac
 
-# === Step 5: Choose Browser ===
-available_browsers=""
-[ -n "$ZEN_BROWSER" ] && available_browsers="${available_browsers}\n󰤄 Zen"
-[ -n "$FIREFOX" ] && available_browsers="${available_browsers}\n󰈹 Firefox"
-[ -n "$BRAVE" ] && available_browsers="${available_browsers}\n󰄛 Brave"
-[ -n "$FLOORP" ] && available_browsers="${available_browsers}\n󰓅 Floorp"
-[ -n "$VIVALDI" ] && available_browsers="${available_browsers}\n Vivaldi"
-[ -n "$QUTE" ] && available_browsers="${available_browsers}\n󰆍 Qutebrowser"
+# =============================
+# Step 5: Choose Browser
+# =============================
+available=""
 
-browser_choice="$(printf "%b" "$available_browsers" | sed '/^$/d' | $ROFI_CMD "Open with:" -l 6 || true)"
-[ -n "${browser_choice:-}" ] || exit 0
+[ -n "$ZEN_BROWSER" ] && available="${available}\nZen"
+[ -n "$FIREFOX" ] && available="${available}\nFirefox"
+[ -n "$BRAVE" ] && available="${available}\nBrave"
+[ -n "$FLOORP" ] && available="${available}\nFloorp"
+[ -n "$VIVALDI" ] && available="${available}\nVivaldi"
+[ -n "$QUTE" ] && available="${available}\nQutebrowser"
+
+browser_choice="$(printf "%b" "$available" | sed '/^$/d' | rofi_run -p "Open with:" -l 6 || true)"
+[ -z "${browser_choice:-}" ] && exit 0
 
 case "$browser_choice" in
-    *Zen) cmd="$ZEN_BROWSER"; browser_name="Zen Browser" ;;
-    *Firefox) cmd="$FIREFOX"; browser_name="Firefox" ;;
-    *Brave) cmd="$BRAVE"; browser_name="Brave" ;;
-    *Floorp) cmd="$FLOORP"; browser_name="Floorp" ;;
-    *Vivaldi) cmd="$VIVALDI"; browser_name="Vivaldi" ;;
-    *Qutebrowser) cmd="$QUTE"; browser_name="Qutebrowser" ;;
+    Zen) cmd="$ZEN_BROWSER" ;;
+    Firefox) cmd="$FIREFOX" ;;
+    Brave) cmd="$BRAVE" ;;
+    Floorp) cmd="$FLOORP" ;;
+    Vivaldi) cmd="$VIVALDI" ;;
+    Qutebrowser) cmd="$QUTE" ;;
     *) exit 0 ;;
 esac
 
 nohup "$cmd" "$url" >/dev/null 2>&1 &
-notify-send "Opening in $browser_name" "$url" -a "Bookmarks" -u low
+notify-send "Opening" "$url" -u low

@@ -9,15 +9,16 @@
 }
 
 window {
-    location: west;
+    location: north;
+    y-offset: -37px;
     width: 750px;
-    height: 100%;
-    border-radius: 15px;
+    border-radius: 0px 0px 15px 15px;
     background-color: @background;
 }
 
 mainbox {
     padding: 12px;
+    children: ["listview", "inputbar"];
 }
 
 inputbar {
@@ -30,8 +31,7 @@ inputbar {
 }
 
 entry {
-    placeholder: "Search";
-    placeholder-color: @foreground;
+    placeholder: "Search bookmark:";
     text-color: @foreground; 
 }
 
@@ -40,31 +40,38 @@ textbox {
 }
 
 listview {
-    margin: 5px 0;
-    lines: 4;  
-    columns: 3;  
-    fixed-height: true;  
+    margin: 0 0 10px 0;
+    lines: 5;
+    columns: 1;
+    fixed-height: false;
+    scrollbar: true;
+}
+
+scrollbar {
+    handle-width:  2px;
+    handle-color:  @background-sec;
+    border-radius: 20px;
 }
 
 element {
-    padding: 0px 11px; 
-    border-radius: 18px;  
+    padding: 0;
+    border-radius: 4px;
     margin: 2px;
-    cursor: pointer;
-    orientation: vertical;
 }
 
-element-text {
-    enabled: false;  
+element-text { 
+    padding: 20px 10px;
+    color: @foreground; 
 }
 
 element-icon {
-    size: 8em;  
-    cursor: pointer;
+    size: 1em;
 }
 
+element-text selected normal,
 element selected normal,
+element-text selected active,
 element selected active {
-    background-color: @foreground;  
-    text-color: @background; 
+    background-color: @foreground;
+    color: @background;
 }
