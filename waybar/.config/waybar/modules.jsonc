@@ -181,7 +181,7 @@
 
   "custom/start": {
     "format": "",
-    "on-click": "~/.config/rofi/bin/drun &",
+    "on-click": "~/.config/rofi/scripts/launcher.sh",
   },
 
   "custom/ctlcenter": {

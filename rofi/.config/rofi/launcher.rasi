@@ -10,6 +10,7 @@
 /*****----- Configuration -----*****/
 configuration {
 	modi:                       "drun";
+    display-drun:               " ";
     show-icons:                 true;
 	drun-display-format:        "{name}";
 }

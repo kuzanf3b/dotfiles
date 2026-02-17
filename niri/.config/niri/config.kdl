@@ -242,6 +242,7 @@ binds {
     Mod+D                                              { spawn-sh "$HOME/.config/rofi/scripts/launchs.sh"; }
     Mod+Shift+Slash                                    { show-hotkey-overlay; }
     Mod+Shift+Q                                        { quit; }
+    Mod+Shift+X                                        { spawn-sh "hyprlock"; }
     Mod+R hotkey-overlay-title="Reload Config"         { spawn-sh "$HOME/.config/niri/launch.sh"; }
     Alt+Tab         repeat=false                       { toggle-overview; }
     Mod+Q           repeat=false                       { close-window; }
