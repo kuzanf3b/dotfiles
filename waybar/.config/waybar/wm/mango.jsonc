@@ -1,0 +1,18 @@
+{
+  "ext/workspaces": {
+    "format": "{icon}",
+    "ignore-hidden": true,
+    "on-click": "activate",
+    "on-click-right": "deactivate",
+    "sort-by-id": true,
+    "format-icons": {
+      "default": "",
+      "active": "",
+      "urgent": "",
+    },
+  },
+
+  "dwl/window": {
+    "format": "[{layout}]",
+  },
+}

@@ -1,0 +1,19 @@
+{
+  "group/group-volume": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 600,
+      "transition-left-to-right": true,
+    },
+    "modules": ["pulseaudio", "pulseaudio/slider"],
+  },
+
+  "group/group-backlight": {
+    "orientation": "horizontal",
+    "drawer": {
+      "transition-duration": 600,
+      "transition-left-to-right": true,
+    },
+    "modules": ["backlight", "backlight/slider"],
+  },
+}

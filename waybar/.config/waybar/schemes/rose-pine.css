@@ -11,3 +11,9 @@
 @define-color purple  #c4a7e7;
 @define-color magenta #ebbcba;
 @define-color muted   #6e6a86;
+
+@define-color fg @text;
+@define-color inactive @muted;
+@define-color module-bg rgba(15, 13, 26, 0.9);
+@define-color tooltip-bg rgba(15, 13, 26, 0.9);
+@define-color workspace-fg @fg;

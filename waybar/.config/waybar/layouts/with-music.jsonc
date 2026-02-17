@@ -17,12 +17,12 @@
       "transition-left-to-right": false,
       "click-to-reveal": true,
     },
-    "modules": ["custom/arrow-right", "battery", "cpu", "load"],
+    "modules": ["custom/arrow-right", "cpu", "load"],
   },
 
   "group/left-hidden-top": {
     "orientation": "horizontal",
-    "modules": ["custom/start", "group/left-hidden"],
+    "modules": ["power-profiles-daemon", "group/left-hidden"],
   },
 
   "group/right": {
@@ -32,7 +32,7 @@
       "group/group-volume",
       "group/group-backlight",
       "network",
-      "tray",
+      "battery",
     ],
   },
 
@@ -43,7 +43,7 @@
       "transition-left-to-right": true,
       "click-to-reveal": true,
     },
-    "modules": ["custom/arrow-left", "memory", "temperature"],
+    "modules": ["custom/arrow-left", "custom/pacman", "temperature"],
   },
 
   "group/right-hidden-top": {
@@ -53,7 +53,7 @@
 
   "modules-left": ["group/left-hidden-top", "group/left"],
   "modules-center": ["clock"],
-  "modules-right": ["group/right", "group/right-hidden-top"],
+  "modules-right": ["tray", "group/right", "group/right-hidden-top"],
 
   "include": ["~/.config/waybar/modules.jsonc"],
 }

@@ -1,0 +1,40 @@
+{
+  "custom/start": {
+    "format": "",
+    "on-click": "~/.config/rofi/scripts/launcher.sh",
+  },
+
+  "custom/ctlcenter": {
+    "tooltip": false,
+    "format": " ",
+    "on-click": "swaync-client -t",
+  },
+
+  "custom/arrow-left": {
+    "format": "  ",
+    "tooltip": false,
+    "cursor": true,
+  },
+
+  "custom/arrow-right": {
+    "format": "  ",
+    "tooltip": false,
+    "cursor": true,
+  },
+
+  "custom/pacman": {
+    "format": "󰅢   {}",
+    "interval": 30,
+    "exec": "checkupdates | wc -l",
+    "exec-if": "exit 0",
+    "on-click": "alacritty -e sh -c 'paru -Syu; echo Done - Press enter to exit; read'; pkill -SIGRTMIN+8 waybar",
+    "signal": 8,
+    "tooltip": false,
+  },
+
+  "custom/exit": {
+    "format": "󰐥",
+    "on-click": "wlogout",
+    "tooltip-format": "Power Menu",
+  },
+}
