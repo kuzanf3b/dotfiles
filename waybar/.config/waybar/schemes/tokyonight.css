@@ -12,3 +12,9 @@
 @define-color magenta #bb9af7;
 @define-color muted   #565f89;
 @define-color overlay #414868;
+
+@define-color fg @text;
+@define-color inactive @muted;
+@define-color module-bg rgba(16, 17, 28, 0.9);
+@define-color tooltip-bg rgba(16, 17, 28, 0.9);
+@define-color workspace-fg @fg;

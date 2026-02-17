@@ -1,10 +1,10 @@
-Mango Wiki :: https://github.com/DreamMaoMao/mangowc/wiki
-Dwm Wiki :: https://dwm.suckless.org/
-Dwl Wiki :: https://codeberg.org/dwl/dwl
-Niri Wiki :: https://niri-wm.github.io/niri/
-Hyprland Wiki :: https://hypr.land/
-I3wm Wiki :: https://i3wm.org/docs/
-Herbstluftwm Wiki :: https://herbstluftwm.org/documentation/
-Bspwm Wiki :: https://github.com/baskerville/bspwm/wiki
-Qtile Wiki :: https://docs.qtile.org/en/latest/
-Awesomewm Wiki :: https://awesomewm.org
+Mango :: https://mangowc.vercel.app/
+Dwm :: https://dwm.suckless.org/
+Dwl :: https://codeberg.org/dwl/dwl
+Niri :: https://niri-wm.github.io/niri/
+Hyprland :: https://hypr.land/
+I3wm :: https://i3wm.org/docs/
+Herbstluftwm :: https://herbstluftwm.org/documentation/
+Bspwm :: https://github.com/baskerville/bspwm
+Qtile :: https://docs.qtile.org/en/latest/
+Awesomewm :: https://awesomewm.org

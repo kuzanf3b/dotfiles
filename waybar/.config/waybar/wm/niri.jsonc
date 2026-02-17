@@ -1,0 +1,15 @@
+{
+  "niri/workspaces": {
+    "format": "{icon}",
+    "cursor": true,
+    "format-icons": {
+      "active": "󰮯 ",
+      "urgent": " ",
+      "default": " ",
+    },
+  },
+
+  "niri/window": {
+    "max-length": 45,
+  },
+}

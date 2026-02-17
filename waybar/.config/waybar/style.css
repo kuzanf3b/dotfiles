@@ -1,15 +1,4 @@
-/* Tokyo night dark enhanced color theme */
-
-@define-color module-bg rgba(8, 8, 11, 0.9);
-@define-color tooltip-bg rgba(8, 8, 11, 0.9);
-@define-color inactive #787c99;
-@define-color fg #acb0d0;
-@define-color workspace-fg @fg;
-
-@define-color red #f7768e;
-@define-color blue #7aa2f7;
-@define-color yellow #e0af68;
-@define-color green #41a6b5;
+@import "schemes/tokyonight.css";
 
 * {
   font-family: "JetBrainsMono Font";
@@ -36,13 +25,23 @@
 #mpris,
 #window,
 #cpu,
-#load {
+#load,
+#custom-pacman,
+#custom-exit {
   padding: 1px 7px;
 }
 
 #network,
 #tray {
   padding: 1px 6px;
+}
+
+/* Tray-specific style */
+#tray {
+  padding: 2px 10px;
+  background: @module-bg;
+  margin-right: 3px;
+  border-radius: 15px;
 }
 
 #backlight,
@@ -67,7 +66,9 @@
 #cpu,
 #mpris,
 #window,
-#load {
+#load,
+#custom-pacman,
+#custom-exit {
   margin: 0 3px;
 }
 
