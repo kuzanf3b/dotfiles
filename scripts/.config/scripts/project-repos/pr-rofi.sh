@@ -6,33 +6,36 @@ repos_dir="$HOME/Repository"
 learn_dir="$HOME/Learning"
 proj_dir="$HOME/Project"
 config_dir="$HOME/.config"
+rofi_theme="$HOME/.config/rofi/project-repo.rasi"
+
+# === Rofi Common Options ===
+rofi_common="-dmenu -i -no-show-icons -theme $rofi_theme -p"
 
 # === Check installed apps ===
 apps=""
-command -v st >/dev/null 2>&1 && apps="${apps}  st\n"
-command -v alacritty >/dev/null 2>&1 && apps="${apps}  alacritty\n"
-command -v ghostty >/dev/null 2>&1 && apps="${apps}󰊠  ghostty\n"
-command -v code >/dev/null 2>&1 && apps="${apps}  vscode\n"
+command -v st >/dev/null 2>&1 && apps="${apps}st\n"
+command -v alacritty >/dev/null 2>&1 && apps="${apps}alacritty\n"
+command -v ghostty >/dev/null 2>&1 && apps="${apps}ghostty\n"
+command -v code >/dev/null 2>&1 && apps="${apps}vscode\n"
 
 [ -n "$apps" ] || {
-    notify-send " No Terminal Apps Found" "Install a terminal emulator like st, alacritty, or vscode." -i dialog-warning
+    notify-send "No Terminal Apps Found" \
+    "Install st, alacritty, ghostty, or vscode."
     exit 1
 }
 
 # === Categories ===
-categories="  Repositories
-  Configuration
-  Learning
-  Projects"
-
-rofi_common="-dmenu -i -no-show-icons -p"
+categories="Repositories
+Configuration
+Learning
+Projects"
 
 # === Choose App ===
-chosen_app=$(printf "%b" "$apps" | rofi $rofi_common "Open with:" | awk '{print $2}')
+chosen_app=$(printf "%b" "$apps" | rofi $rofi_common "Open with:")
 [ -n "$chosen_app" ] || exit 0
 
 # === Choose Category ===
-chosen_category=$(printf "%b" "$categories" | rofi $rofi_common "Category:" | awk '{print $2}')
+chosen_category=$(printf "%b" "$categories" | rofi $rofi_common "Category:")
 [ -n "$chosen_category" ] || exit 0
 
 # === Determine Base Directory ===
@@ -43,25 +46,24 @@ case "$chosen_category" in
     Projects) base_dir="$proj_dir" ;;
 esac
 
-# === Gather Projects Fast ===
-# langsung list folder 1 level
-projects=$(find "$base_dir" -maxdepth 1 -mindepth 1 -type d -printf "  %f\n" | sort)
+# === List Projects ===
+projects=$(find -L "$base_dir" -maxdepth 1 -mindepth 1 -type d -printf "%f\n" | sort)
 
 [ -n "$projects" ] || {
-    notify-send "No Projects Found" "Empty directory in '$chosen_category'." -i dialog-information
+    notify-send "No Projects Found" \
+    "Empty directory in '$chosen_category'."
     exit 0
 }
 
 # === Choose Project ===
-chosen_project=$(printf "%b" "$projects" | rofi $rofi_common "Projects:" | sed 's/^  //')
+chosen_project=$(printf "%b" "$projects" | rofi $rofi_common "Projects:")
 [ -n "$chosen_project" ] || exit 0
 
 dir="$base_dir/$chosen_project"
 
-# === Open Project Super Fast ===
+# === Open Project ===
 case "$chosen_app" in
     st|alacritty|ghostty)
-        # session name aman
         sess=$(printf "%s" "$chosen_project" | tr '/.' '_')
         exec "$chosen_app" -e tmux new-session -As "$sess" -c "$dir"
         ;;
