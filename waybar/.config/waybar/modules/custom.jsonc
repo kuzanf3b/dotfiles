@@ -27,7 +27,7 @@
     "interval": 30,
     "exec": "checkupdates | wc -l",
     "exec-if": "exit 0",
-    "on-click": "ghostty --command=\"sh -c 'paru -Syu; echo Done - Press enter to exit; read'\"; pkill -SIGRTMIN+8 waybar",
+    "on-click": "alacritty -e sh -c 'paru -Syu; echo Done - Press enter to exit; read'; pkill -SIGRTMIN+8 waybar",
     "signal": 8,
     "tooltip": false,
   },
