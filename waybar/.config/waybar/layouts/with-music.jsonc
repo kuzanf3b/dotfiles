@@ -17,7 +17,7 @@
       "transition-left-to-right": false,
       "click-to-reveal": true,
     },
-    "modules": ["custom/arrow-right", "cpu", "load"],
+    "modules": ["custom/arrow-right", "cpu", "custom/pacman"],
   },
 
   "group/left-hidden-top": {
@@ -32,7 +32,6 @@
       "group/group-volume",
       "group/group-backlight",
       "network",
-      "battery",
     ],
   },
 
@@ -43,7 +42,7 @@
       "transition-left-to-right": true,
       "click-to-reveal": true,
     },
-    "modules": ["custom/arrow-left", "custom/pacman", "temperature"],
+    "modules": ["custom/arrow-left", "battery", "temperature"],
   },
 
   "group/right-hidden-top": {
