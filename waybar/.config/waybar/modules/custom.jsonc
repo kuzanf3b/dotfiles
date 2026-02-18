@@ -8,6 +8,7 @@
     "tooltip": false,
     "format": " ",
     "on-click": "swaync-client -t",
+    "on-click-right": "~/.config/wlogout/scripts/flex.sh",
   },
 
   "custom/arrow-left": {

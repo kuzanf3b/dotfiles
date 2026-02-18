@@ -1,13 +1,3 @@
-/**
- *
- * Author : Aditya Shakya (adi1090x)
- * Github : @adi1090x
- * 
- * Rofi Theme File
- * Rofi Version: 1.7.3
- **/
-
-/*****----- Configuration -----*****/
 configuration {
 	modi:                       "drun";
     show-icons:                 false;
@@ -16,7 +6,6 @@ configuration {
 	window-format:              "{w} · {c} · {t}";
 }
 
-/*****----- Global Properties -----*****/
 @import                          "shared/colors.rasi"
 @import                          "shared/fonts.rasi"
 
@@ -46,14 +35,13 @@ configuration {
     alternate-active-foreground: var(background);
 }
 
-/*****----- Main Window -----*****/
 window {
     transparency: "real";
     location: center;
     anchor: center;
 
     fullscreen: false;
-    width: 700px;
+    width: 650px;
 
     margin: 0px;
     padding: 0px;
@@ -62,8 +50,6 @@ window {
     background-color: transparent;
 }
 
-
-/*****----- Main Box -----*****/
 mainbox {
     spacing: 15px;
     padding: 20px;
@@ -71,12 +57,11 @@ mainbox {
     children: [ "inputbar", "listview" ];
 }
 
-/*****----- Inputbar -----*****/
 inputbar {
     enabled:                     true;
     spacing:                     10px;
     margin:                      0px;
-    padding:                     18px;
+    padding:                     15px;
     border:                      0px;
     border-radius:               20px;
     border-color:                @border-colour;
@@ -108,7 +93,6 @@ entry {
     horizontal-align:            0.5;
 }
 
-/*****----- Listview -----*****/
 listview {
     columns: 1;
     lines: 8;
@@ -130,7 +114,6 @@ scrollbar {
     background-color:            @alternate-background;
 }
 
-/*****----- Elements -----*****/
 element {
     enabled:                     true;
     spacing:                     10px;
@@ -156,8 +139,8 @@ element normal.active {
     text-color:                  var(active-foreground);
 }
 element selected.normal {
-    background-color:            @foreground;
-    text-color:                  @background-colour;
+    background-color:            white / 5%;
+    text-color:                  @foreground-colour;
 }
 element selected.urgent {
     background-color:            var(selected-urgent-background);
@@ -188,7 +171,6 @@ element-text {
     horizontal-align:            0.0;
 }
 
-/*****----- Mode Switcher -----*****/
 mode-switcher{
     enabled:                     true;
     spacing:                     10px;
@@ -214,7 +196,6 @@ button selected {
     text-color:                  var(selected-normal-foreground);
 }
 
-/*****----- Message -----*****/
 message {
     enabled:                     true;
     margin:                      0px;
