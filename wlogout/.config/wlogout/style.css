@@ -1,7 +1,9 @@
+@import url("/home/kuzan/.config/waybar/schemes/rose-pine.css");
+
 window {
-  font-family: "JetBrains Mono Nerd Font";
+  font-family: "DroidSansM Nerd Font";
   font-size: 16pt;
-  color: #c0caf5; /* text */
+  color: @text;
   background-color: rgba(24, 27, 32, 0.2);
 }
 
@@ -26,7 +28,7 @@ button:focus {
 button:hover {
   background-size: 50%;
   box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.4);
-  background-color: #7aa2f7;
+  background-color: @accent;
   color: transparent;
   transition:
     all 0.3s cubic-bezier(0.55, 0, 0.28, 1.682),
