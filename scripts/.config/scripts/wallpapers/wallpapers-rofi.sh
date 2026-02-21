@@ -25,10 +25,18 @@ selected=$(find "$wall_dir" -maxdepth 1 -type f \
 
 [ -z "$selected" ] && exit 0
 
-# ensure daemon
+# Ensure daemon
 pgrep -x swww-daemon >/dev/null || swww-daemon &
 
+# Set wallpaper with smooth transition
 swww img "$wall_dir/$selected" \
-    --transition-type grow \
+    --transition-type any \
     --transition-step 80 \
     --transition-fps 60
+
+# Notify user
+notify-send \
+    "Wallpaper Updated" \
+    "$selected" \
+    -i "$cache_dir/$selected" \
+    -h string:x-canonical-private-synchronous:wallpaper
