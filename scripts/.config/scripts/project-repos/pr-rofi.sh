@@ -2,9 +2,9 @@
 set -eu
 
 # === PATHS ===
-repos_dir="$HOME/Repository"
-learn_dir="$HOME/Learning"
-proj_dir="$HOME/Project"
+repos_dir="$HOME/Dotfiles"
+learn_dir="$HOME/Documents/Learning"
+proj_dir="$HOME/Documents/Projects"
 config_dir="$HOME/.config"
 rofi_theme="$HOME/.config/rofi/project-repo.rasi"
 
@@ -20,7 +20,7 @@ command -v code >/dev/null 2>&1 && apps="${apps}vscode\n"
 
 [ -n "$apps" ] || {
     notify-send "No Terminal Apps Found" \
-    "Install st, alacritty, ghostty, or vscode."
+        "Install st, alacritty, ghostty, or vscode."
     exit 1
 }
 
@@ -51,7 +51,7 @@ projects=$(find -L "$base_dir" -maxdepth 1 -mindepth 1 -type d -printf "%f\n" | 
 
 [ -n "$projects" ] || {
     notify-send "No Projects Found" \
-    "Empty directory in '$chosen_category'."
+        "Empty directory in '$chosen_category'."
     exit 0
 }
 

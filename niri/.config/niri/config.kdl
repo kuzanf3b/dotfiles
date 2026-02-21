@@ -227,11 +227,20 @@ window-rule {
 }
 
 window-rule {
-    match title="nmtui-floating"
-    match title="peaclock"
     match app-id="pavucontrol"
     match app-id="blueman-manager"
     match app-id="nm-connection-editor"
+    match app-id="nwg-look"
+
+    open-floating true
+}
+
+window-rule {
+    match title="nmtui-floating"
+    match title="peaclock"
+    match title="htop-float"
+    match title="nvtop-float"
+    match title="yazi-float"
 
     open-floating true
 }
@@ -271,6 +280,7 @@ binds {
 
     // Temporary
     // Mod+Alt+N hotkey-overlay-title="Nmtui"             { spawn-sh "alacritty --title nmtui-floating -e nmtui"; }
+    Mod+Alt+Y hotkey-overlay-title="Yazi"             { spawn-sh "alacritty --title yazi-float -e yazi"; }
 
     // Navigation
     Mod+H                                              { focus-column-left; }

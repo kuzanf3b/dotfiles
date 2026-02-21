@@ -6,6 +6,7 @@
 @define-color base #191724;
 
 @define-color text #e0def4;
+@define-color text-alt #8A86A6;
 
 @define-color red  #eb6f92;
 @define-color red2 #b4637a;
@@ -21,3 +22,7 @@
 
 @define-color purple #c4a7e7;
 @define-color magenta #c4a7e7;
+
+@define-color center-bg rgba(15, 13, 26, 0.9);
+@define-color background #0F0D1A;
+@define-color background-alt #151323;
