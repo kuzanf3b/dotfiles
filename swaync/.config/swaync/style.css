@@ -3,6 +3,7 @@
 @define-color selected        alpha(@text-alt, .4);
 @define-color hover           alpha(@selected, .4);
 @define-color urgent          @text-alt;
+@define-color mpris-overlay rgba(0, 0, 0, 0.55);
 
 * {
   color: @text;
@@ -227,21 +228,27 @@
 }
 
 .widget-mpris {
-  background: @background-alt;
+  background: @background-alt; /* @mpris-overlay for niche*/
   border-radius: 15px;
   margin: 5px 0;
-  padding: 0 10px;
 }
 
-.mpris-overlay {
-  background: @background-alt;
-}
+/* For overlaying */
+/* .mpris-overlay {
+  background: @mpris-overlay;
+} */
 
 .widget-mpris-player {
   background: @background-alt;
   color: @text;
   margin: 0 5px;
   padding: 10px 0 15px;
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.widget-mpris-player .mpris-background {
+  filter: blur(8px);
 }
 
 /* Control buttons for mpris widget */

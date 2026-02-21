@@ -51,15 +51,25 @@
     },
 
     "buttons-grid": {
-      "columns": 2,
       "actions": [
         {
-          "label": "",
-          "command": "alacritty -- -e htop ; swaync-client -cp"
+          "label": "",
+          "command": "sh -c $HOME/.config/swaync/scripts/inhibit.sh",
+          "update-command": "sh -c $HOME/.config/swaync/scripts/update-inhibit.sh"
+        },
+        {
+          "label": "",
+          "type": "toggle",
+          "command": "pactl set-source-mute @DEFAULT_SOURCE@ toggle",
+          "update-command": "sh -c $HOME/.config/swaync/scripts/update-mic.sh"
+        },
+        {
+          "label": "",
+          "command": "alacritty --title yazi-float -e yazi $HOME/ ; swaync-client -cp"
         },
         {
           "label": "",
-          "command": "alacritty -- -e nvtop ; swaync-client -cp"
+          "command": "alacritty --title nvtop-float -e nvtop ; swaync-client -cp"
         },
         {
           "label": "",
