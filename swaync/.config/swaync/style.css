@@ -319,7 +319,7 @@
   background-color: @text;
 }
 
-.widget-buttons-grid button:checked > label {
+.widget-buttons-grid button:checked label {
   color: @background;
 }
 
