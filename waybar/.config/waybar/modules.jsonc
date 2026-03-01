@@ -1,6 +1,6 @@
 {
   "include": [
-    "~/.config/waybar/wm/niri.jsonc",
+    "~/.config/waybar/wm/hypr.jsonc",
     "~/.config/waybar/modules/custom.jsonc",
     "~/.config/waybar/modules/slider.jsonc",
     "~/.config/waybar/modules/group.jsonc",

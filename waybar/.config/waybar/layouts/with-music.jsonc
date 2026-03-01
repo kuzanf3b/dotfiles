@@ -7,7 +7,7 @@
 
   "group/left": {
     "orientation": "horizontal",
-    "modules": ["niri/workspaces", "mpris"],
+    "modules": ["hyprland/workspaces", "mpris"],
   },
 
   "group/left-hidden": {
