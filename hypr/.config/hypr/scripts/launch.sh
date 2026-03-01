@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-killall -9 waybar
-killall -9 swaync
+pkill waybar
+pkill swaync
 
 waybar &
 swaync &
