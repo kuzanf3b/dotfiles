@@ -4,7 +4,7 @@ foreground = #E0E0ED
 selection-background = #313244
 selection-foreground = #E0E0ED
 
-cursor-color = #89DCEB
+cursor-color = #8E8EAF
 
 palette = 0=#1A1A27
 palette = 1=#F38BA8
