@@ -28,9 +28,9 @@ makepkg -si
 ### Fonts
 Install the fonts used by the themes/UI:
 
-- JetBrainsMono Nerd Font
-- DroidSansMono Nerd Font
-- Material Symbols Rounded
+```bash
+paru -S noto-fonts noto-fonts-cjk noto-fonts-emoji ttf-dejavu ttf-liberation ttf-jetbrains-mono-nerd ttf-roboto ttf-ubuntu-family-font
+```
 
 (Install via pacman/AUR or your preferred method.)
 
