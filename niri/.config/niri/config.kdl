@@ -23,7 +23,7 @@ input {
     keyboard {
         repeat-delay 200
         repeat-rate 35
-        // numlock // Uncommenting turns ON numlock on login
+        numlock // Uncommenting turns ON numlock on login
         xkb {
             layout "us"
             options "grp:alt_shift_toggle"
@@ -61,6 +61,15 @@ output "eDP-1" {
     // }
 }
 
+// ┏━┓╻ ╻╻╺┳╸┏━╸╻ ╻   ┏━╸╻ ╻┏━╸┏┓╻╺┳╸
+// ┗━┓┃╻┃┃ ┃ ┃  ┣━┫   ┣╸ ┃┏┛┣╸ ┃┗┫ ┃ 
+// ┗━┛┗┻┛╹ ╹ ┗━╸╹ ╹   ┗━╸┗┛ ┗━╸╹ ╹ ╹ 
+
+switch-events {
+    lid-close { spawn "notify-send" "The laptop lid is closed!"; }
+    lid-open { spawn "notify-send" "The laptop lid is open!"; }
+}
+
 // ╻  ┏━┓╻ ╻┏━┓╻ ╻╺┳╸
 // ┃  ┣━┫┗┳┛┃ ┃┃ ┃ ┃ 
 // ┗━╸╹ ╹ ╹ ┗━┛┗━┛ ╹ 
@@ -93,17 +102,18 @@ layout {
 
     // Visible on active windows only
     focus-ring {
+        off
         width 1.5
-        active-color "#bb9af7"
-        inactive-color "#565f89" // Visible on unfocused monitors
+        active-color "#B98EF5"
+        inactive-color "#62647A" // Visible on unfocused monitors
     }
 
     border {
         off
         width 2
-        active-color "#ffc87f"
-        inactive-color "#505050"
-        urgent-color "#9b0000"
+        active-color "#F4D07E"
+        inactive-color "#62647A"
+        urgent-color "#F16C93"
     }
 
     tab-indicator {
@@ -115,7 +125,7 @@ layout {
 	}
 
     shadow {
-        on
+        // off
         draw-behind-window true
         softness 30 // Shadow blur radius
         spread 5 // Expands the shadow
@@ -215,8 +225,8 @@ window-rule {
     focus-ring {
         on
         width 1
-        active-color "#bb9af7"
-        inactive-color "#565f89" 
+        active-color "#B98EF5"
+        inactive-color "#62647A" 
     }
 }
 
@@ -397,6 +407,14 @@ cursor {
 
     hide-when-typing
     hide-after-inactive-ms 10000
+}
+
+// These are the default values:
+blur {
+    passes 4
+    offset 3.5
+    noise 0.02
+    saturation 1.2
 }
 
 // Disable hot corners
