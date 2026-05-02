@@ -18,18 +18,18 @@ done
 
 # Build rofi entries
 selected=$(find "$wall_dir" -maxdepth 1 -type f \
-    \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) \
-    -exec basename {} \; | sort | while read -r file; do
+        \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) \
+        -exec basename {} \; | sort | while read -r file; do
         printf "%s\0icon\x1f%s/%s\n" "$file" "$cache_dir" "$file"
-    done | rofi -dmenu -theme "$rofi_theme" -show-icons)
+done | rofi -dmenu -theme "$rofi_theme" -show-icons)
 
 [ -z "$selected" ] && exit 0
 
 # Ensure daemon
-pgrep -x swww-daemon >/dev/null || swww-daemon &
+pgrep -x awww-daemon >/dev/null || awww-daemon &
 
 # Set wallpaper with smooth transition
-swww img "$wall_dir/$selected" \
+awww img "$wall_dir/$selected" \
     --transition-type any \
     --transition-step 80 \
     --transition-fps 60

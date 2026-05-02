@@ -228,6 +228,9 @@ window-rule {
         active-color "#B98EF5"
         inactive-color "#62647A" 
     }
+    background-effect {
+      blur true
+    }
 }
 
 window-rule {
@@ -253,6 +256,14 @@ window-rule {
     match title="yazi-float"
 
     open-floating true
+}
+
+window-rule {
+    match app-id="launcher"
+
+    background-effect {
+      blur true
+    }
 }
 
 window-rule {
