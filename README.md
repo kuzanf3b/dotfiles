@@ -6,7 +6,6 @@ This repository contains multiple desktop setups focused on speed, minimalism, a
 
 ## What’s Inside
 
-- **DWM** (X11) ⭐
 - **Niri** (Wayland)
 - **Hyprland** (Wayland)
 - **MangoWM** (Wayland)
@@ -48,9 +47,6 @@ cd dotfiles
 > Notes:
 > - Package names are written for Arch Linux.
 > - Some packages are in the AUR (so `paru -S` is used).
-
-#### DWM (GOAT) 🐐
-See the [`DWM Configuration`](https://github.com/kuzanf3b/dotfiles/tree/main/suckless/dwm) — This dwm v6.6 configuration, maybe update soon to the latest
 
 #### Niri
 
@@ -102,5 +98,5 @@ stow nvim
 ## Future Plans
 
 - Nix/Home Manager support
-- Unified theme switcher (Tokyo Night ↔ Rosé Pine ↔ Kanagawa ↔ Vague)
+- Unified theme switcher (Tokyo Night ↔ Rosé Pine ↔ Vague)
 - Complete preview gallery
