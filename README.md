@@ -10,7 +10,7 @@ This repository contains multiple desktop setups focused on speed, minimalism, a
 - **Hyprland** (Wayland)
 - **MangoWM** (Wayland)
 - **i3** (X11)
-- Additional configs/tools (e.g. Neovim, shell stuff, scripts utilities)
+- Additional configs/tools (e.g. shell stuff, scripts utilities)
 
 ## Requirements
 
