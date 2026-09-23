@@ -1,0 +1,26 @@
+swipe:
+  3:
+    left:
+      command: qdbus6 org.kde.kglobalaccel /component/kwin org.kde.kglobalaccel.Component.invokeShortcut "Walk Through Windows (Reverse)"
+
+    right:
+      command: qdbus6 org.kde.kglobalaccel /component/kwin org.kde.kglobalaccel.Component.invokeShortcut "Walk Through Windows"
+
+    up:
+      command: qdbus6 org.kde.kglobalaccel /component/kwin org.kde.kglobalaccel.Component.invokeShortcut "Overview"
+
+    down:
+      command: qdbus6 org.kde.kglobalaccel /component/kwin org.kde.kglobalaccel.Component.invokeShortcut "Show Desktop"
+
+  4:
+    left:
+      command: qdbus6 org.kde.KWin /KWin org.kde.KWin.previousDesktop
+
+    right:
+      command: qdbus6 org.kde.KWin /KWin org.kde.KWin.nextDesktop
+
+    up:
+      command: qdbus6 org.kde.kglobalaccel /component/kwin org.kde.kglobalaccel.Component.invokeShortcut "Overview"
+
+    down:
+      command: qdbus6 org.kde.kglobalaccel /component/kwin org.kde.kglobalaccel.Component.invokeShortcut "Show Desktop"
