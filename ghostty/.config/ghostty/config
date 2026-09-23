@@ -1,8 +1,8 @@
 # Default: Reload config with Shift + Cmd + ,
-config-file = schemes/rose-pine
+config-file = schemes/tokyonight
 
 background = #000000
-background-opacity = 0.95
+background-opacity = 1
 background-blur-radius = 23
 
 font-family = JetBrainsMono Nerd Font
