@@ -1,3 +1,6 @@
+> [!NOTE]
+> This repository has been moved to [Codeberg](https://codeberg.org/kuzanf3b/dotfiles) and is no longer maintained on [GitHub](https://github.com/kuzanf3b/dotfiles).
+
 ## Overview
 
 This repository contains multiple desktop setups focused on speed, minimalism, and aesthetics. Each setup is self-contained, so you can pick one (or more) and apply it independently.
